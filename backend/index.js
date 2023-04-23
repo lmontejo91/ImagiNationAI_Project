@@ -4,7 +4,8 @@ import * as dotenv from "dotenv"; // Importa la biblioteca dotenv para cargar va
 import cors from "cors"; // Importa la biblioteca cors para permitir el acceso a recursos de otros dominios en su servidor
 
 import connectDB from "./mongodb/connect.js"; // Importa la función connectDB desde un archivo llamado connect.js, que se utiliza para establecer la conexión con la base de datos MongoDB
-
+import imagesRoutes from "./routes/imagesRoutes.js";
+import dalleApiRoutes from "./routes/dalleApiRoutes.js";
 
 // Configura el uso de dotenv para cargar las variables de entorno del archivo .env
 dotenv.config();
@@ -18,6 +19,9 @@ app.use(cors());
 // Configura el middleware express.json, que se utiliza para analizar el cuerpo de las solicitudes entrantes como JSON.
 // El límite de 50 MB se establece para limitar el tamaño del cuerpo de la solicitud.
 app.use(express.json({ limit: "50mb" }));
+
+app.use("/api/v1/image", imagesRoutes);
+app.use("/api/v1/dalleApi", dalleApiRoutes);
 
 // Define una ruta raíz ("/") en su aplicación Express
 // Cuando se accede a esta ruta, se devuelve "Server is working." como respuesta

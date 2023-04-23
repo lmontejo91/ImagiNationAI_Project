@@ -14,32 +14,33 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-//FUNCTION TO GET ALL IMAGES/POSTS
-router.route('/').get(async (req, res) => {
-  try {
-    const images = await Image.find({});
-    res.status(200).json({ success: true, data: images });
-  } catch (err) {
-    res.status(500).json({ success: false, message: 'Fetching posts failed, please try again' });
-  }
-});
 
-//FUNCTION TO CREATE A NEW IMAGE/POST
-router.route('/').post(async (req, res) => {
-  try {
-    const { prompt, photo } = req.body;
-    const photoUrl = await cloudinary.uploader.upload(photo);
+router.route('/')
+  //FUNCTION TO GET ALL IMAGES/POSTS
+  .get(async (req, res) => {
+    try {
+      const images = await Image.find({});
+      res.status(200).json({ success: true, data: images });
+    } catch (err) {
+      res.status(500).json({ success: false, message: 'Fetching posts failed, please try again' });
+    }
+  })
 
-    const newImage = await Image.create({
-      prompt,
-      photo: photoUrl.url,
-      //user,
-    });
+  //FUNCTION TO CREATE A NEW IMAGE/POST
+  .post(async (req, res) => {
+    try {
+      const { prompt, photo } = req.body;
+      const photoUrl = await cloudinary.uploader.upload(photo);
 
-    res.status(200).json({ success: true, data: newImage });
-  } catch (err) {
-    res.status(500).json({ success: false, message: 'Unable to create a post, please try again' });
-  }
-});
+      const newImage = await Image.create({
+        prompt,
+        photo: photoUrl.url,
+        //user,
+      });
+      res.status(200).json({ success: true, data: newImage });
+    } catch (err) {
+      res.status(500).json({ success: false, message: 'Unable to create a post, please try again' });
+    }
+  });
 
 export default router;
