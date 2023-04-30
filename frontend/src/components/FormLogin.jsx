@@ -1,10 +1,32 @@
 import React from 'react';
+import { API_URL } from '../../config';
 
-const FormLogin = () => {
+const FormLogin = ({ onSuccess }) => {
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+      try {
+        const response = await fetch(`${API_URL}/v1/user/login`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ "value": "login" }),
+        });
+
+        const data = await response.json();
+        console.log(data);
+        alert('Success');
+        onSuccess();
+      } catch (err) {
+        alert(err);
+      }
+  };
+
   return (
     <div className="flex flex-col justify-center items-center gap-4">
       <h2 className="text-2xl font-medium">Log In</h2>
-      <form className="w-full max-w-sm">
+      <form className="w-full max-w-sm" onSubmit={handleSubmit}>
         <div className="md:flex md:items-center mb-6">
           <div className="md:w-1/3">
             <label htmlFor="email" className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
@@ -17,6 +39,9 @@ const FormLogin = () => {
               id="email"
               name="email"
               className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
+              //value="email"
+              //value={form.email}
+              //onChange={(e) => setForm({ ...form, email: e.target.value })}
             />
           </div>
         </div>
@@ -40,7 +65,7 @@ const FormLogin = () => {
           <div className="md:w-2/3">
             <button
               className="bg-neon-blue hover:bg-grey-blue focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
-              type="button"
+              type="submit"
             >
               Log In
             </button>

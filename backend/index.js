@@ -6,6 +6,7 @@ import cors from "cors"; // Importa la biblioteca cors para permitir el acceso a
 import connectDB from "./mongodb/connect.js"; // Importa la función connectDB desde un archivo llamado connect.js, que se utiliza para establecer la conexión con la base de datos MongoDB
 import imagesRoutes from "./routes/imagesRoutes.js";
 import dalleApiRoutes from "./routes/dalleApiRoutes.js";
+import userRoutes from "./routes/userRoutes.js";
 
 // Configura el uso de dotenv para cargar las variables de entorno del archivo .env
 dotenv.config();
@@ -22,6 +23,7 @@ app.use(express.json({ limit: "50mb" }));
 
 app.use("/api/v1/image", imagesRoutes);
 app.use("/api/v1/dalleApi", dalleApiRoutes);
+app.use("/api/v1/user", userRoutes);
 
 // Define una ruta raíz ("/") en su aplicación Express
 // Cuando se accede a esta ruta, se devuelve "Server is working." como respuesta
