@@ -1,24 +1,27 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: ['./src/**/*.{js,jsx}'],
+  content: ["./src/**/*.{js,jsx}"],
   theme: {
     colors: {
-      'dark-blue':'#171a28',
-      'neon-blue':'#00eafa',
-      'grey-blue':'#7d8ea3',
-      'light-blue':'#def7ff',
-      'white':'#ffffff',
+      "dark-blue": "#171a28",
+      "neon-blue": "#00eafa",
+      "grey-blue": "#7d8ea3",
+      "light-blue": "#def7ff",
+      "light-grey": "#D6D9E8",
+      "btn-dark": "#3D4154",
+      white: "#ffffff",
     },
     extend: {
       screens: {
-        xs: '480px',
+        xs: "480px",
       },
       fontFamily: {
-        inter: ['Inter var', 'sans-serif'],
+        inter: ["Poppins", "sans-serif"],
       },
       boxShadow: {
-        card: '0 0 1px 0 rgba(189,192,207,0.06),0 10px 16px -1px rgba(189,192,207,0.2)',
-        cardhover: '0 0 1px 0 rgba(189,192,207,0.06),0 10px 16px -1px rgba(189,192,207,0.4)',
+        card: "0 0 1px 0 rgba(189,192,207,0.06),0 10px 16px -1px rgba(189,192,207,0.2)",
+        cardhover:
+          "0 0 1px 0 rgba(189,192,207,0.06),0 10px 16px -1px rgba(189,192,207,0.4)",
       },
     },
   },
