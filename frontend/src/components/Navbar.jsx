@@ -4,6 +4,7 @@ import Modal from 'react-modal';
 import logo from '../assets/logo.png';
 import FormLogin from './FormLogin';
 import FormRegister from './FormRegister';
+import { isAuthenticated, getToken, login, logout } from '../utils/auth';
 
 const Navbar = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -32,8 +33,11 @@ const Navbar = () => {
         <button onClick={() => openModal(<FormRegister onSuccess={handleSuccess}/>)} className="bg-neon-blue text-dark-blue px-4 py-2 rounded-md mr-4">
           Register
         </button>
-        <button onClick={() => openModal(<FormLogin onSuccess={handleSuccess}/>)} className="bg-neon-blue text-dark-blue px-4 py-2 rounded-md">
+        <button onClick={() => openModal(<FormLogin onSuccess={handleSuccess}/>)} className="bg-neon-blue text-dark-blue px-4 py-2 rounded-md mr-4">
           Log In
+        </button>
+        <button onClick={() => logout()} className="bg-neon-blue text-dark-blue px-4 py-2 rounded-md">
+          Log Out
         </button>
       </div>
       <Modal isOpen={isModalOpen} onRequestClose={closeModal}>
