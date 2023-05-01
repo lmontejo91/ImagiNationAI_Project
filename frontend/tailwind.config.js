@@ -7,6 +7,8 @@ export default {
       "neon-blue": "#00eafa",
       "grey-blue": "#7d8ea3",
       "light-blue": "#def7ff",
+      "light-grey": "#D6D9E8",
+      "btn-dark": "#3D4154",
       white: "#ffffff",
     },
     extend: {
