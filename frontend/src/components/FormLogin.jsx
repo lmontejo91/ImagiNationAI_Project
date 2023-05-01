@@ -1,26 +1,25 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { API_URL } from '../../config';
+import { isAuthenticated, getToken, login, logout } from '../utils/auth';
 
 const FormLogin = ({ onSuccess }) => {
+  const [form, setForm] = useState({ email: '', password: '' });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-      try {
-        const response = await fetch(`${API_URL}/v1/user/login`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ "value": "login" }),
-        });
 
-        const data = await response.json();
-        console.log(data);
-        alert('Success');
-        onSuccess();
-      } catch (err) {
-        alert(err);
-      }
+    const { email, password } = form;
+    const success = await login(email, password);
+    if (success) {
+      onSuccess();
+    } else {
+      console.error('El inicio de sesión no ha sido exitoso.');
+    }
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setForm({ ...form, [name]: value });
   };
 
   return (
@@ -38,10 +37,9 @@ const FormLogin = ({ onSuccess }) => {
               type="email"
               id="email"
               name="email"
+              value={form.email}
+              onChange={handleChange}
               className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
-              //value="email"
-              //value={form.email}
-              //onChange={(e) => setForm({ ...form, email: e.target.value })}
             />
           </div>
         </div>
@@ -56,6 +54,8 @@ const FormLogin = ({ onSuccess }) => {
               type="password"
               id="password"
               name="password"
+              value={form.password}
+              onChange={handleChange}
               className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
             />
           </div>

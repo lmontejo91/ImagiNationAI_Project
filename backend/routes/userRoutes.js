@@ -11,4 +11,8 @@ router.route('/login')
 router.route('/register')
     .post(userController.registerUser);
 
+//LOGOUT route
+router.route('/logout')
+    .post(userController.logoutUser);
+
 export default router;
