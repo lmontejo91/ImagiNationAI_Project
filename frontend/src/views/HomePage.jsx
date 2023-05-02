@@ -21,22 +21,22 @@ const HomePage = () => {
 
       {/* Buttons section */}
       <div className="flex flex-col md:flex-row justify-center items-center my-12">
-        <button className="bg-white text-gray-700 px-6 py-2 rounded-full mb-4 md:mr-8 hover:bg-gray-300">
+        <button className="bg-white text-gray-700 px-6 py-2 rounded-full mb-4 md:mr-8 hover:bg-neon-blue">
           Popular
         </button>
-        <button className="bg-btn-dark text-light-grey px-5 py-2 rounded-full mb-4 md:mr-8 hover:bg-gray-300">
+        <button className="bg-btn-dark text-light-grey px-5 py-2 rounded-full mb-4 md:mr-8 hover:bg-neon-blue hover:text-dark-blue">
           New
         </button>
-        <button className="bg-btn-dark text-light-grey px-5 py-2 rounded-full mb-4 md:mr-8 hover:bg-gray-300">
+        <button className="bg-btn-dark text-light-grey px-5 py-2 rounded-full mb-4 md:mr-8 hover:bg-neon-blue hover:text-dark-blue">
           Dreamlike
         </button>
-        <button className="bg-btn-dark text-light-grey px-5 py-2 rounded-full mb-4 md:mr-8 hover:bg-gray-300">
+        <button className="bg-btn-dark text-light-grey px-5 py-2 rounded-full mb-4 md:mr-8 hover:bg-neon-blue hover:text-dark-blue">
           Watercolor
         </button>
-        <button className="bg-btn-dark text-light-grey px-5 py-2 rounded-full mb-4 md:mr-8 hover:bg-gray-300">
+        <button className="bg-btn-dark text-light-grey px-5 py-2 rounded-full mb-4 md:mr-8 hover:bg-neon-blue hover:text-dark-blue">
           Cyber Punk
         </button>
-        <button className="bg-btn-dark text-light-grey px-5 py-2 rounded-full mb-4 md:mr-8 hover:bg-gray-300">
+        <button className="bg-btn-dark text-light-grey px-5 py-2 rounded-full mb-4 md:mr-8 hover:bg-neon-blue hover:text-dark-blue">
           Ultra Realistic
         </button>
       </div>

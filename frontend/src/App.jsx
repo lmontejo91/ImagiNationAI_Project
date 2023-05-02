@@ -14,7 +14,7 @@ const App = () => {
       <main>
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="/create-post" element={<GeneratorPage />} />
+          <Route path="/generator-page" element={<GeneratorPage />} />
         </Routes>
       </main>
     </BrowserRouter>

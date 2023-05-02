@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import Modal from 'react-modal';
-import logo from '../assets/logo.png';
-import FormLogin from './FormLogin';
-import FormRegister from './FormRegister';
-import { isAuthenticated, getToken, login, logout } from '../utils/auth';
+import React, { useState } from "react";
+import { Link, Route, Routes } from "react-router-dom";
+import Modal from "react-modal";
+import logo from "../assets/logo.png";
+import FormLogin from "./FormLogin";
+import FormRegister from "./FormRegister";
+import { isAuthenticated, getToken, login, logout } from "../utils/auth";
 
 const Navbar = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -30,13 +30,29 @@ const Navbar = () => {
         <img src={logo} alt="logo" className="w-36 object-contain"></img>
       </Link>
       <div className="flex items-center">
-        <button onClick={() => openModal(<FormRegister onSuccess={handleSuccess}/>)} className="bg-neon-blue text-dark-blue px-4 py-2 rounded-md mr-4">
+        <Link
+          to="/generator-page"
+          className="bg-neon-blue hover:bg-white text-dark-blue px-4 py-2 rounded-md mr-4"
+        >
+          Generate Image
+        </Link>
+
+        <button
+          onClick={() => openModal(<FormRegister onSuccess={handleSuccess} />)}
+          className="bg-neon-blue text-dark-blue px-4 py-2 rounded-md mr-4"
+        >
           Register
         </button>
-        <button onClick={() => openModal(<FormLogin onSuccess={handleSuccess}/>)} className="bg-neon-blue text-dark-blue px-4 py-2 rounded-md mr-4">
+        <button
+          onClick={() => openModal(<FormLogin onSuccess={handleSuccess} />)}
+          className="bg-neon-blue text-dark-blue px-4 py-2 rounded-md mr-4"
+        >
           Log In
         </button>
-        <button onClick={() => logout()} className="bg-neon-blue text-dark-blue px-4 py-2 rounded-md">
+        <button
+          onClick={() => logout()}
+          className="bg-neon-blue text-dark-blue px-4 py-2 rounded-md"
+        >
           Log Out
         </button>
       </div>
