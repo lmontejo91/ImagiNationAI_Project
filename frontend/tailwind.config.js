@@ -5,10 +5,9 @@ export default {
     colors: {
       "dark-blue": "#171a28",
       "neon-blue": "#00eafa",
-      "grey-blue": "#7d8ea3",
-      "light-blue": "#def7ff",
-      "light-grey": "#D6D9E8",
-      "btn-dark": "#3D4154",
+      "neon-pink": "#F371FF",
+      "medium-grey": "#3D4154",
+      "light-grey": "#D9D9D9",
       white: "#ffffff",
     },
     extend: {

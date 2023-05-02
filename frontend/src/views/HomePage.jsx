@@ -14,35 +14,35 @@ const HomePage = () => {
       {/* Hero section */}
       <div className="h-80 flex flex-col justify-center items-center text-center">
         <img src={logo} alt="logo" className="w-6/12 object-contain"></img>
-        <h2 className="text-lg text-white mt-4">
-          Create with AI, Share with the world.
+        <h2 className="text-lg text-white mt-2">
+          Create with Artificial Intelligence, Share with the world.
         </h2>
       </div>
 
       {/* Buttons section */}
-      <div className="flex flex-col md:flex-row justify-center items-center my-12">
-        <button className="bg-white text-gray-700 px-6 py-2 rounded-full mb-4 md:mr-8 hover:bg-neon-blue">
-          Popular
+      <div className="flex justify-center space-x-4">
+        <button className="bg-gradient-to-r from-neon-pink to-neon-blue text-dark-blue font-semibold py-2 px-4 rounded-full mb-4  hover:bg-neon-blue">
+          New Images
         </button>
-        <button className="bg-btn-dark text-light-grey px-5 py-2 rounded-full mb-4 md:mr-8 hover:bg-neon-blue hover:text-dark-blue">
-          New
+        <button className="bg-medium-grey text-light-grey px-5 py-2 rounded-full mb-4 md:mr-8 hover:bg-neon-blue hover:text-dark-blue">
+          Top 10
         </button>
-        <button className="bg-btn-dark text-light-grey px-5 py-2 rounded-full mb-4 md:mr-8 hover:bg-neon-blue hover:text-dark-blue">
+        <button className="bg-medium-grey text-light-grey px-5 py-2 rounded-full mb-4 md:mr-8 hover:bg-neon-blue hover:text-dark-blue">
           Dreamlike
         </button>
-        <button className="bg-btn-dark text-light-grey px-5 py-2 rounded-full mb-4 md:mr-8 hover:bg-neon-blue hover:text-dark-blue">
+        <button className="bg-medium-grey text-light-grey px-5 py-2 rounded-full mb-4 md:mr-8 hover:bg-neon-blue hover:text-dark-blue">
           Watercolor
         </button>
-        <button className="bg-btn-dark text-light-grey px-5 py-2 rounded-full mb-4 md:mr-8 hover:bg-neon-blue hover:text-dark-blue">
+        <button className="bg-medium-grey text-light-grey px-5 py-2 rounded-full mb-4 md:mr-8 hover:bg-neon-blue hover:text-dark-blue">
           Cyber Punk
         </button>
-        <button className="bg-btn-dark text-light-grey px-5 py-2 rounded-full mb-4 md:mr-8 hover:bg-neon-blue hover:text-dark-blue">
+        <button className="bg-medium-grey text-light-grey px-5 py-2 rounded-full mb-4 md:mr-8 hover:bg-neon-blue hover:text-dark-blue">
           Ultra Realistic
         </button>
       </div>
 
       {/* Gallery section */}
-      <div className="grid grid-cols-2 xs:grid-cols-1 md:grid-cols-4 gap-4 mx-4 md:mx-12">
+      <div className="grid grid-cols-2 xs:grid-cols-1 md:grid-cols-4 gap-4 mx-4 my-4 md:mx-12">
         <img
           src={image2}
           alt="Image Placeholder"

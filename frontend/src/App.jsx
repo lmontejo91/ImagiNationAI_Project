@@ -5,13 +5,7 @@ import { Navbar } from "./components";
 
 Modal.setAppElement("#root"); //Esto le dice a React Modal cuál es el elemento raíz de tu aplicación para asegurarse de que los lectores de pantalla ignoren el contenido principal de la aplicación cuando el modal esté abierto.
 
-import {
-  HomePage,
-  ImagePage,
-  GeneratorPage,
-  UserProfilePage,
-  Top10Page,
-} from "./views";
+import { HomePage, ImagePage, GeneratorPage, UserProfilePage } from "./views";
 
 const App = () => {
   return (
@@ -23,7 +17,6 @@ const App = () => {
           <Route path="/generator-page" element={<GeneratorPage />} />
           <Route path="/user-page" element={<UserProfilePage />} />
           <Route path="/image-page" element={<ImagePage />} />
-          <Route path="/top-10-page" element={<Top10Page />} />
         </Routes>
       </main>
     </BrowserRouter>

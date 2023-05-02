@@ -77,7 +77,7 @@ const GeneratorPage = () => {
             </label>
           </div>
           <div className="flex">
-            <button className="bg-neon-blue w-full hover:bg-white text-dark-blue font-semibold mt-12 py-2 rounded ">
+            <button className="bg-gradient-to-r from-neon-blue via-neon-pink to-neon-pink w-full hover:bg-white text-dark-blue font-semibold mt-12 py-2 rounded ">
               Generate image
             </button>
           </div>
@@ -85,20 +85,20 @@ const GeneratorPage = () => {
       </div>
 
       {/* Image Display */}
-      <div className="bg-btn-dark flex h-screen w-3/4 p-4 text-center flex-col justify-center">
+      <div className="bg-medium-grey flex h-screen w-3/4 p-4 text-center flex-col justify-center">
         {/* Show the generated image here */}
         <div className="mb-4 mx-auto">
           <img src={preview} alt="Generated Image" className="w-full" />
         </div>
         {/* Download and Share buttons */}
-        <div>
-          <button className="bg-light-blue hover:bg-neon-blue p-2 rounded mr-4">
-            <ArrowDownTrayIcon className="h-6 w-6 text-dark-blue inline-flex" />{" "}
+        <div className="mt-2 flex justify-center space-x-4">
+          <button className="bg-light-grey font-semibold hover:bg-neon-pink py-2 px-4 rounded-full mr-4">
+            <ArrowDownTrayIcon className="h-5 w-5 text-dark-blue   inline-flex" />{" "}
             Download
           </button>
 
-          <button className="bg-light-blue hover:bg-neon-blue p-2 rounded">
-            <ShareIcon className="h-6 w-6 text-dark-blue inline-flex" /> Share
+          <button className="bg-light-grey font-semibold hover:bg-neon-pink py-2 px-4 rounded-full">
+            <ShareIcon className="h-5 w-5 text-dark-blue  inline-flex" /> Share
           </button>
         </div>
       </div>
