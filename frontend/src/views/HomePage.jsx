@@ -1,4 +1,9 @@
-import React from "react";
+import React, { useState, useContext } from 'react';
+import {Link} from 'react-router-dom';
+
+import {Card} from '../components';
+import { AuthContext } from '../utils';
+
 import image2 from "../assets/image2.jpg";
 import image3 from "../assets/image3.jpg";
 import image4 from "../assets/image4.png";
@@ -8,7 +13,28 @@ import image7 from "../assets/image7.jpg";
 import image8 from "../assets/image8.jpg";
 import bgImage from "../assets/hero-bg.png";
 import logo from "../assets/logo.png";
+
 const HomePage = () => {
+  const authContext = useContext(AuthContext);
+
+  if (!authContext) {
+    // Si el contexto de autenticación no está disponible, AuthProvider no está envolviendo a MyComponent en el árbol de componentes
+    alert("Error: AuthProvider no está envolviendo a MyComponent");
+  }
+  const RenderCards = ({data, message}) => {
+    console.log("Entra Render Cards");
+    if (data?.length > 0) {
+      console.log("No debería entrar");
+      return (
+        data.map((image) => <Card key={image._id} {...image} />)
+      );
+    }
+    console.log("Manda mensaje");
+    return (
+      <h2 className="mt-5 font-bold text-white text-xl uppercase">{message}</h2>
+    );
+  }
+
   return (
     <div className="bg-dark-blue px-5 pb-12">
       {/* Hero section */}
@@ -17,9 +43,9 @@ const HomePage = () => {
         <h2 className="text-lg text-white mb-8">
           Create with AI, share with the world.
         </h2>
-        <button className="bg-neon-blue text-dark-blue px-8 py-2 rounded-md font-medium hover:bg-gray-200">
+        <Link to={`/create-post/${authContext?.user?._id || '/'}`} className="bg-neon-blue text-dark-blue px-8 py-2 rounded-md font-medium hover:bg-gray-200">
           Get started
-        </button>
+        </Link>
       </div>
 
       {/* Buttons section */}
@@ -46,7 +72,11 @@ const HomePage = () => {
 
       {/* Gallery section */}
       <div className="grid grid-cols-4 gap-4 mx-12">
-        <img
+        <RenderCards
+          data={[]}
+          message="No existen imágenes. Sé el primero!"
+        />
+        {/* <img
           src={image2}
           alt="Image Placeholder"
           className="h-64 w-full object-cover rounded-md"
@@ -85,7 +115,7 @@ const HomePage = () => {
           src={image4}
           alt="Image Placeholder"
           className="h-64 w-full object-cover rounded-md"
-        ></img>
+        ></img> */}
       </div>
     </div>
   );
