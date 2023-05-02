@@ -1,14 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import Modal from 'react-modal';
 import logo from '../assets/logo.png';
 import FormLogin from './FormLogin';
 import FormRegister from './FormRegister';
-import { isAuthenticated, getToken, login, logout } from '../utils/auth';
+//import { logout } from '../utils/auth';
+import { AuthContext } from '../utils';
 
 const Navbar = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalContent, setModalContent] = useState(null);
+  const authContext = useContext(AuthContext);
 
   const openModal = (content) => {
     setModalContent(content);
@@ -36,7 +38,7 @@ const Navbar = () => {
         <button onClick={() => openModal(<FormLogin onSuccess={handleSuccess}/>)} className="bg-neon-blue text-dark-blue px-4 py-2 rounded-md mr-4">
           Log In
         </button>
-        <button onClick={() => logout()} className="bg-neon-blue text-dark-blue px-4 py-2 rounded-md">
+        <button onClick={() => authContext.logout()} className="bg-neon-blue text-dark-blue px-4 py-2 rounded-md">
           Log Out
         </button>
       </div>
