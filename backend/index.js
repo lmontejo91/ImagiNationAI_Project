@@ -28,7 +28,7 @@ app.use("/api/v1/user", userRoutes);
 // Define una ruta raíz ("/") en su aplicación Express
 // Cuando se accede a esta ruta, se devuelve "Server is working." como respuesta
 app.get("/", async (req, res) => {
-  res.send("Server is working.");
+  res.send("Hello from ImagiNationAI! Server is working.");
 });
 
 // Esta función asincrónica establece la conexión con la base de datos MongoDB y arranca el servidor web

@@ -1,15 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { API_URL } from '../../config';
-import { isAuthenticated, getToken, login, logout } from '../utils/auth';
+import { AuthContext } from '../utils';
 
 const FormLogin = ({ onSuccess }) => {
   const [form, setForm] = useState({ email: '', password: '' });
-
+  const authContext = useContext(AuthContext);
+  const { login } = authContext;
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const { email, password } = form;
-    const success = await login(email, password);
+    
+
+    const success = await authContext.login(email, password);
     if (success) {
       onSuccess();
     } else {
