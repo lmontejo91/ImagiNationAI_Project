@@ -11,7 +11,6 @@ import image5 from "../assets/image5.jpg";
 import image6 from "../assets/image6.png";
 import image7 from "../assets/image7.jpg";
 import image8 from "../assets/image8.jpg";
-import bgImage from "../assets/hero-bg.png";
 import logo from "../assets/logo.png";
 
 const HomePage = () => {
@@ -39,9 +38,9 @@ const HomePage = () => {
     <div className="bg-dark-blue px-5 pb-12">
       {/* Hero section */}
       <div className="h-80 flex flex-col justify-center items-center text-center">
-        <h1 className="text-5xl font-bold text-white mb-4">ImagiNation AI</h1>
-        <h2 className="text-lg text-white mb-8">
-          Create with AI, share with the world.
+        <img src={logo} alt="logo" className="w-6/12 object-contain"></img>
+        <h2 className="text-lg text-white mt-2">
+          Create with Artificial Intelligence, Share with the world.
         </h2>
         <Link to={`/create-post/${authContext?.user?._id || '/'}`} className="bg-neon-blue text-dark-blue px-8 py-2 rounded-md font-medium hover:bg-gray-200">
           Get started
@@ -49,29 +48,30 @@ const HomePage = () => {
       </div>
 
       {/* Buttons section */}
-      <div className="flex justify-center items-center my-12">
-        <button className="bg-white text-gray-700 px-6 py-2 rounded-full mr-8 hover:bg-gray-300">
-          Popular
+      <div className="flex justify-center space-x-4">
+        <button className="bg-gradient-to-r from-neon-pink to-neon-blue text-dark-blue font-semibold py-2 px-4 rounded-full mb-4  hover:bg-neon-blue">
+          New Images
         </button>
-        <button className="bg-btn-dark text-light-grey px-5 py-2 rounded-full mr-8 hover:bg-gray-300">
-          New
+        <button className="bg-medium-grey text-light-grey px-5 py-2 rounded-full mb-4 md:mr-8 hover:bg-neon-blue hover:text-dark-blue">
+          Top 10
         </button>
-        <button className="bg-btn-dark text-light-grey px-5 py-2 rounded-full mr-8 hover:bg-gray-300">
+        <button className="bg-medium-grey text-light-grey px-5 py-2 rounded-full mb-4 md:mr-8 hover:bg-neon-blue hover:text-dark-blue">
           Dreamlike
         </button>
-        <button className="bg-btn-dark text-light-grey px-5 py-2 rounded-full mr-8 hover:bg-gray-300">
+        <button className="bg-medium-grey text-light-grey px-5 py-2 rounded-full mb-4 md:mr-8 hover:bg-neon-blue hover:text-dark-blue">
           Watercolor
         </button>
-        <button className="bg-btn-dark text-light-grey px-5 py-2 rounded-full mr-8 hover:bg-gray-300">
+        <button className="bg-medium-grey text-light-grey px-5 py-2 rounded-full mb-4 md:mr-8 hover:bg-neon-blue hover:text-dark-blue">
           Cyber Punk
         </button>
-        <button className="bg-btn-dark text-light-grey px-5 py-2 rounded-full mr-8 hover:bg-gray-300">
+        <button className="bg-medium-grey text-light-grey px-5 py-2 rounded-full mb-4 md:mr-8 hover:bg-neon-blue hover:text-dark-blue">
           Ultra Realistic
         </button>
       </div>
 
       {/* Gallery section */}
-      <div className="grid grid-cols-4 gap-4 mx-12">
+
+      <div className="grid grid-cols-2 xs:grid-cols-1 md:grid-cols-4 gap-4 mx-4 my-4 md:mx-12">
         <RenderCards
           data={[]}
           message="No existen imágenes. Sé el primero!"
@@ -79,43 +79,43 @@ const HomePage = () => {
         {/* <img
           src={image2}
           alt="Image Placeholder"
-          className="h-64 w-full object-cover rounded-md"
+          className="h-40 md:h-64 w-full object-cover rounded-md"
         ></img>
         <img
           src={image4}
           alt="Image Placeholder"
-          className="h-64 w-full object-cover rounded-md"
+          className="h-40 md:h-64 w-full object-cover rounded-md"
         ></img>
         <img
           src={image3}
           alt="Image Placeholder"
-          className="h-64 w-full object-cover rounded-md"
+          className="h-40 md:h-64 w-full object-cover rounded-md"
         ></img>
         <img
           src={image7}
           alt="Image Placeholder"
-          className="h-64 w-full object-cover rounded-md"
+          className="h-40 md:h-64 w-full object-cover rounded-md"
         ></img>
         <img
           src={image8}
           alt="Image Placeholder"
-          className="h-64 w-full object-cover rounded-md"
+          className="h-40 md:h-64 w-full object-cover rounded-md"
         ></img>
         <img
           src={image6}
           alt="Image Placeholder"
-          className="h-64 w-full object-cover rounded-md"
+          className="h-40 md:h-64 w-full object-cover rounded-md"
         ></img>
         <img
           src={image5}
           alt="Image Placeholder"
-          className="h-64 w-full object-cover rounded-md"
+          className="h-40 md:h-64 w-full object-cover rounded-md"
         ></img>
         <img
           src={image4}
           alt="Image Placeholder"
-          className="h-64 w-full object-cover rounded-md"
-        ></img> */}
+          className="h-40 md:h-64 w-full object-cover rounded-md"
+        ></img>*/}
       </div>
     </div>
   );
