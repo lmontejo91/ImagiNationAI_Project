@@ -1,11 +1,11 @@
-import React, { useState, useContext } from 'react';
-import { Link, Route, Routes } from 'react-router-dom';
-import Modal from 'react-modal';
-import logo from '../assets/logo.png';
-import FormLogin from './FormLogin';
-import FormRegister from './FormRegister';
+import React, { useState, useContext } from "react";
+import { Link, Route, Routes } from "react-router-dom";
+import Modal from "react-modal";
+//import logo from '../assets/logo.png';
+import FormLogin from "./FormLogin";
+import FormRegister from "./FormRegister";
 //import { logout } from '../utils/auth';
-import { AuthContext } from '../utils';
+import { AuthContext } from "../utils";
 
 const Navbar = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -34,14 +34,11 @@ const Navbar = () => {
       <div className="flex items-center">
         <Link
           to="/generator-page"
-          className="bg-neon-blue hover:bg-white text-dark-blue px-4 py-2 rounded-md mr-4"
+          className=" hover:text-neon-pink text-white mr-6"
         >
-          Generate Image
+          Image Generator
         </Link>
-        <Link
-          to="/user-page"
-          className="bg-neon-blue hover:bg-white text-dark-blue px-4 py-2 rounded-md mr-4"
-        >
+        <Link to="/user-page" className=" hover:text-neon-pink text-white mr-6">
           User Profile
         </Link>
 
@@ -64,10 +61,17 @@ const Navbar = () => {
           Log Out
         </button>
       </div>
-      <Modal isOpen={isModalOpen} onRequestClose={closeModal}>
+      <Modal
+        isOpen={isModalOpen}
+        onRequestClose={closeModal}
+        overlayClassName={"ReactModal__Overlay"}
+        className={"ReactModal__Content"}
+      >
         {/* Renderiza el contenido del modal según el botón pulsado */}
+        <button className="text-white font-bold" onClick={closeModal}>
+          X
+        </button>
         {modalContent}
-        <button onClick={closeModal}>Close Modal</button>
       </Modal>
     </nav>
   );
