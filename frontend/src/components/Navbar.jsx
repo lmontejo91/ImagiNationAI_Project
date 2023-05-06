@@ -33,7 +33,7 @@ const Navbar = () => {
       </Link>
       <div className="flex items-center">
         <Link
-          to="/generator-page"
+          to={`/generator-page/${authContext?.user?._id || '/'}`}//  /{user_id}
           className="bg-neon-blue hover:bg-white text-dark-blue px-4 py-2 rounded-md mr-4"
         >
           Generate Image

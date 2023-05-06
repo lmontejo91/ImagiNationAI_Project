@@ -42,7 +42,7 @@ const HomePage = () => {
         <h2 className="text-lg text-white mt-2">
           Create with Artificial Intelligence, Share with the world.
         </h2>
-        <Link to={`/create-post/${authContext?.user?._id || '/'}`} className="bg-neon-blue text-dark-blue px-8 py-2 rounded-md font-medium hover:bg-gray-200">
+        <Link to={`/generator-page/${authContext?.user?._id || '/'}`} className="bg-neon-blue text-dark-blue px-8 py-2 rounded-md font-medium hover:bg-gray-200">
           Get started
         </Link>
       </div>
