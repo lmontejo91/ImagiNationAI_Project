@@ -1,6 +1,6 @@
-import FileSaver from 'file-saver';
-import { surpriseMePrompts } from '../constants';
-import { AuthProvider, AuthContext } from './auth';
+import FileSaver from "file-saver";
+import { surpriseMePrompts } from "../constants";
+import { AuthProvider, AuthContext } from "./auth";
 
 export function getRandomPrompt(prompt) {
   const randomIndex = Math.floor(Math.random() * surpriseMePrompts.length);
@@ -15,7 +15,4 @@ export async function downloadImage(_id, photo) {
   FileSaver.saveAs(photo, `download-${_id}.png`);
 }
 
-export{
-  AuthContext,
-  AuthProvider
-}
+export { AuthContext, AuthProvider };

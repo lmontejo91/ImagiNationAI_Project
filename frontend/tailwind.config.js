@@ -5,7 +5,9 @@ export default {
     colors: {
       "dark-blue": "#171a28",
       "neon-blue": "#00eafa",
+      "light-blue": "#AFFAFF",
       "neon-pink": "#F371FF",
+      "light-pink": "#f7b9ff",
       "medium-grey": "#3D4154",
       "light-grey": "#D9D9D9",
       white: "#ffffff",

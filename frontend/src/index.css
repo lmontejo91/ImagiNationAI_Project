@@ -22,6 +22,32 @@
   border-radius: 5px;
 }
 
+.ReactModal__Overlay {
+  /* styles for the overlay */
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(40, 45, 68, 0.85);
+}
+
+.ReactModal__Content {
+  /* styles for the content */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 50%;
+  max-width: 500px;
+  background: #171a28;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  border-radius: 10px;
+  outline: none;
+  padding: 40px;
+}
+
 /* @layer components {
   .card {
     background-color: theme('colors.white');
