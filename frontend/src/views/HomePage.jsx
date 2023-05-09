@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import {Link} from 'react-router-dom';
 
-import {Card} from '../components';
+import {Card, Navbar} from '../components';
 import { AuthContext } from '../utils';
 
 import image2 from "../assets/image2.jpg";
@@ -20,6 +20,13 @@ const HomePage = () => {
     // Si el contexto de autenticación no está disponible, AuthProvider no está envolviendo a MyComponent en el árbol de componentes
     alert("Error: AuthProvider no está envolviendo a MyComponent");
   }
+
+  /* const handleOpenLoginForm = () => {
+    if (!authContext.isAuthenticated()) {
+      Navbar.props.openModal(<FormLogin onSuccess={() => {}} />);
+    }
+  }; */
+
   const RenderCards = ({data, message}) => {
     console.log("Entra Render Cards");
     if (data?.length > 0) {
@@ -42,9 +49,13 @@ const HomePage = () => {
         <h2 className="text-lg text-white mt-2">
           Create with Artificial Intelligence, Share with the world.
         </h2>
-        <Link to={`/generator-page/${authContext?.user?._id || '/'}`} className="bg-neon-blue text-dark-blue px-8 py-2 rounded-md font-medium hover:bg-gray-200">
+        <Link to="/generator-page" className="bg-neon-blue text-dark-blue px-8 py-2 rounded-md font-medium hover:bg-gray-200">
           Get started
         </Link>
+        {/* <button onClick={handleOpenLoginForm} className="bg-neon-blue text-dark-blue px-8 py-2 rounded-md font-medium hover:bg-gray-200">Get Started</button> */}
+        {/* <Link to={`/generator-page/${authContext?.user?._id || '/'}`} className="bg-neon-blue text-dark-blue px-8 py-2 rounded-md font-medium hover:bg-gray-200">
+          Get started
+        </Link> */}
       </div>
 
       {/* Buttons section */}

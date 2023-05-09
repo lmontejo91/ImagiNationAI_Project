@@ -11,11 +11,12 @@ import { HomePage, ImagePage, GeneratorPage, UserProfilePage } from "./views";
 const App = () => {
   return (
     <BrowserRouter>
-      <Navbar />
+      <Navbar/>
       <main>
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="/generator-page/{user_id}" element={<GeneratorPage />} />
+          <Route path="/generator-page" element={<GeneratorPage />} />
+          {/* <Route path="/generator-page/{user_id}" element={<GeneratorPage />} /> */}
           <Route path="/user-page" element={<UserProfilePage />} />
           <Route path="/image-page" element={<ImagePage />} />
         </Routes>

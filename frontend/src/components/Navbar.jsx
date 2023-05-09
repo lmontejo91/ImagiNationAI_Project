@@ -4,7 +4,6 @@ import Modal from "react-modal";
 //import logo from '../assets/logo.png';
 import FormLogin from "./FormLogin";
 import FormRegister from "./FormRegister";
-//import { logout } from '../utils/auth';
 import { AuthContext } from "../utils";
 
 const Navbar = () => {
@@ -27,37 +26,47 @@ const Navbar = () => {
   };
 
   return (
-    /* Navbar PARA USUARIO PUBLICO */
     <nav className="w-full flex justify-between items-center bg-dark-blue sm:px-8 px-4 py-4">
       <Link to="/" className="text-white font-semibold text-lg">
         ImagiNation AI
       </Link>
       <div className="flex items-center">
-        <Link
-          to={`/generator-page/${authContext?.user?._id || '/'}`}//  /{user_id}
-          className="bg-neon-blue hover:bg-white text-dark-blue px-4 py-2 rounded-md mr-4"
-        >
-          Generate Image
-        </Link>
-        <Link
-          to="/user-page"
-          className="bg-neon-blue hover:bg-white text-dark-blue px-4 py-2 rounded-md mr-4"
-        >
-          User Profile
-        </Link>
-
-        <button
-          onClick={() => openModal(<FormRegister onSuccess={handleSuccess} />)}
-          className="bg-gradient-to-br from-light-blue to-neon-blue hover:bg-gradient-to-bl text-dark-blue text-sm px-4 py-2 font-semibold rounded-md mr-4"
-        >
-          Register
-        </button>
-        <button
-          onClick={() => openModal(<FormLogin onSuccess={handleSuccess} />)}
-          className="bg-gradient-to-br from-light-pink to-neon-pink hover:bg-gradient-to-bl text-dark-blue text-sm px-4 py-2 font-semibold rounded-md mr-4"
-        >
-          Log In
-        </button>
+        {authContext.isAuthenticated() ? (
+          /******  Navbar PARA USUARIO LOGGEADO ********/
+          <>
+          <Link
+            to="/generator-page" //to={`/generator-page/${authContext?.user?._id || '/'}`}
+            className=" hover:text-neon-pink text-white mr-6"
+          >
+            Image Generator
+          </Link>
+          <Link to="/user-page" className=" hover:text-neon-pink text-white mr-6">
+            User Profile
+          </Link>
+          <button
+            onClick={() => authContext.logout()}
+            className="bg-gradient-to-br from-light-blue to-neon-blue hover:bg-gradient-to-bl text-dark-blue text-sm px-4 py-2 font-semibold rounded-md mr-4"
+          >
+            Log Out
+          </button>
+          </>
+        ) : (
+          /******  Navbar PARA USUARIO PÚBLICO ********/
+          <>
+          <button
+            onClick={() => openModal(<FormRegister onSuccess={handleSuccess} />)}
+            className="bg-gradient-to-br from-light-blue to-neon-blue hover:bg-gradient-to-bl text-dark-blue text-sm px-4 py-2 font-semibold rounded-md mr-4"
+          >
+            Register
+          </button>
+          <button
+            onClick={() => openModal(<FormLogin onSuccess={handleSuccess} />)}
+            className="bg-gradient-to-br from-light-pink to-neon-pink hover:bg-gradient-to-bl text-dark-blue text-sm px-4 py-2 font-semibold rounded-md mr-4"
+          >
+            Log In
+          </button>
+          </>
+        )}
       </div>
       <Modal
         isOpen={isModalOpen}
@@ -73,32 +82,5 @@ const Navbar = () => {
     </nav>
   );
 };
-/******  Navbar PARA USUARIO LOGGEADO ********/
-/*
-    <nav className="w-full flex justify-between items-center bg-dark-blue sm:px-8 px-4 py-4">
-      <Link to="/" className="text-white font-semibold text-lg">
-        ImagiNation AI
-      </Link>
-      <div className="flex items-center">
-        <Link
-          to="/generator-page"
-          className=" hover:text-neon-pink text-white mr-6"
-        >
-          Image Generator
-        </Link>
-        <Link to="/user-page" className=" hover:text-neon-pink text-white mr-6">
-          User Profile
-        </Link>
-        <button
-          onClick={() => authContext.logout()}
-          className="bg-gradient-to-br from-light-blue to-neon-blue hover:bg-gradient-to-bl text-dark-blue text-sm px-4 py-2 font-semibold rounded-md mr-4"
-        >
-          Log Out
-        </button>
-      </div>
-    </nav>
-  );
-};
-*/
 
 export default Navbar;

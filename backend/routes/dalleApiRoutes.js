@@ -16,8 +16,14 @@ router.route('/')
   .get(async (req, res) => res.status(200).send('Hello from DALL-E!'))
 
   .post(async (req, res) => {
-    try {
-      const {prompt, size} = req.body;
+    console.log(req.body);
+    const {form} = req.body;
+    console.log(form);
+    const {prompt, size} = form;
+    console.log(prompt);
+    /* try {
+      const {form} = req.body;
+      const {prompt, size} = form;
 
       const aiResponse = await openai.createImage({
         prompt,
@@ -32,7 +38,7 @@ router.route('/')
     } catch (error) {
       console.error(error);
       res.status(500).send(error?.response.data.error.message || 'Something went wrong');
-    }
+    } */
     /*La interrogación seguida de un punto en error?.response.data.error.message es un operador 
     opcional de encadenamiento de propiedades, introducido en ECMAScript 2020.
     Este operador se utiliza para acceder a una propiedad de un objeto sin lanzar un error en caso
