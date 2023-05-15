@@ -1,8 +1,9 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import {Link} from 'react-router-dom';
 
 import {Card, Navbar} from '../components';
 import { AuthContext } from '../utils';
+import { API_URL } from '../../config';
 
 import image2 from "../assets/image2.jpg";
 import image3 from "../assets/image3.jpg";
@@ -13,33 +14,55 @@ import image7 from "../assets/image7.jpg";
 import image8 from "../assets/image8.jpg";
 import logo from "../assets/logo.png";
 
+const RenderCards = ({data, message}) => {
+  if (data?.length > 0) {
+    return (
+      data.map((image) => <Card key={image._id} {...image} />)
+    );
+  }
+  console.log("Manda mensaje");
+  return (
+    <h2 className="mt-5 font-bold text-white text-xl uppercase">{message}</h2>
+  );
+}
+
 const HomePage = () => {
   const authContext = useContext(AuthContext);
 
-  if (!authContext) {
-    // Si el contexto de autenticación no está disponible, AuthProvider no está envolviendo a MyComponent en el árbol de componentes
-    alert("Error: AuthProvider no está envolviendo a MyComponent");
-  }
+  //const [category, setCategory] = useState('');
+  const [images, setImages] = useState(null);
 
-  /* const handleOpenLoginForm = () => {
-    if (!authContext.isAuthenticated()) {
-      Navbar.props.openModal(<FormLogin onSuccess={() => {}} />);
-    }
-  }; */
+  /* const handleCategoryChange = (newCategory) => {
+    setCategory(newCategory);
+    alert("Categoría cambiada");
+  } */
 
-  const RenderCards = ({data, message}) => {
-    console.log("Entra Render Cards");
-    if (data?.length > 0) {
-      console.log("No debería entrar");
-      return (
-        data.map((image) => <Card key={image._id} {...image} />)
-      );
-    }
-    console.log("Manda mensaje");
-    return (
-      <h2 className="mt-5 font-bold text-white text-xl uppercase">{message}</h2>
-    );
+  const getImages = async () => {
+    try {
+      const response = await fetch(`${API_URL}/v1/image`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        /* body: JSON.stringify({
+          category: category,
+        }), */
+      });
+
+      const data = await response.json();
+      /* s */
+      setImages(data.data.reverse());
+    } catch (err) {
+      alert(err);
+    /*} finally {
+      setGeneratingImg(false);
+    } */
+    };
   }
+  
+  useEffect(() => {
+    getImages();
+  }, []);
 
   return (
     <div className="bg-dark-blue px-5 pb-12">
@@ -49,9 +72,9 @@ const HomePage = () => {
         <h2 className="text-lg text-white mt-2">
           Create with Artificial Intelligence, Share with the world.
         </h2>
-        <Link to="/generator-page" className="bg-neon-blue text-dark-blue px-8 py-2 rounded-md font-medium hover:bg-gray-200">
+        {/* <Link to="/generator-page" className="bg-neon-blue text-dark-blue px-8 py-2 rounded-md font-medium hover:bg-gray-200">
           Get started
-        </Link>
+        </Link> */}
         {/* <button onClick={handleOpenLoginForm} className="bg-neon-blue text-dark-blue px-8 py-2 rounded-md font-medium hover:bg-gray-200">Get Started</button> */}
         {/* <Link to={`/generator-page/${authContext?.user?._id || '/'}`} className="bg-neon-blue text-dark-blue px-8 py-2 rounded-md font-medium hover:bg-gray-200">
           Get started
@@ -60,22 +83,22 @@ const HomePage = () => {
 
       {/* Buttons section */}
       <div className="flex justify-center space-x-4">
-        <button className="bg-gradient-to-r from-neon-pink to-neon-blue text-dark-blue font-semibold py-2 px-4 rounded-full mb-4  hover:bg-neon-blue">
+        <button /* onClick={() => handleCategoryChange('new')} */ className="bg-gradient-to-r from-neon-pink to-neon-blue text-dark-blue font-semibold py-2 px-4 rounded-full mb-4  hover:bg-neon-blue">
           New Images
         </button>
-        <button className="bg-medium-grey text-light-grey px-5 py-2 rounded-full mb-4 md:mr-8 hover:bg-neon-blue hover:text-dark-blue">
+        <button /* onClick={() => handleCategoryChange('top')} */ className="bg-medium-grey text-light-grey px-5 py-2 rounded-full mb-4 md:mr-8 hover:bg-neon-blue hover:text-dark-blue">
           Top 10
         </button>
-        <button className="bg-medium-grey text-light-grey px-5 py-2 rounded-full mb-4 md:mr-8 hover:bg-neon-blue hover:text-dark-blue">
+        <button /* onClick={() => handleCategoryChange('new')} */ className="bg-medium-grey text-light-grey px-5 py-2 rounded-full mb-4 md:mr-8 hover:bg-neon-blue hover:text-dark-blue">
           Dreamlike
         </button>
-        <button className="bg-medium-grey text-light-grey px-5 py-2 rounded-full mb-4 md:mr-8 hover:bg-neon-blue hover:text-dark-blue">
+        <button /* onClick={() => handleCategoryChange('new')} */ className="bg-medium-grey text-light-grey px-5 py-2 rounded-full mb-4 md:mr-8 hover:bg-neon-blue hover:text-dark-blue">
           Watercolor
         </button>
-        <button className="bg-medium-grey text-light-grey px-5 py-2 rounded-full mb-4 md:mr-8 hover:bg-neon-blue hover:text-dark-blue">
+        <button /* onClick={() => handleCategoryChange('new')} */ className="bg-medium-grey text-light-grey px-5 py-2 rounded-full mb-4 md:mr-8 hover:bg-neon-blue hover:text-dark-blue">
           Cyber Punk
         </button>
-        <button className="bg-medium-grey text-light-grey px-5 py-2 rounded-full mb-4 md:mr-8 hover:bg-neon-blue hover:text-dark-blue">
+        <button /* onClick={() => handleCategoryChange('new')} */ className="bg-medium-grey text-light-grey px-5 py-2 rounded-full mb-4 md:mr-8 hover:bg-neon-blue hover:text-dark-blue">
           Ultra Realistic
         </button>
       </div>
@@ -84,7 +107,7 @@ const HomePage = () => {
 
       <div className="grid grid-cols-2 xs:grid-cols-1 md:grid-cols-4 gap-4 mx-4 my-4 md:mx-12">
         <RenderCards
-          data={[]}
+          data={images}
           message="No existen imágenes. Sé el primero!"
         />
         {/* <img

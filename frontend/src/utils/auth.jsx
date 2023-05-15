@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { API_URL } from '../../config';
 
 const AuthContext = React.createContext();
 
 const AuthProvider = ({ children }) => {
+  const navigate = useNavigate();
+  
   const [user, setUser] = useState(null);
 
   // Función para guardar el token JWT en el almacenamiento local
@@ -42,12 +45,40 @@ const AuthProvider = ({ children }) => {
       const user = data.user;
       saveToken(token);
       setUser(user);
+      /* console.log("LOGIN:");
+      console.log(user); */
       return true;
     } catch (error) {
       console.error(error);
       return false;
     }
   };
+
+  // Función para realizar la solicitud de registro al servidor
+  const register = async (name, email, password) =>{
+    try {
+      console.log(form);
+      const response = await fetch(`${API_URL}/v1/user/register`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({name, email, password}),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        saveToken(data.token);
+        setUser(data.user);
+        onSuccess();
+      } else {
+        alert("Registration failed");
+      }
+    } catch (err) {
+      alert("Registration failed");
+    }
+  }
 
   // Función para realizar la solicitud de cierre de sesión al servidor
   const logout = async () => {
@@ -61,7 +92,8 @@ const AuthProvider = ({ children }) => {
       if (response.ok) {
         removeToken();
         setUser(null);
-        return true;
+        navigate('/');
+        //return true;
       } else {
         console.error('error');
         return false;
@@ -77,7 +109,10 @@ const AuthProvider = ({ children }) => {
     user,
     isAuthenticated,
     login,
+    register,
     logout,
+    setUser,
+    saveToken,
   };
 
   // Devolvemos el proveedor del contexto de autenticación, pasando como valor el objeto que creamos antes, y como hijos el contenido que se encuentre dentro del componente <AuthProvider>
