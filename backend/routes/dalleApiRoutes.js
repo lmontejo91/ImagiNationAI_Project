@@ -16,29 +16,31 @@ router.route('/')
   .get(async (req, res) => res.status(200).send('Hello from DALL-E!'))
 
   .post(async (req, res) => {
-    console.log(req.body);
+    /* console.log(req.body);
     const {form} = req.body;
     console.log(form);
     const {prompt, size} = form;
-    console.log(prompt);
-    /* try {
+    console.log(prompt); */
+    try {
       const {form} = req.body;
       const {prompt, size} = form;
-
+      //console.log(form);
       const aiResponse = await openai.createImage({
         prompt,
         n:1,
         size,
         response_format: "b64_json",
       });
-
+      console.log("DESPUÉS");
+      //console.log(form);
       const image= aiResponse.data.data[0].b64_json; //Para obtener la imagen generada en sí, se utiliza la propiedad b64_json del objeto, que contiene los datos de la imagen codificados en base64 y en formato JSON.
-      
+      console.log("IMAGEN");
+      //console.log(image);
       res.status(200).json({photo:image});
     } catch (error) {
       console.error(error);
       res.status(500).send(error?.response.data.error.message || 'Something went wrong');
-    } */
+    }
     /*La interrogación seguida de un punto en error?.response.data.error.message es un operador 
     opcional de encadenamiento de propiedades, introducido en ECMAScript 2020.
     Este operador se utiliza para acceder a una propiedad de un objeto sin lanzar un error en caso

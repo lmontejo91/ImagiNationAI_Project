@@ -1,14 +1,24 @@
-import { useState } from "react";
-import preview from "../assets/preview.png";
+import { useState, useContext } from "react";
+import { useNavigate } from 'react-router-dom';
 import { ArrowDownTrayIcon } from "@heroicons/react/24/solid";
 import { ShareIcon } from "@heroicons/react/24/solid";
-import { getRandomPrompt } from '../utils';
+import preview from "../assets/preview.png";
+import { AuthContext, getRandomPrompt } from '../utils';
 import { API_URL } from '../../config';
+import { Loader } from '../components';
 
 const GeneratorPage = () => {
-  /* const [prompt, setPrompt] = useState("");
-  const [category, setCategory] = useState("");
-  const [size, setSize] = useState("small"); */ // default size is 'small'
+  const navigate = useNavigate();
+  const authContext = useContext(AuthContext);
+
+  /* if (!authContext) {
+    // Si el contexto de autenticación no está disponible, AuthProvider no está envolviendo a MyComponent en el árbol de componentes
+    alert("Error: AuthProvider no está envolviendo a MyComponent");
+  }else{
+    console.log(authContext.user);
+    console.log(authContext.user._id);
+  } */
+
   const [form, setForm] = useState({
     prompt: '',
     size: '256x256', // default size is 'small'
@@ -40,7 +50,9 @@ const GeneratorPage = () => {
   const [generatingImg, setGeneratingImg] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const generateImage = async () => {
+  const generateImage = async (e) => {
+    e.preventDefault();
+    //console.log("Entra GENERATE_IMAGE");
     if (form.prompt) {
       try {
         setGeneratingImg(true);
@@ -49,6 +61,7 @@ const GeneratorPage = () => {
           headers: {
             'Content-Type': 'application/json',
           },
+          //body: JSON.stringify({ ...form }),
           body: JSON.stringify({
             form: form,
           }),
@@ -66,9 +79,33 @@ const GeneratorPage = () => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log("Entra SUBMIT");
+    console.log(authContext.user_id);
     // Handle form submission here
+    if (form.prompt /* && form.photo */) {
+      setLoading(true);
+      try {
+        const response = await fetch(`${API_URL}/v1/image`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ ...form, user_id: authContext.user._id }),
+        });
+
+        await response.json();
+        alert('Success');
+        navigate('/');
+      } catch (err) {
+        alert(err);
+      } finally {
+        setLoading(false);
+      }
+    } else {
+      alert('Please generate an image with proper details');
+    }
   }
 
   const handleSurprisePrompt = () => {
@@ -89,7 +126,7 @@ const GeneratorPage = () => {
         <p className="mb-4 text-light-grey font-extralight">
           Enter a prompt and select a category to generate an image.
         </p>
-        <form onSubmit={handleSubmit}>
+        <form>
           <label className="block mb-2 text-white" htmlFor="prompt">
             Prompt:
             <textarea
@@ -159,7 +196,7 @@ const GeneratorPage = () => {
           </div>
           <div className="flex">
             <button onClick={generateImage} className="bg-gradient-to-r from-neon-blue via-neon-pink to-neon-pink w-full hover:bg-white text-dark-blue font-semibold mt-12 py-2 rounded ">
-              Generate image
+              {generatingImg ? 'Generating...' : 'Generate image'}
             </button>
           </div>
         </form>
@@ -168,18 +205,34 @@ const GeneratorPage = () => {
       {/* Image Display */}
       <div className="bg-medium-grey flex h-screen w-3/4 p-4 text-center flex-col justify-center">
         {/* Show the generated image here */}
-        <div className="mb-4 mx-auto">
-          <img src={preview} alt="Generated Image" className="w-full" />
-        </div>
+        { form.photo ? (
+          <img
+            src={form.photo}
+            alt={form.prompt}
+            className="w-full h-full object-contain"
+          />
+        ) : (
+          <div className="mb-4 mx-auto">
+            <img src={preview} alt="Preview Image" className="w-full" />
+          </div>
+        )}
+
+        {generatingImg && (
+          <div className="absolute h-full inset-0 top-[68px] left-1/4 z-0 flex justify-center items-center bg-[rgba(0,0,0,0.5)] rounded-lg">
+            <Loader />
+          </div>
+        )}
+
         {/* Download and Share buttons */}
         <div className="mt-2 flex justify-center space-x-4">
           <button className="bg-light-grey font-semibold hover:bg-neon-pink py-2 px-4 rounded-full mr-4">
-            <ArrowDownTrayIcon className="h-5 w-5 text-dark-blue   inline-flex" />{" "}
+            <ArrowDownTrayIcon className="h-5 w-5 text-dark-blue inline-flex" />{" "}
             Download
           </button>
 
-          <button className="bg-light-grey font-semibold hover:bg-neon-pink py-2 px-4 rounded-full">
-            <ShareIcon className="h-5 w-5 text-dark-blue  inline-flex" /> Share
+          <button onClick={handleSubmit} className="bg-light-grey font-semibold hover:bg-neon-pink py-2 px-4 rounded-full">
+            <ShareIcon className="h-5 w-5 text-dark-blue inline-flex" /> 
+            {loading ? 'Sharing...' : 'Share'}
           </button>
         </div>
       </div>

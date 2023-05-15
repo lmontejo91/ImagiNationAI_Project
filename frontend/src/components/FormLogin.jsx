@@ -1,16 +1,20 @@
 import React, { useState, useContext } from "react";
+import Modal from "react-modal";
 import { API_URL } from "../../config";
 import { AuthContext } from "../utils";
 
-const FormLogin = ({ onSuccess }) => {
-  const [form, setForm] = useState({ email: "", password: "" });
+const FormLogin = (props) => {
+  const { onSuccess, showRegisterForm, onOpenRegister, setShowRegisterForm } = props;
+  const [formLogin, setFormLogin] = useState({ email: "", password: "" });
+  const [formRegister, setFormRegister] = useState({ name: "", email: "", password: "" });
+  //const [showRegisterForm, setShowRegisterForm] = useState(false); 
   const authContext = useContext(AuthContext);
-  const { login } = authContext;
 
-  const handleSubmit = async (e) => {
+  console.log(showRegisterForm);
+  const handleSubmitLogin = async (e) => {
     e.preventDefault();
 
-    const { email, password } = form;
+    const { email, password } = formLogin;
 
     const success = await authContext.login(email, password);
     if (success) {
@@ -20,15 +24,30 @@ const FormLogin = ({ onSuccess }) => {
     }
   };
 
+  const handleSubmitRegister = async (e) => {
+    e.preventDefault();
+
+    const { name, email, password } = formRegister;
+    const success = await authContext.register(name, email, password);
+
+    if (success) {
+      onSuccess();
+    } else {
+      console.error("Register has failed");
+    }
+  };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setForm({ ...form, [name]: value });
+    setForm({ ...formLogin, [name]: value });
   };
 
   return (
-    <form
+    <div>
+    {!showRegisterForm ? (
+      <form
       className="bg-dark-blue rounded px-8 pt-6 pb-8 mb-4"
-      onSubmit={handleSubmit}
+      onSubmit={handleSubmitLogin}
     >
       <div className="mb-4">
         <label htmlFor="email" className="block text-white font-semibold mb-2">
@@ -39,7 +58,7 @@ const FormLogin = ({ onSuccess }) => {
           type="email"
           id="email"
           name="email"
-          value={form.email}
+          value={formLogin.email}
           onChange={handleChange}
           className="bg-gray-200 appearance-none rounded w-full py-2 px-4 text-dark-blue leading-tight focus:outline-none focus:bg-white"
         />
@@ -56,9 +75,9 @@ const FormLogin = ({ onSuccess }) => {
           type="password"
           id="password"
           name="password"
-          value={form.password}
+          value={formLogin.password}
           onChange={handleChange}
-          className="bg-gray-200 appearance-none border-2  rounded w-full py-2 px-4  leading-tight  "
+          className="bg-gray-200 appearance-none border-2 rounded w-full py-2 px-4 leading-tight"
         />
       </div>
 
@@ -69,8 +88,80 @@ const FormLogin = ({ onSuccess }) => {
         >
           Log In
         </button>
+        <p className="text-white text-center text-xs font-semibold mt-5">
+          Don't have an account yet? 
+          <span className="text-neon-pink ps-2" onClick={e => {
+            e.stopPropagation()
+            onOpenRegister()
+            //setShowRegisterForm(!showRegisterForm)
+            console.log(showRegisterForm)
+          }}
+          >Register here</span> {/* onClick={() => onOpenRegister()} */} 
+        </p>
       </div>
     </form>
+    ): (
+      <form
+        className="bg-dark-blue rounded px-8 pt-6 pb-8 mb-4"
+        onSubmit={handleSubmitRegister}
+        >
+        <div className="mb-4">
+          <label
+            className="block text-white font-semibold mb-2"
+            htmlFor="username"
+          >
+            Username
+          </label>
+          <input
+            className="shadow appearance-none  rounded w-full py-2 px-3 leading-tight focus:shadow-outline"
+            id="username"
+            name="name"
+            type="text"
+            placeholder="Username"
+            value={formRegister.name}
+            onChange={(e) => setFormRegister({ ...form, name: e.target.value })}
+          />
+        </div>
+        <div className="mb-4">
+          <label className="block text-white font-semibold mb-2" htmlFor="email">
+            Email
+          </label>
+          <input
+            className="shadow appearance-none  rounded w-full py-2 px-3 leading-tight focus:shadow-outline"
+            id="email"
+            type="email"
+            placeholder="Email"
+            value={formRegister.email}
+            onChange={(e) => setFormRegister({ ...form, email: e.target.value })}
+          />
+        </div>
+        <div className="mb-6">
+          <label
+            className="block text-white  font-semibold mb-2"
+            htmlFor="password"
+          >
+            Password
+          </label>
+          <input
+            className="shadow appearance-none  rounded w-full py-2 px-3 leading-tight focus:shadow-outline"
+            id="password"
+            type="password"
+            placeholder="********"
+            value={formRegister.password}
+            onChange={(e) => setFormRegister({ ...form, password: e.target.value })}
+          />
+        </div>
+        <div className="mt-8">
+          <button
+            className="bg-gradient-to-r from-neon-blue via-neon-pink to-neon-pink  w-full  text-dark-blue font-bold py-2 px-4 rounded"
+            type="submit"
+          >
+            Register
+          </button>
+        </div>
+        </form>
+    )}
+    </div>
   );
 };
 
