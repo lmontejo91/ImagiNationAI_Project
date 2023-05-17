@@ -1,16 +1,13 @@
 import React, { useState, useContext } from "react";
-import Modal from "react-modal";
-import { API_URL } from "../../config";
 import { AuthContext } from "../utils";
 
 const FormLogin = (props) => {
-  const { onSuccess, showRegisterForm, onOpenRegister, setShowRegisterForm } = props;
+  const { onSuccess } = props;
   const [formLogin, setFormLogin] = useState({ email: "", password: "" });
   const [formRegister, setFormRegister] = useState({ name: "", email: "", password: "" });
-  //const [showRegisterForm, setShowRegisterForm] = useState(false); 
+  const [showForm, setShowForm] = useState(false);
   const authContext = useContext(AuthContext);
 
-  console.log(showRegisterForm);
   const handleSubmitLogin = async (e) => {
     e.preventDefault();
 
@@ -26,25 +23,25 @@ const FormLogin = (props) => {
 
   const handleSubmitRegister = async (e) => {
     e.preventDefault();
-
+    
     const { name, email, password } = formRegister;
     const success = await authContext.register(name, email, password);
 
-    if (success) {
-      onSuccess();
-    } else {
-      console.error("Register has failed");
-    }
+    success ? onSuccess() : console.error("Register has failed");
   };
 
-  const handleChange = (e) => {
+  const handleChangeInputs = (e) => {
     const { name, value } = e.target;
-    setForm({ ...formLogin, [name]: value });
+    setFormLogin({ ...formLogin, [name]: value });
+  };
+
+  const handleFormChange = () => {  
+    setShowForm(!showForm);
   };
 
   return (
     <div>
-    {!showRegisterForm ? (
+    {!showForm ? (
       <form
       className="bg-dark-blue rounded px-8 pt-6 pb-8 mb-4"
       onSubmit={handleSubmitLogin}
@@ -59,7 +56,7 @@ const FormLogin = (props) => {
           id="email"
           name="email"
           value={formLogin.email}
-          onChange={handleChange}
+          onChange={handleChangeInputs}
           className="bg-gray-200 appearance-none rounded w-full py-2 px-4 text-dark-blue leading-tight focus:outline-none focus:bg-white"
         />
       </div>
@@ -76,7 +73,7 @@ const FormLogin = (props) => {
           id="password"
           name="password"
           value={formLogin.password}
-          onChange={handleChange}
+          onChange={handleChangeInputs}
           className="bg-gray-200 appearance-none border-2 rounded w-full py-2 px-4 leading-tight"
         />
       </div>
@@ -90,13 +87,11 @@ const FormLogin = (props) => {
         </button>
         <p className="text-white text-center text-xs font-semibold mt-5">
           Don't have an account yet? 
-          <span className="text-neon-pink ps-2" onClick={e => {
-            e.stopPropagation()
-            onOpenRegister()
-            //setShowRegisterForm(!showRegisterForm)
-            console.log(showRegisterForm)
-          }}
-          >Register here</span> {/* onClick={() => onOpenRegister()} */} 
+          <span className="text-neon-pink ps-2" 
+                onClick={handleFormChange}
+          >
+            Register here
+          </span>
         </p>
       </div>
     </form>
@@ -119,7 +114,7 @@ const FormLogin = (props) => {
             type="text"
             placeholder="Username"
             value={formRegister.name}
-            onChange={(e) => setFormRegister({ ...form, name: e.target.value })}
+            onChange={(e) => setFormRegister({ ...formRegister, name: e.target.value })}
           />
         </div>
         <div className="mb-4">
@@ -132,7 +127,7 @@ const FormLogin = (props) => {
             type="email"
             placeholder="Email"
             value={formRegister.email}
-            onChange={(e) => setFormRegister({ ...form, email: e.target.value })}
+            onChange={(e) => setFormRegister({ ...formRegister, email: e.target.value })}
           />
         </div>
         <div className="mb-6">
@@ -148,7 +143,7 @@ const FormLogin = (props) => {
             type="password"
             placeholder="********"
             value={formRegister.password}
-            onChange={(e) => setFormRegister({ ...form, password: e.target.value })}
+            onChange={(e) => setFormRegister({ ...formRegister, password: e.target.value })}
           />
         </div>
         <div className="mt-8">
@@ -158,6 +153,14 @@ const FormLogin = (props) => {
           >
             Register
           </button>
+          <p className="text-white text-center text-xs font-semibold mt-5">
+            Already have an account
+          <span className="text-neon-pink ps-2" 
+                onClick={handleFormChange}
+          >
+            Login here
+          </span>
+        </p>
         </div>
         </form>
     )}

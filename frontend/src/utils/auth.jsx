@@ -40,14 +40,12 @@ const AuthProvider = ({ children }) => {
         },
         body: JSON.stringify({ email, password })
       });
+
       const data = await response.json();
-      const token = data.token;
-      const user = data.user;
-      saveToken(token);
-      setUser(user);
-      /* console.log("LOGIN:");
-      console.log(user); */
+      saveToken(data.token);
+      setUser(data.user);
       return true;
+
     } catch (error) {
       console.error(error);
       return false;
@@ -57,7 +55,6 @@ const AuthProvider = ({ children }) => {
   // Función para realizar la solicitud de registro al servidor
   const register = async (name, email, password) =>{
     try {
-      console.log(form);
       const response = await fetch(`${API_URL}/v1/user/register`, {
         method: "POST",
         headers: {
@@ -67,16 +64,13 @@ const AuthProvider = ({ children }) => {
       });
 
       const data = await response.json();
+      saveToken(data.token);
+      setUser(data.user);
+      return true;
 
-      if (data.success) {
-        saveToken(data.token);
-        setUser(data.user);
-        onSuccess();
-      } else {
-        alert("Registration failed");
-      }
     } catch (err) {
       alert("Registration failed");
+      return false;
     }
   }
 

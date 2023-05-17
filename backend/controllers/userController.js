@@ -49,14 +49,14 @@ const registerUser = async (req, res) => {
 
     try {
       const { name, email, password } = req.body;
-      
+
       // Creamos una nueva instancia del modelo User con los datos del usuario
       const newUser = new User({
         name,
         email,
         password
       });
-  
+      
       // Guardamos el usuario en la base de datos
       const user = await newUser.save();
       

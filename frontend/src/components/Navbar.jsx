@@ -1,14 +1,12 @@
 import React, { useState, useContext } from "react";
-import { Link, Route, Routes } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Modal from "react-modal";
 import FormLogin from "./FormLogin";
-import FormRegister from "./FormRegister";
 import { AuthContext } from "../utils";
 
 const Navbar = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalContent, setModalContent] = useState(null);
-  const [showRegisterForm, setShowRegisterForm] = useState(false);
   const authContext = useContext(AuthContext);
 
   const openModal = (content) => {
@@ -19,16 +17,10 @@ const Navbar = () => {
   const closeModal = () => {
     setIsModalOpen(false);
     setModalContent(null);
-    setShowRegisterForm(false);
   };
 
   const handleSuccess = () => {
     closeModal();
-  };
-
-  const toggleRegisterForm = () => {
-    setShowRegisterForm(!showRegisterForm);
-    console.log("Entra Toggle -->"+showRegisterForm);
   };
   
   return (
@@ -66,7 +58,7 @@ const Navbar = () => {
             Register
           </button> */}
           <button
-            onClick={() => openModal(<FormLogin onSuccess={handleSuccess} showRegisterForm={showRegisterForm} setShowRegisterForm={setShowRegisterForm} onOpenRegister={toggleRegisterForm} />)}
+            onClick={() => openModal(<FormLogin onSuccess={handleSuccess}/>)}
             className="bg-gradient-to-br from-light-pink to-neon-pink hover:bg-gradient-to-bl text-dark-blue text-sm px-4 py-2 font-semibold rounded-md mr-4"
           >
             Get Started
