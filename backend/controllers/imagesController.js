@@ -26,12 +26,7 @@ const getImages = async (req, res) => {
 const createNewPost = async (req, res) => {
     try {
         const { prompt, photo, user_id } = req.body;
-        /* console.log(prompt);
-        console.log(user_id);
-        console.log(process.env.CLOUDINARY_CLOUD_NAME);
-        console.log(process.env.CLOUDINARY_API_KEY); */
-        //console.log(photo);
-        const photoUrl = (await cloudinary.uploader.upload("../../frontend/src/assets/image8.jpg", {'folder': 'ImagiNationAI'}));
+        const photoUrl = (await cloudinary.uploader.upload(photo, {'folder': 'ImagiNationAI'}));
         //const photoUrl = (await cloudinary.uploader.upload("../../frontend/src/assets/image1.png")).secure_url;
         console.log("LLEGA AQUÍ");
         const newImage = await Image.create({

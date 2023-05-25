@@ -33,12 +33,15 @@ const Navbar = () => {
           /******  Navbar PARA USUARIO LOGGEADO ********/
           <>
           <Link
-            to="/generator-page" //to={`/generator-page/${authContext?.user?._id || '/'}`}
+            to={`/generator-page/${authContext?.user?._id || '/'}`}
             className=" hover:text-neon-pink text-white mr-6"
           >
             Image Generator
           </Link>
-          <Link to="/user-page" className=" hover:text-neon-pink text-white mr-6">
+          <Link  
+            to={`/user-page/${authContext?.user?._id || '/'}`}
+            className=" hover:text-neon-pink text-white mr-6"
+          >
             User Profile
           </Link>
           <button
@@ -51,12 +54,6 @@ const Navbar = () => {
         ) : (
           /******  Navbar PARA USUARIO PÚBLICO ********/
           <>
-          {/* <button
-            onClick={() => openModal(<FormRegister onSuccess={handleSuccess} />)}
-            className="bg-gradient-to-br from-light-blue to-neon-blue hover:bg-gradient-to-bl text-dark-blue text-sm px-4 py-2 font-semibold rounded-md mr-4"
-          >
-            Register
-          </button> */}
           <button
             onClick={() => openModal(<FormLogin onSuccess={handleSuccess}/>)}
             className="bg-gradient-to-br from-light-pink to-neon-pink hover:bg-gradient-to-bl text-dark-blue text-sm px-4 py-2 font-semibold rounded-md mr-4"
