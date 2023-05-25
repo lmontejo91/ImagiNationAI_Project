@@ -61,7 +61,6 @@ const GeneratorPage = () => {
           headers: {
             'Content-Type': 'application/json',
           },
-          //body: JSON.stringify({ ...form }),
           body: JSON.stringify({
             form: form,
           }),
@@ -81,10 +80,10 @@ const GeneratorPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Entra SUBMIT");
-    console.log(authContext.user_id);
+    /* console.log("Entra SUBMIT");
+    console.log(authContext.user_id); */
     // Handle form submission here
-    if (form.prompt /* && form.photo */) {
+    if (form.prompt && form.photo) {
       setLoading(true);
       try {
         const response = await fetch(`${API_URL}/v1/image`, {
@@ -136,10 +135,10 @@ const GeneratorPage = () => {
               value={form.prompt}
               onChange={handleChange}
             />
-            <a href="" onClick={handleSurprisePrompt}>
+            <p onClick={handleSurprisePrompt}>
               Lacking inspiration?{" "}
               <span className="text-neon-blue">Try a surprise prompt.</span>
-            </a>
+            </p>
           </label>
           <label className="block mb-4 text-dark-blue" htmlFor="category">
             Category:
