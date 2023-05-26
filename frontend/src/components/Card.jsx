@@ -1,9 +1,10 @@
-import React from "react";
-
+import React, { useState } from "react";
+import { HeartIcon } from "@heroicons/react/24/outline";
+import { HandThumbUpIcon } from "@heroicons/react/24/outline";
 import { downloadIcon } from "../assets";
 import { downloadImage } from "../utils";
 
-const Card = ({ _id, user_id, prompt, url }) => (
+const Card = ({ _id, user_id, prompt, url, likes }) => (
   <div className="rounded-xl group relative hover:shadow-cardhover card">
     <img
       className="w-full h-full object-cover rounded-xl"
@@ -20,6 +21,13 @@ const Card = ({ _id, user_id, prompt, url }) => (
           </div>
           <p className="text-white text-sm">{user_id.name}</p>
         </div>
+        <button className="bg-light-grey font-semibold hover:bg-neon-pink py-2 px-4 rounded-full mr-4">
+          <HandThumbUpIcon className="h-5 w-5 text-dark-blue inline-flex" />
+          Like
+        </button>
+        <p className="text-white font-semibold mr-4">
+          <HeartIcon className="h-5 w-5 text-white inline-flex" /> {likes}{" "}
+        </p>
         <button
           type="button"
           onClick={() => downloadImage(_id, url)}
