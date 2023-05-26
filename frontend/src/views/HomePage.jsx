@@ -106,7 +106,7 @@ const HomePage = () => {
         </button>
       </div>
       {/* Gallery section */}
-      <div className="grid grid-cols-2 xs:grid-cols-1 md:grid-cols-4 gap-4 mx-4 my-4 md:mx-12">
+      <div className="grid grid-cols-4 xs:grid-cols-1 md:grid-cols-4 gap-4 mx-4 my-4 md:mx-12">
         <RenderCards
           data={displayedImagesData}
           message="No existen imágenes. Sé el primero!"

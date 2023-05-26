@@ -6,13 +6,6 @@
   font-family: "Poppins", sans-serif;
 }
 
-@media screen and (min-width: 480px) {
-  .card:nth-child(7n + 1) {
-    grid-column: auto/span 2;
-    grid-row: auto/span 2;
-  }
-}
-
 .prompt::-webkit-scrollbar {
   width: 5px;
 }
@@ -47,13 +40,3 @@
   outline: none;
   padding: 40px;
 }
-
-/* @layer components {
-  .card {
-    background-color: theme('colors.white');
-    border-radius: theme('borderRadius.lg');
-    padding: theme('spacing.6');
-    box-shadow: theme('boxShadow.xl');
-  }
-  /* ... 
-} */
