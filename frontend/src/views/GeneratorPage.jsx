@@ -1,11 +1,11 @@
 import { useState, useContext } from "react";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import { ArrowDownTrayIcon } from "@heroicons/react/24/solid";
 import { ShareIcon } from "@heroicons/react/24/solid";
 import preview from "../assets/preview.png";
-import { AuthContext, getRandomPrompt } from '../utils';
-import { API_URL } from '../../config';
-import { Loader } from '../components';
+import { AuthContext, getRandomPrompt } from "../utils";
+import { API_URL } from "../../config";
+import { Loader } from "../components";
 
 const GeneratorPage = () => {
   const navigate = useNavigate();
@@ -20,10 +20,10 @@ const GeneratorPage = () => {
   } */
 
   const [form, setForm] = useState({
-    prompt: '',
-    size: '256x256', // default size is 'small'
+    prompt: "",
+    size: "256x256", // default size is 'small'
     category: [],
-    photo: '',
+    photo: "",
   });
 
   //const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
@@ -36,16 +36,15 @@ const GeneratorPage = () => {
       /* const selectedOptions = Array.from(e.target.selectedOptions).map(
         (option) => option.value
       ); */
-      setForm(prevForm => ({
+      setForm((prevForm) => ({
         ...prevForm,
-        category: [...prevForm.category, value]
+        category: [...prevForm.category, value],
       }));
     } else {
       setForm({ ...form, [name]: value });
     }
     console.log(form);
   };
-
 
   const [generatingImg, setGeneratingImg] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -57,9 +56,9 @@ const GeneratorPage = () => {
       try {
         setGeneratingImg(true);
         const response = await fetch(`${API_URL}/v1/dalleApi`, {
-          method: 'POST',
+          method: "POST",
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
           body: JSON.stringify({
             form: form,
@@ -74,7 +73,7 @@ const GeneratorPage = () => {
         setGeneratingImg(false);
       }
     } else {
-      alert('Please provide proper prompt');
+      alert("Please provide proper prompt");
     }
   };
 
@@ -87,25 +86,25 @@ const GeneratorPage = () => {
       setLoading(true);
       try {
         const response = await fetch(`${API_URL}/v1/image`, {
-          method: 'POST',
+          method: "POST",
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
           body: JSON.stringify({ ...form, user_id: authContext.user._id }),
         });
 
         await response.json();
-        alert('Success');
-        navigate('/');
+        alert("Success");
+        navigate("/");
       } catch (err) {
         alert(err);
       } finally {
         setLoading(false);
       }
     } else {
-      alert('Please generate an image with proper details');
+      alert("Please generate an image with proper details");
     }
-  }
+  };
 
   const handleSurprisePrompt = () => {
     console.log("Entra");
@@ -194,8 +193,11 @@ const GeneratorPage = () => {
             </label>
           </div>
           <div className="flex">
-            <button onClick={generateImage} className="bg-gradient-to-r from-neon-blue via-neon-pink to-neon-pink w-full hover:bg-white text-dark-blue font-semibold mt-12 py-2 rounded ">
-              {generatingImg ? 'Generating...' : 'Generate image'}
+            <button
+              onClick={generateImage}
+              className="bg-gradient-to-r from-neon-blue via-neon-pink to-neon-pink w-full hover:bg-white text-dark-blue font-semibold mt-12 py-2 rounded "
+            >
+              {generatingImg ? "Generating..." : "Generate image"}
             </button>
           </div>
         </form>
@@ -204,11 +206,11 @@ const GeneratorPage = () => {
       {/* Image Display */}
       <div className="bg-medium-grey flex h-screen w-3/4 p-4 text-center flex-col justify-center">
         {/* Show the generated image here */}
-        { form.photo ? (
+        {form.photo ? (
           <img
             src={form.photo}
             alt={form.prompt}
-            className="w-full h-full object-contain"
+            className="w-full h-auto object-contain"
           />
         ) : (
           <div className="mb-4 mx-auto">
@@ -229,9 +231,12 @@ const GeneratorPage = () => {
             Download
           </button>
 
-          <button onClick={handleSubmit} className="bg-light-grey font-semibold hover:bg-neon-pink py-2 px-4 rounded-full">
-            <ShareIcon className="h-5 w-5 text-dark-blue inline-flex" /> 
-            {loading ? 'Sharing...' : 'Share'}
+          <button
+            onClick={handleSubmit}
+            className="bg-light-grey font-semibold hover:bg-neon-pink py-2 px-4 rounded-full"
+          >
+            <ShareIcon className="h-5 w-5 text-dark-blue inline-flex" />
+            {loading ? "Sharing..." : "Share"}
           </button>
         </div>
       </div>
@@ -240,4 +245,3 @@ const GeneratorPage = () => {
 };
 
 export default GeneratorPage;
-

@@ -6,7 +6,7 @@ import { downloadImage } from "../utils";
 const Card = ({ _id, user_id, prompt, url }) => (
   <div className="rounded-xl group relative hover:shadow-cardhover card">
     <img
-      className="w-auto h-full object-cover rounded-xl"
+      className="w-full h-full object-cover rounded-xl"
       src={url}
       alt={prompt}
     />
