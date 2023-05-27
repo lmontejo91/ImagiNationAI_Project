@@ -19,7 +19,7 @@ router
   //DELETE a specific image/post
   .delete(imagesController.deletePost);
 
-// LIKES
-router.route("/:id/like").post(imagesController.likeImage);
+// Route to Update the LIKES property of an image
+router.route("/:id/like").put(imagesController.likeImage);
 
 export default router;

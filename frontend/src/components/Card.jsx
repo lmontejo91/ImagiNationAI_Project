@@ -1,25 +1,34 @@
-import React, { useState } from "react";
-import axios from "axios";
+import React, { useState, useEffect } from "react";
 import { HeartIcon } from "@heroicons/react/24/outline";
 import { HandThumbUpIcon } from "@heroicons/react/24/outline";
 import { downloadIcon } from "../assets";
 import { downloadImage } from "../utils";
+import { API_URL } from "../../config";
 
 const Card = ({ _id, user_id, prompt, url, likes }) => {
-  const [isLiked, setIsLiked] = useState(false);
   const [localLikes, setLocalLikes] = useState(likes);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleLike = async () => {
-    if (!isLiked) {
-      try {
-        // Send a POST request to the backend to increment the likes
-        await axios.post(`/images/${_id}/like`);
+    try {
+      setIsLoading(true);
 
-        // Update the likes locally
-        setIsLiked(true);
-      } catch (error) {
-        console.log("Failed to like the image:", error);
+      const response = await fetch(`${API_URL}/v1/image/${_id}/like`, {
+        method: "PUT",
+      });
+
+      if (response.ok) {
+        const { data } = await response.json();
+        setLocalLikes(data.likes);
+      } else {
+        const errorData = await response.json();
+        throw new Error(errorData.message);
       }
+    } catch (error) {
+      console.error(error.message);
+      // Handle error state or display an error message to the user
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -40,14 +49,16 @@ const Card = ({ _id, user_id, prompt, url, likes }) => {
             </div>
             <p className="text-white text-sm">{user_id.name}</p>
           </div>
+
           <button
             className="bg-light-grey font-semibold hover:bg-neon-pink py-2 px-4 rounded-full mx-2"
             onClick={handleLike}
-            disabled={isLiked}
+            disabled={isLoading}
           >
+            {isLoading ? "Liking..." : "Like"}
             <HandThumbUpIcon className="h-5 w-5 text-dark-blue inline-flex" />
-            Like
           </button>
+
           <p className="text-white font-semibold mr-4">
             <HeartIcon className="h-5 w-5 text-white inline-flex" />{" "}
             {localLikes}{" "}

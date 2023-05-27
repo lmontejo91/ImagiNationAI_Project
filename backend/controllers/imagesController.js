@@ -73,7 +73,7 @@ const deletePost = async (req, res) => {
   }
 };
 
-// Function to add LIKES
+// Function to Update the LIKES property of an image
 const likeImage = async (req, res) => {
   try {
     const { id } = req.params;
