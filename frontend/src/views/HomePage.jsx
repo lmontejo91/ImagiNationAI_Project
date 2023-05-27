@@ -1,68 +1,77 @@
-import React, { useState, useContext, useEffect } from 'react';
-import {Link} from 'react-router-dom';
+import React, { useState, useContext, useEffect } from "react";
+import { Link } from "react-router-dom";
 
-import {Card, Navbar} from '../components';
-import { AuthContext } from '../utils';
-import { API_URL } from '../../config';
+import { Card, Navbar } from "../components";
+import { AuthContext } from "../utils";
+import { API_URL } from "../../config";
 
-import image2 from "../assets/image2.jpg";
-import image3 from "../assets/image3.jpg";
-import image4 from "../assets/image4.png";
-import image5 from "../assets/image5.jpg";
-import image6 from "../assets/image6.png";
-import image7 from "../assets/image7.jpg";
-import image8 from "../assets/image8.jpg";
 import logo from "../assets/logo.png";
 
-const RenderCards = ({data, message}) => {
+const RenderCards = ({ data, message }) => {
   if (data?.length > 0) {
-    return (
-      data.map((image) => <Card key={image._id} {...image} />)
-    );
+    return data.map((image) => <Card key={image._id} {...image} />);
   }
   console.log("Manda mensaje");
   return (
-    <h2 className="mt-5 font-bold text-white text-xl uppercase">{message}</h2>
+    <h2 className="mt-5 font-bold text-white text-lg uppercase">{message}</h2>
   );
-}
+};
 
 const HomePage = () => {
   const authContext = useContext(AuthContext);
-
   //const [category, setCategory] = useState('');
-  const [images, setImages] = useState(null);
 
+  const [images, setImages] = useState(null);
+  const [displayedImages, setDisplayedImages] = useState(12);
+
+  const [searchQuery, setSearchQuery] = useState(""); // New state for search query
   /* const handleCategoryChange = (newCategory) => {
     setCategory(newCategory);
     alert("Categoría cambiada");
   } */
-
   const getImages = async () => {
     try {
-      const response = await fetch(`${API_URL}/v1/image`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        /* body: JSON.stringify({
+      const response = await fetch(
+        `${API_URL}/v1/image?search=${searchQuery}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          /* body: JSON.stringify({
           category: category,
         }), */
-      });
+        }
+      );
 
       const data = await response.json();
-      /* s */
       setImages(data.data.reverse());
     } catch (err) {
       alert(err);
-    /*} finally {
+      /*} finally {
       setGeneratingImg(false);
     } */
-    };
-  }
-  
+    }
+  };
+
   useEffect(() => {
     getImages();
-  }, []);
+  }, [searchQuery]); // Trigger API request whenever search query changes
+
+  const showMoreImages = () => {
+    setDisplayedImages((prevDisplayedImages) => prevDisplayedImages + 12);
+  };
+
+  const handleSearchInputChange = (event) => {
+    setSearchQuery(event.target.value);
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    getImages();
+  };
+
+  const displayedImagesData = images?.slice(0, displayedImages);
 
   return (
     <div className="bg-dark-blue px-5 pb-12">
@@ -74,76 +83,70 @@ const HomePage = () => {
         </h2>
       </div>
 
+      {/* Search bar */}
+      <div className="flex justify-center my-4">
+        <form onSubmit={handleSubmit}>
+          <input
+            type="text"
+            placeholder="Search images..."
+            value={searchQuery}
+            onChange={handleSearchInputChange}
+            className="px-4 py-2 rounded-full border-none focus:outline-none focus:ring-neon-blue"
+          />
+        </form>
+      </div>
+
       {/* Buttons section */}
       <div className="flex justify-center space-x-4">
-        <button /* onClick={() => handleCategoryChange('new')} */ className="bg-gradient-to-r from-neon-pink to-neon-blue text-dark-blue font-semibold py-2 px-4 rounded-full mb-4  hover:bg-neon-blue">
+        <button
+          /* onClick={() => handleCategoryChange('new')} */ className="bg-gradient-to-r from-neon-pink to-neon-blue text-dark-blue font-semibold py-2 px-4 rounded-full mb-4  hover:bg-neon-blue"
+        >
           New Images
         </button>
-        <button /* onClick={() => handleCategoryChange('top')} */ className="bg-medium-grey text-light-grey px-5 py-2 rounded-full mb-4 md:mr-8 hover:bg-neon-blue hover:text-dark-blue">
-          Top 10
+        <button
+          /* onClick={() => handleCategoryChange('top')} */ className="bg-medium-grey text-light-grey px-5 py-2 rounded-full mb-4 md:mr-8 hover:bg-neon-blue hover:text-dark-blue"
+        >
+          Most Popular
         </button>
-        <button /* onClick={() => handleCategoryChange('new')} */ className="bg-medium-grey text-light-grey px-5 py-2 rounded-full mb-4 md:mr-8 hover:bg-neon-blue hover:text-dark-blue">
-          Dreamlike
+        <button
+          /* onClick={() => handleCategoryChange('new')} */ className="bg-medium-grey text-light-grey px-5 py-2 rounded-full mb-4 md:mr-8 hover:bg-neon-blue hover:text-dark-blue"
+        >
+          People
         </button>
-        <button /* onClick={() => handleCategoryChange('new')} */ className="bg-medium-grey text-light-grey px-5 py-2 rounded-full mb-4 md:mr-8 hover:bg-neon-blue hover:text-dark-blue">
-          Watercolor
+        <button
+          /* onClick={() => handleCategoryChange('new')} */ className="bg-medium-grey text-light-grey px-5 py-2 rounded-full mb-4 md:mr-8 hover:bg-neon-blue hover:text-dark-blue"
+        >
+          Animals
         </button>
-        <button /* onClick={() => handleCategoryChange('new')} */ className="bg-medium-grey text-light-grey px-5 py-2 rounded-full mb-4 md:mr-8 hover:bg-neon-blue hover:text-dark-blue">
-          Cyber Punk
+        <button
+          /* onClick={() => handleCategoryChange('new')} */ className="bg-medium-grey text-light-grey px-5 py-2 rounded-full mb-4 md:mr-8 hover:bg-neon-blue hover:text-dark-blue"
+        >
+          Landscape
         </button>
-        <button /* onClick={() => handleCategoryChange('new')} */ className="bg-medium-grey text-light-grey px-5 py-2 rounded-full mb-4 md:mr-8 hover:bg-neon-blue hover:text-dark-blue">
-          Ultra Realistic
+        <button
+          /* onClick={() => handleCategoryChange('new')} */ className="bg-medium-grey text-light-grey px-5 py-2 rounded-full mb-4 md:mr-8 hover:bg-neon-blue hover:text-dark-blue"
+        >
+          Abstract
         </button>
       </div>
-
       {/* Gallery section */}
-
-      <div className="grid grid-cols-2 xs:grid-cols-1 md:grid-cols-4 gap-4 mx-4 my-4 md:mx-12">
+      <div className="grid grid-cols-4 xs:grid-cols-1 md:grid-cols-4 gap-4 mx-4 my-4 md:mx-12">
         <RenderCards
-          data={images}
+          data={displayedImagesData}
           message="No existen imágenes. Sé el primero!"
         />
-        {/* <img
-          src={image2}
-          alt="Image Placeholder"
-          className="h-40 md:h-64 w-full object-cover rounded-md"
-        ></img>
-        <img
-          src={image4}
-          alt="Image Placeholder"
-          className="h-40 md:h-64 w-full object-cover rounded-md"
-        ></img>
-        <img
-          src={image3}
-          alt="Image Placeholder"
-          className="h-40 md:h-64 w-full object-cover rounded-md"
-        ></img>
-        <img
-          src={image7}
-          alt="Image Placeholder"
-          className="h-40 md:h-64 w-full object-cover rounded-md"
-        ></img>
-        <img
-          src={image8}
-          alt="Image Placeholder"
-          className="h-40 md:h-64 w-full object-cover rounded-md"
-        ></img>
-        <img
-          src={image6}
-          alt="Image Placeholder"
-          className="h-40 md:h-64 w-full object-cover rounded-md"
-        ></img>
-        <img
-          src={image5}
-          alt="Image Placeholder"
-          className="h-40 md:h-64 w-full object-cover rounded-md"
-        ></img>
-        <img
-          src={image4}
-          alt="Image Placeholder"
-          className="h-40 md:h-64 w-full object-cover rounded-md"
-        ></img>*/}
       </div>
+
+      {displayedImages < images?.length && (
+        <div className="flex justify-center">
+          <button
+            className="bg-medium-grey text-light-grey px-5 py-2 rounded-full mt-8 md:mr-8 hover:bg-neon-blue hover:text-dark-blue"
+            onClick={showMoreImages}
+          >
+            Show more images
+          </button>
+        </div>
+      )}
     </div>
   );
 };
