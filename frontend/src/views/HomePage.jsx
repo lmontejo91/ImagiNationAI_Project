@@ -13,36 +13,38 @@ const RenderCards = ({ data, message }) => {
   }
   console.log("Manda mensaje");
   return (
-    <h2 className="mt-5 font-bold text-white text-xl uppercase">{message}</h2>
+    <h2 className="mt-5 font-bold text-white text-lg uppercase">{message}</h2>
   );
 };
 
 const HomePage = () => {
   const authContext = useContext(AuthContext);
-
   //const [category, setCategory] = useState('');
+
   const [images, setImages] = useState(null);
   const [displayedImages, setDisplayedImages] = useState(12);
 
+  const [searchQuery, setSearchQuery] = useState(""); // New state for search query
   /* const handleCategoryChange = (newCategory) => {
     setCategory(newCategory);
     alert("Categoría cambiada");
   } */
-
   const getImages = async () => {
     try {
-      const response = await fetch(`${API_URL}/v1/image`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        /* body: JSON.stringify({
+      const response = await fetch(
+        `${API_URL}/v1/image?search=${searchQuery}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          /* body: JSON.stringify({
           category: category,
         }), */
-      });
+        }
+      );
 
       const data = await response.json();
-      /* s */
       setImages(data.data.reverse());
     } catch (err) {
       alert(err);
@@ -54,10 +56,19 @@ const HomePage = () => {
 
   useEffect(() => {
     getImages();
-  }, []);
+  }, [searchQuery]); // Trigger API request whenever search query changes
 
   const showMoreImages = () => {
     setDisplayedImages((prevDisplayedImages) => prevDisplayedImages + 12);
+  };
+
+  const handleSearchInputChange = (event) => {
+    setSearchQuery(event.target.value);
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    getImages();
   };
 
   const displayedImagesData = images?.slice(0, displayedImages);
@@ -70,6 +81,19 @@ const HomePage = () => {
         <h2 className="text-lg text-white mt-2">
           Create with Artificial Intelligence, Share with the world.
         </h2>
+      </div>
+
+      {/* Search bar */}
+      <div className="flex justify-center my-4">
+        <form onSubmit={handleSubmit}>
+          <input
+            type="text"
+            placeholder="Search images..."
+            value={searchQuery}
+            onChange={handleSearchInputChange}
+            className="px-4 py-2 rounded-full border-none focus:outline-none focus:ring-neon-blue"
+          />
+        </form>
       </div>
 
       {/* Buttons section */}
