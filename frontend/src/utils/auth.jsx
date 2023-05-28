@@ -97,6 +97,53 @@ const AuthProvider = ({ children }) => {
     }
   };
 
+  // Función para recuperar los datos del usuario del servidor cuando se cambia o recarga la página
+  /* const fetchUserFromToken = async (token) => {
+    console.log("Entra en recuperar 'User from Token'");
+    try {
+      const response = await fetch(`${API_URL}/v1/user/getUserFromToken`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
+        }
+      });
+  
+      if (response.ok) {
+        const data = await response.json();
+        return data.user;
+      } else {
+        throw new Error('Error al obtener los datos del usuario');
+      }
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  }; */
+
+  useEffect(() => {
+    const clearLocalStorage = () => {
+      removeToken();
+    };
+
+    window.addEventListener("beforeunload", clearLocalStorage);
+
+    // Recuperar el usuario almacenado desde el token al cargar la página
+    /* const token = getToken();
+    if (token) {
+      const userPromise = fetchUserFromToken(token);
+      userPromise.then(user => {
+        setUser(user);
+      }).catch(error => {
+        console.error(error);
+      });
+    } */
+
+    return () => {
+      window.removeEventListener("beforeunload", clearLocalStorage);
+    };
+  }, []);
+
   // Creamos un objeto con las propiedades y valores que queremos pasar a través del contexto de autenticación
   const authContextValue = {
     user,

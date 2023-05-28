@@ -55,6 +55,7 @@ const FormLogin = (props) => {
           type="email"
           id="email"
           name="email"
+          required
           value={formLogin.email}
           onChange={handleChangeInputs}
           className="bg-gray-200 appearance-none rounded w-full py-2 px-4 text-dark-blue leading-tight focus:outline-none focus:bg-white"
@@ -72,6 +73,7 @@ const FormLogin = (props) => {
           type="password"
           id="password"
           name="password"
+          required
           value={formLogin.password}
           onChange={handleChangeInputs}
           className="bg-gray-200 appearance-none border-2 rounded w-full py-2 px-4 leading-tight"
@@ -111,6 +113,7 @@ const FormLogin = (props) => {
             className="shadow appearance-none  rounded w-full py-2 px-3 leading-tight focus:shadow-outline"
             id="username"
             name="name"
+            required
             type="text"
             placeholder="Username"
             value={formRegister.name}
@@ -124,6 +127,8 @@ const FormLogin = (props) => {
           <input
             className="shadow appearance-none  rounded w-full py-2 px-3 leading-tight focus:shadow-outline"
             id="email"
+            name="email"
+            required
             type="email"
             placeholder="Email"
             value={formRegister.email}
@@ -140,6 +145,8 @@ const FormLogin = (props) => {
           <input
             className="shadow appearance-none  rounded w-full py-2 px-3 leading-tight focus:shadow-outline"
             id="password"
+            name="password"
+            required
             type="password"
             placeholder="********"
             value={formRegister.password}
