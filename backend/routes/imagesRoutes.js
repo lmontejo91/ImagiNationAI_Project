@@ -20,9 +20,10 @@ router
   .delete(imagesController.deletePost);
 
 router
-  .route("/user/:id_user")
+  .route("/user/:id_user/:byUserId")
+  //.route("/user/:id_user")
   //GET all image/post by user
-  .get(imagesController.getImagesByUserId);
+  .get(imagesController.getImagesBy);
 
 router
   .route("/:id/like")
