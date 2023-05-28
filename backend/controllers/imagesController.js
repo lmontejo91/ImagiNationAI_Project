@@ -131,19 +131,34 @@ const deletePost = async (req, res) => {
 const likeImage = async (req, res) => {
   try {
     const { id } = req.params;
+    const { userId } = req.body;
 
-    // Find the image by ID and increment the likes property
-    const image = await Image.findByIdAndUpdate(
-      id,
-      { $inc: { likes: 1 } },
-      { new: true }
-    );
+    // Check if the image exists
+    const image = await Image.findById(id);
+    if (!image) {
+      return res.status(404).json({ error: "Image not found" });
+    }
 
-    res.status(200).json({ success: true, data: image });
+    // Check if the user has already liked the image
+    const hasLiked = image.likedBy.includes(userId);
+    if (hasLiked) {
+      return res
+        .status(400)
+        .json({ error: "User has already liked this image" });
+    }
+
+    // Update the image document with the new like
+    image.likes += 1;
+    image.likedBy.push(userId);
+    await image.save();
+
+    return res.json({
+      message: "Image liked successfully",
+      likesCount: image.likes,
+    });
   } catch (err) {
-    res
-      .status(500)
-      .json({ success: false, message: "Failed to like the image." });
+    console.error(err);
+    return res.status(500).json({ error: "Server error" });
   }
 };
 

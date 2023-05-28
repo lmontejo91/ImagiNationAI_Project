@@ -14,15 +14,19 @@ const Card = ({ _id, user_id, prompt, url, likes }) => {
       setIsLoading(true);
 
       const response = await fetch(`${API_URL}/v1/image/${_id}/like`, {
-        method: "PUT",
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ userId: user_id._id }), // Update the request payload with the correct key-value pair
       });
 
       if (response.ok) {
-        const { data } = await response.json();
-        setLocalLikes(data.likes);
+        const { likesCount } = await response.json();
+        setLocalLikes(likesCount);
       } else {
         const errorData = await response.json();
-        throw new Error(errorData.message);
+        throw new Error(errorData.error); // Throw a specific error message received from the backend
       }
     } catch (error) {
       console.error(error.message);
@@ -50,6 +54,7 @@ const Card = ({ _id, user_id, prompt, url, likes }) => {
             <p className="text-white text-sm">{user_id.name}</p>
           </div>
 
+          {/* Like button */}
           <button
             className="bg-light-grey font-semibold hover:bg-neon-pink py-2 px-4 rounded-full mx-2"
             onClick={handleLike}
@@ -58,7 +63,6 @@ const Card = ({ _id, user_id, prompt, url, likes }) => {
             {isLoading ? "Liking..." : "Like"}
             <HandThumbUpIcon className="h-5 w-5 text-dark-blue inline-flex" />
           </button>
-
           <p className="text-white font-semibold mr-4">
             <HeartIcon className="h-5 w-5 text-white inline-flex" />{" "}
             {localLikes}{" "}
