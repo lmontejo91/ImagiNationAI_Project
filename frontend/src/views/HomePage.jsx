@@ -83,26 +83,26 @@ const HomePage = () => {
   const displayedImagesData = images?.slice(0, displayedImages);
 
   return (
-    <div className="bg-dark-blue px-5 pb-12">
+    <div className="bg-dark-blue px-5 pb-8">
       {/* Hero section */}
       <div className="h-80 flex flex-col justify-center items-center text-center">
         <img src={logo} alt="logo" className="w-6/12 object-contain"></img>
         <h2 className="text-lg text-white mt-2">
           Create with Artificial Intelligence, Share with the world.
         </h2>
-      </div>
 
-      {/* Search bar */}
-      <div className="flex justify-center my-4">
-        <form onSubmit={handleSubmit}>
-          <input
-            type="text"
-            placeholder="Search images..."
-            value={searchQuery}
-            onChange={handleSearchInputChange}
-            className="px-4 py-2 rounded-full border-none focus:outline-none focus:ring-neon-blue"
-          />
-        </form>
+        {/* Search bar */}
+        <div className="flex justify-center my-6">
+          <form className=" " onSubmit={handleSubmit}>
+            <input
+              type="text"
+              placeholder="Search images..."
+              value={searchQuery}
+              onChange={handleSearchInputChange}
+              className="px-4 py-2 rounded-full w-96 border-none focus:outline-none focus:ring-neon-blue"
+            />
+          </form>
+        </div>
       </div>
 
       {/* Buttons section */}
