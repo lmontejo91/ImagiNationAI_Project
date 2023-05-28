@@ -15,15 +15,20 @@ cloudinary.config({
 // Function to GET all images/posts
 const getImages = async (req, res) => {
   try {
-    const { search } = req.query;
+    const { search, selectedCategory } = req.query;
     let query = {};
 
     if (search) {
-      query = { prompt: { $regex: search, $options: "i" } };
+      query.prompt = { $regex: search, $options: "i" };
+    }
+
+    if (selectedCategory) {
+      query.categories = { $in: [selectedCategory] };
     }
 
     const images = await Image.find(query).populate("user_id");
     res.status(200).json({ success: true, data: images });
+
   } catch (err) {
     res.status(500).json({ success: false, message: "Failed to load images." });
   }
@@ -37,12 +42,17 @@ const createNewPost = async (req, res) => {
       folder: "ImagiNationAI",
     });
     //const photoUrl = (await cloudinary.uploader.upload("../../frontend/src/assets/image1.png")).secure_url;
+    
+    // Combinar categorías seleccionadas con "new" y "top"
+    //const categories = ["new", "top", ...category];
+
     const newImage = await Image.create({
       prompt,
       url: photoUrl.secure_url,
       user_id,
+      //categories: categories,
     });
-    //res.status(200).json({ success: true, data: "Éxito" });
+
     res.status(200).json({ success: true, data: newImage });
   } catch (err) {
     res.status(500).json({
@@ -64,6 +74,20 @@ const getImage = async (req, res) => {
       .json({ success: false, message: "Failed to retrieve the image." });
   }
 };
+
+// Function to GET all images/post from a specific user
+const getImagesByUserId = async (req, res) => {
+  try {
+    const { id_user } = req.params;
+    const images = await Image.find({ user_id: id_user }).populate("user_id").exec();
+    res.status(200).json({ success: true, data: images });
+  } catch (err) {
+    res
+      .status(500)
+      .json({ success: false, message: "Failed to retrieve the images." });
+  }
+};
+
 
 // Function to DELETE a specific image/post
 const deletePost = async (req, res) => {
@@ -96,4 +120,4 @@ const likeImage = async (req, res) => {
   }
 };
 
-export { getImages, getImage, createNewPost, deletePost, likeImage };
+export { getImages, getImage, getImagesByUserId, createNewPost, deletePost, likeImage };
