@@ -17,7 +17,15 @@ router
   // DELETE a specific image/post
   .delete(imagesController.deletePost);
 
-// Route to Like an image
-router.route("/:id/like").post(imagesController.likeImage);
+router
+  .route("/user/:id_user/:byUserId")
+  //.route("/user/:id_user")
+  //GET all image/post by user
+  .get(imagesController.getImagesBy);
+
+router
+  .route("/:id/like")
+  //UPDATE the LIKES property of an image
+  .post(imagesController.likeImage);
 
 export default router;

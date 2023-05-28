@@ -10,6 +10,7 @@ export default {
       "light-pink": "#f7b9ff",
       "medium-grey": "#3D4154",
       "light-grey": "#D9D9D9",
+      "red": "#FF0000",
       white: "#ffffff",
     },
     extend: {

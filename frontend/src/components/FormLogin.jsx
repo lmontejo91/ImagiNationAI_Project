@@ -6,33 +6,25 @@ const FormLogin = (props) => {
   const [formLogin, setFormLogin] = useState({ email: "", password: "" });
   const [formRegister, setFormRegister] = useState({ name: "", email: "", password: "" });
   const [showForm, setShowForm] = useState(false);
+  const [validationErrors, setValidationErrors] = useState({});
   const authContext = useContext(AuthContext);
 
   const handleSubmitLogin = async (e) => {
     e.preventDefault();
 
     const { email, password } = formLogin;
-
-    const success = await authContext.login(email, password);
-    if (success) {
-      onSuccess();
-    } else {
-      console.error("El inicio de sesión no ha sido exitoso.");
-    }
+    const { success, errorsValidation } = await authContext.login(email, password);
+    
+    success ? onSuccess() : setValidationErrors(errorsValidation);
   };
 
   const handleSubmitRegister = async (e) => {
     e.preventDefault();
     
     const { name, email, password } = formRegister;
-    const success = await authContext.register(name, email, password);
+    const { success, errorsValidation } = await authContext.register(name, email, password);
 
-    success ? onSuccess() : console.error("Register has failed");
-  };
-
-  const handleChangeInputs = (e) => {
-    const { name, value } = e.target;
-    setFormLogin({ ...formLogin, [name]: value });
+    success ? onSuccess() : setValidationErrors(errorsValidation);
   };
 
   const handleFormChange = () => {  
@@ -57,9 +49,15 @@ const FormLogin = (props) => {
           name="email"
           required
           value={formLogin.email}
-          onChange={handleChangeInputs}
           className="bg-gray-200 appearance-none rounded w-full py-2 px-4 text-dark-blue leading-tight focus:outline-none focus:bg-white"
+          onChange={(e) => {
+            setFormLogin({ ...formLogin, email: e.target.value });
+            setValidationErrors({ ...validationErrors, email: "" }); // Limpiar el error al cambiar el valor del campo
+          }}
         />
+        {validationErrors.email && (
+          <p className="text-red text-xs italic mt-2">{validationErrors.email}</p>
+        )}
       </div>
       <div className="mb-4">
         <label
@@ -75,12 +73,21 @@ const FormLogin = (props) => {
           name="password"
           required
           value={formLogin.password}
-          onChange={handleChangeInputs}
           className="bg-gray-200 appearance-none border-2 rounded w-full py-2 px-4 leading-tight"
+          onChange={(e) => {
+            setFormLogin({ ...formLogin, password: e.target.value });
+            setValidationErrors({ ...validationErrors, password: "" }); // Limpiar el error al cambiar el valor del campo
+          }}
         />
+        {validationErrors.password && (
+          <p className="text-red text-xs italic mt-2">{validationErrors.password}</p>
+        )}
       </div>
 
       <div className="mt-8">
+        {validationErrors.general && (
+          <p className="text-red text-xs text-center italic my-2">{validationErrors.general}</p>
+        )}
         <button
           className="bg-gradient-to-r from-neon-blue via-neon-pink to-neon-pink w-full text-dark-blue font-bold py-2 px-4 rounded"
           type="submit"
@@ -110,15 +117,21 @@ const FormLogin = (props) => {
             Username
           </label>
           <input
-            className="shadow appearance-none  rounded w-full py-2 px-3 leading-tight focus:shadow-outline"
+            className="shadow appearance-none rounded w-full py-2 px-3 leading-tight focus:shadow-outline"
             id="username"
             name="name"
             required
             type="text"
             placeholder="Username"
             value={formRegister.name}
-            onChange={(e) => setFormRegister({ ...formRegister, name: e.target.value })}
+            onChange={(e) => {
+              setFormRegister({ ...formRegister, name: e.target.value });
+              setValidationErrors({ ...validationErrors, name: "" }); // Limpiamos el error al cambiar el valor del campo
+            }}
           />
+          {validationErrors.name && (
+            <p className="text-red text-xs italic mt-2">{validationErrors.name}</p>
+          )}
         </div>
         <div className="mb-4">
           <label className="block text-white font-semibold mb-2" htmlFor="email">
@@ -132,8 +145,14 @@ const FormLogin = (props) => {
             type="email"
             placeholder="Email"
             value={formRegister.email}
-            onChange={(e) => setFormRegister({ ...formRegister, email: e.target.value })}
+            onChange={(e) => {
+              setFormRegister({ ...formRegister, email: e.target.value });
+              setValidationErrors({ ...validationErrors, email: "" }); // Limpiar el error al cambiar el valor del campo
+            }}
           />
+          {validationErrors.email && (
+            <p className="text-red text-xs italic mt-2">{validationErrors.email}</p>
+          )}
         </div>
         <div className="mb-6">
           <label
@@ -150,10 +169,19 @@ const FormLogin = (props) => {
             type="password"
             placeholder="********"
             value={formRegister.password}
-            onChange={(e) => setFormRegister({ ...formRegister, password: e.target.value })}
+            onChange={(e) => {
+              setFormRegister({ ...formRegister, password: e.target.value });
+              setValidationErrors({ ...validationErrors, password: "" }); // Limpiar el error al cambiar el valor del campo
+            }}
           />
+          {validationErrors.password && (
+            <p className="text-red text-xs italic mt-2">{validationErrors.password}</p>
+          )}
         </div>
         <div className="mt-8">
+          {validationErrors.general && (
+            <p className="text-red text-xs text-center italic my-2">{validationErrors.general}</p>
+          )}
           <button
             className="bg-gradient-to-r from-neon-blue via-neon-pink to-neon-pink  w-full  text-dark-blue font-bold py-2 px-4 rounded"
             type="submit"

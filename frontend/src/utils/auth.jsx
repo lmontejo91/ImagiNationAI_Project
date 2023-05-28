@@ -42,10 +42,15 @@ const AuthProvider = ({ children }) => {
       });
 
       const data = await response.json();
-      //console.log(data); // debug
-      saveToken(data.token);
-      setUser(data.user);
-      return true;
+
+      if (response.ok) {
+        saveToken(data.token);
+        setUser(data.user);
+        return data;
+      }else{
+        return data;
+      } 
+      
     } catch (error) {
       console.error(error);
       return false;
@@ -64,11 +69,17 @@ const AuthProvider = ({ children }) => {
       });
 
       const data = await response.json();
-      saveToken(data.token);
-      setUser(data.user);
-      return true;
+
+      if (response.ok) {
+        saveToken(data.token);
+        setUser(data.user);
+        return data;
+      }else{
+        return data;
+      }      
+
     } catch (err) {
-      alert("Registration failed");
+      alert("Registration failed. Server connection error: "+err);
       return false;
     }
   };

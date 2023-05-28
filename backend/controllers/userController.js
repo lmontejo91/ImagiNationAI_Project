@@ -13,6 +13,7 @@ const createToken = (_id) => {
 const loginUser = async (req, res) => {
     try {
       const { email, password } = req.body;
+      const errorsValidation = {};
       
       // Verifica que los campos no estén vacíos
       if (!email || !password) {
@@ -22,13 +23,15 @@ const loginUser = async (req, res) => {
       // Verifica si el usuario existe
       const user = await User.findOne({ email });
       if (!user) {
-        return res.status(404).json({ success: false, message: 'Usuario no encontrado' });
+        errorsValidation.email = 'Email de usuario no encontrado';
+        return res.status(404).json({ success: false, errorsValidation });
       }
 
       // Verifica si la contraseña es correcta
       const isMatch = await bcrypt.compare(password, user.password);
       if (!isMatch) {
-        return res.status(401).json({ success: false, message: 'Contraseña incorrecta' });
+        errorsValidation.password = 'Contraseña incorrecta';
+        return res.status(401).json({ success: false, errorsValidation });
       }
 
       // Crea un token para el usuario
@@ -40,7 +43,8 @@ const loginUser = async (req, res) => {
       res.status(200).json({ success: true, user: userWithoutPsswd, token });  
 
     } catch (err) {
-      res.status(500).json({ success: false, message: err.message });
+      errorsValidation.general = err.message;
+      res.status(500).json({ success: false, errorsValidation });
     }
 }
 
@@ -67,15 +71,17 @@ const registerUser = async (req, res) => {
       res.status(200).json({ success: true, user: userWithoutPsswd, token });
 
     } catch (err) {
+      const errorsValidation = {};
       if (err.code === 11000) { // El código 11000 se usa para errores de clave duplicada
-          res.status(409).json({ success: false, message: 'El nombre de usuario o el correo electrónico ya están en uso.' });
-      }else if (err.name === "ValidationError"){
-        const errorsValidation = {};
+        errorsValidation.general = 'El nombre de usuario o el correo electrónico ya están en uso.'
+        res.status(409).json({ success: false, errorsValidation });
+      }else if (err.name === "ValidationError"){ 
         for(let error in err.errors){
           errorsValidation[error] = err.errors[error].message;
         }
         res.status(400).json({ success: false, errorsValidation});  
       }else {
+          errorsValidation.general = err.message;
           res.status(500).json({ success: false, message: err.message });
       }  
     }

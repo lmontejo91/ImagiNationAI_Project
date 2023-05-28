@@ -1,7 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
-import { HiOutlinePhotograph } from "react-icons/hi";
-import { HiOutlineHeart } from "react-icons/hi";
-import { HiPlusCircle } from "react-icons/hi";
+import { HiOutlinePhotograph, HiOutlineHeart, HiPlusCircle, HiUserCircle } from "react-icons/hi";
 import { AuthContext } from "../utils/auth";
 import { useNavigate } from "react-router-dom";
 import { API_URL } from "../../config";
@@ -25,11 +23,12 @@ const UserProfilePage = () => {
 
   const [images, setImages] = useState(null);
   const [displayedImages, setDisplayedImages] = useState(12);
+  const [byUserId, setByUserId] = useState(true);
 
   const getImages = async () => {
-    console.log(`${API_URL}/v1/image/${authContext.user._id}`);
+    console.log(`${API_URL}/v1/image/${authContext.user._id}/${byUserId}`);
     try {
-      const response = await fetch(`${API_URL}/v1/image/user/${authContext.user._id}`,
+      const response = await fetch(`${API_URL}/v1/image/user/${authContext.user._id}/${byUserId}`,
         {
           method: "GET",
           headers: {
@@ -82,6 +81,10 @@ const UserProfilePage = () => {
         </p>
       </div>
       <div className="mt-8 flex justify-center space-x-4">
+      <button className="bg-medium-grey hover:bg-neon-pink  text-light-grey  py-2 px-4 rounded-full">
+          <HiUserCircle className="h-5 w-5 mr-1 text-light-grey inline-flex" />{" "}
+          My Account
+        </button>
         <button className="bg-white font-semibold text-dark-blue py-2 px-4 rounded-full">
           <HiOutlinePhotograph className="h-5 w-5 mr-1 text-dark-blue inline-flex" />{" "}
           My Images

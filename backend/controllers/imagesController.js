@@ -75,11 +75,23 @@ const getImage = async (req, res) => {
   }
 };
 
-// Function to GET all images/post from a specific user
-const getImagesByUserId = async (req, res) => {
+// Function to GET all images/post from a specific user or from his likes
+const getImagesBy = async (req, res) => {
   try {
-    const { id_user } = req.params;
-    const images = await Image.find({ user_id: id_user }).populate("user_id").exec();
+    /* const { id_user } = req.params;
+
+    const images = await Image.find({ user_id: id_user }).populate("user_id", "name").exec(); */
+    const { id_user, byUserId } = req.params;
+    let images = [];
+
+    if(byUserId){
+      images = await Image.find({ user_id: id_user }).populate("user_id").exec();
+    }else{
+      images = await Image.find({ "likes.user_id": id_user })
+                                .populate("likes.user_id", "name") // Carga los datos del usuario en los likes
+                                .exec();
+    }
+    
     res.status(200).json({ success: true, data: images });
   } catch (err) {
     res
@@ -87,6 +99,21 @@ const getImagesByUserId = async (req, res) => {
       .json({ success: false, message: "Failed to retrieve the images." });
   }
 };
+
+/* // Function to GET images/post which the user liked
+const getMyLikedImages = async (req, res) => {
+  try {
+    const { id_user } = req.params;
+    const images = await Image.find({ "likes.user_id": id_user })
+                              .populate("likes.user_id", "name") // Carga los datos del usuario en los likes
+                              .exec();
+    res.status(200).json({ success: true, data: images });
+  } catch (err) {
+    res
+      .status(500)
+      .json({ success: false, message: "Failed to retrieve the images." });
+  }
+}; */
 
 
 // Function to DELETE a specific image/post
@@ -135,4 +162,4 @@ const likeImage = async (req, res) => {
   }
 };
 
-export { getImages, getImage, getImagesByUserId, createNewPost, deletePost, likeImage };
+export { getImages, getImage, getImagesBy, createNewPost, deletePost, likeImage };
