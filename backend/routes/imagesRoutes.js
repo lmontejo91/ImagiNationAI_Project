@@ -5,21 +5,19 @@ const router = express.Router();
 
 router
   .route("/")
-  //GET all image/post
+  // GET all image/post
   .get(imagesController.getImages)
-
-  //POST a new image/post
+  // POST a new image/post
   .post(imagesController.createNewPost);
 
 router
   .route("/:id")
-  //GET a specific image/post
+  // GET a specific image/post
   .get(imagesController.getImage)
-
-  //DELETE a specific image/post
+  // DELETE a specific image/post
   .delete(imagesController.deletePost);
 
-// Route to Update the LIKES property of an image
-router.route("/:id/like").put(imagesController.likeImage);
+// Route to Like an image
+router.route("/:id/like").post(imagesController.likeImage);
 
 export default router;

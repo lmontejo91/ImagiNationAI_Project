@@ -8,18 +8,26 @@ import { API_URL } from "../../config";
 const Card = ({ _id, user_id, prompt, url, likes }) => {
   const [localLikes, setLocalLikes] = useState(likes);
   const [isLoading, setIsLoading] = useState(false);
+  const [isLiked, setIsLiked] = useState(false); // New state to track if the user has liked the image
+
+  useEffect(() => {
+    // Check if the user has liked the image
+    const userHasLiked = user_id.likes && user_id.likes.includes(_id);
+    setIsLiked(userHasLiked);
+  }, [user_id.likes, _id]);
 
   const handleLike = async () => {
     try {
       setIsLoading(true);
 
       const response = await fetch(`${API_URL}/v1/image/${_id}/like`, {
-        method: "PUT",
+        method: "POST", // Change the HTTP method to POST
       });
 
       if (response.ok) {
         const { data } = await response.json();
         setLocalLikes(data.likes);
+        setIsLiked(true); // Update the isLiked state to true
       } else {
         const errorData = await response.json();
         throw new Error(errorData.message);
@@ -50,12 +58,15 @@ const Card = ({ _id, user_id, prompt, url, likes }) => {
             <p className="text-white text-sm">{user_id.name}</p>
           </div>
 
+          {/* Like button */}
           <button
-            className="bg-light-grey font-semibold hover:bg-neon-pink py-2 px-4 rounded-full mx-2"
+            className={`bg-light-grey font-semibold hover:bg-neon-pink py-2 px-4 rounded-full mx-2 ${
+              isLiked ? "text-neon-pink" : ""
+            }`}
             onClick={handleLike}
             disabled={isLoading}
           >
-            {isLoading ? "Liking..." : "Like"}
+            {isLoading ? "Liking..." : isLiked ? "Liked" : "Like"}
             <HandThumbUpIcon className="h-5 w-5 text-dark-blue inline-flex" />
           </button>
 
