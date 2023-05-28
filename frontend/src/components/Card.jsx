@@ -8,29 +8,25 @@ import { API_URL } from "../../config";
 const Card = ({ _id, user_id, prompt, url, likes }) => {
   const [localLikes, setLocalLikes] = useState(likes);
   const [isLoading, setIsLoading] = useState(false);
-  const [isLiked, setIsLiked] = useState(false); // New state to track if the user has liked the image
-
-  useEffect(() => {
-    // Check if the user has liked the image
-    const userHasLiked = user_id.likes && user_id.likes.includes(_id);
-    setIsLiked(userHasLiked);
-  }, [user_id.likes, _id]);
 
   const handleLike = async () => {
     try {
       setIsLoading(true);
 
       const response = await fetch(`${API_URL}/v1/image/${_id}/like`, {
-        method: "POST", // Change the HTTP method to POST
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ userId: user_id._id }), // Update the request payload with the correct key-value pair
       });
 
       if (response.ok) {
-        const { data } = await response.json();
-        setLocalLikes(data.likes);
-        setIsLiked(true); // Update the isLiked state to true
+        const { likesCount } = await response.json();
+        setLocalLikes(likesCount);
       } else {
         const errorData = await response.json();
-        throw new Error(errorData.message);
+        throw new Error(errorData.error); // Throw a specific error message received from the backend
       }
     } catch (error) {
       console.error(error.message);
@@ -60,16 +56,13 @@ const Card = ({ _id, user_id, prompt, url, likes }) => {
 
           {/* Like button */}
           <button
-            className={`bg-light-grey font-semibold hover:bg-neon-pink py-2 px-4 rounded-full mx-2 ${
-              isLiked ? "text-neon-pink" : ""
-            }`}
+            className="bg-light-grey font-semibold hover:bg-neon-pink py-2 px-4 rounded-full mx-2"
             onClick={handleLike}
             disabled={isLoading}
           >
-            {isLoading ? "Liking..." : isLiked ? "Liked" : "Like"}
+            {isLoading ? "Liking..." : "Like"}
             <HandThumbUpIcon className="h-5 w-5 text-dark-blue inline-flex" />
           </button>
-
           <p className="text-white font-semibold mr-4">
             <HeartIcon className="h-5 w-5 text-white inline-flex" />{" "}
             {localLikes}{" "}
