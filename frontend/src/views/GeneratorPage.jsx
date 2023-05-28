@@ -28,18 +28,30 @@ const GeneratorPage = () => {
 
   //const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
   const handleChange = (e) => {
-    const value = e.target.value;
-    console.log(value);
+    /* const value = e.target.value;
     const name = e.target.name;
-    console.log(name);
+
     if (name === "category") {
-      /* const selectedOptions = Array.from(e.target.selectedOptions).map(
-        (option) => option.value
-      ); */
       setForm((prevForm) => ({
         ...prevForm,
         category: [...prevForm.category, value],
-      }));
+      })); */
+    const { name, value, type, checked } = e.target;
+
+    if (type === "checkbox") {
+      if (checked) {
+        // Si el checkbox está marcado, agregamos el valor a la lista de categorías seleccionadas
+        setForm((prevForm) => ({
+          ...prevForm,
+          category: [...prevForm.category, value],
+        }));
+      } else {
+        // Si el checkbox está desmarcado, eliminamos el valor de la lista de categorías seleccionadas
+        setForm((prevForm) => ({
+          ...prevForm,
+          category: prevForm.category.filter((category) => category !== value),
+        }));
+      }
     } else {
       setForm({ ...form, [name]: value });
     }
@@ -125,7 +137,7 @@ const GeneratorPage = () => {
           Enter a prompt and select a category to generate an image.
         </p>
         <form>
-          <label className="block mb-2 text-white" htmlFor="prompt">
+          <label className="block mb-4 text-white" htmlFor="prompt">
             Prompt:
             <textarea
               className="text-dark-blue border-gray-400 border-2 mt-2 p-2 w-full rounded h-24"
@@ -139,7 +151,7 @@ const GeneratorPage = () => {
               <span className="text-neon-blue">Try a surprise prompt.</span>
             </p>
           </label>
-          <label className="block mb-4 text-dark-blue" htmlFor="category">
+          {/* <label className="block mb-4 text-white" htmlFor="category">
             Category:
             <select
               className="border-gray-400 border-2 p-2 w-full rounded"
@@ -150,13 +162,77 @@ const GeneratorPage = () => {
               onChange={handleChange}
             >
               <option value="">Select a category</option>
+              <option value="people">People</option>
               <option value="animals">Animals</option>
-              <option value="nature">Nature</option>
-              <option value="food">Food</option>
+              <option value="landscape">Landscape</option>
+              <option value="abstract">Abstract</option>
+              <option value="others">Others</option>
             </select>
+          </label> */}
+          <label className="block mb-4 text-white">
+            Category:
+            <div className="flex text-sm mt-2">
+              <div className="mr-6">
+                <input
+                  type="checkbox"
+                  id="people"
+                  name="category"
+                  value="people"
+                  checked={form.category.includes("people")}
+                  onChange={handleChange}
+                />
+                <label htmlFor="people">People</label>
+              </div>
+              <div className="mr-6">
+                <input
+                  type="checkbox"
+                  id="animals"
+                  name="category"
+                  value="animals"
+                  checked={form.category.includes("animals")}
+                  onChange={handleChange}
+                />
+                <label htmlFor="animals">Animals</label>
+              </div>
+              <div className="mr-6">
+                <input
+                  type="checkbox"
+                  id="abstract"
+                  name="category"
+                  value="abstract"
+                  checked={form.category.includes("abstract")}
+                  onChange={handleChange}
+                />
+                <label htmlFor="abstract">Abstract</label>
+              </div>
+            </div>
+            <div className="flex text-sm mt-2">
+              <div className="mr-6">
+                <input
+                  type="checkbox"
+                  id="landscape"
+                  name="category"
+                  value="landscape"
+                  checked={form.category.includes("landscape")}
+                  onChange={handleChange}
+                />
+                <label htmlFor="landscape">Landscape</label>
+              </div>
+              <div>
+                <input
+                  type="checkbox"
+                  id="others"
+                  name="category"
+                  value="others"
+                  checked={form.category.includes("others")}
+                  onChange={handleChange}
+                />
+                <label htmlFor="others">Others</label>
+              </div>
+            </div>
           </label>
 
-          <div className="flex items-center mb-4">
+          <div className="flex items-center mb-3">
             <span className="mr-2 text-white">Size:</span>
             <label htmlFor="small" className="mr-2">
               <input

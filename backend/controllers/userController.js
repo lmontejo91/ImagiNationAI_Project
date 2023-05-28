@@ -95,7 +95,7 @@ const logoutUser = async (req, res) => {
 
     // Verificar y decodificar el token JWT
     const decodedToken = JWT.verify(token, process.env.JWT_SECRET);
-
+    
     // Si el token es válido, el usuario está autenticado y se puede cerrar sesión
     return res.status(200).send({ message: 'Sesión cerrada correctamente' });
   } catch (err) {
@@ -104,4 +104,19 @@ const logoutUser = async (req, res) => {
   }
 }
 
-export {loginUser, registerUser, logoutUser};
+//Function to get the user from the token
+const getUserFromToken = async (token) => {
+  console.log("ENTRA Recuperar User");
+  try {
+    const decodedToken = JWT.verify(token, process.env.JWT_SECRET);
+    console.log(decodedToken);
+    const userId = decodedToken._id;
+    const user = await User.findById(userId).select('-password');
+    return user;
+  } catch (err) {
+    console.log("DA ERROR");
+    return null;
+  }
+};
+
+export {loginUser, registerUser, logoutUser, getUserFromToken};

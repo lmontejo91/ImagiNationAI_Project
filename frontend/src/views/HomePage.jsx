@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 
-import { Card, Navbar } from "../components";
+import { Card } from "../components";
 import { AuthContext } from "../utils";
 import { API_URL } from "../../config";
 
@@ -19,33 +19,38 @@ const RenderCards = ({ data, message }) => {
 
 const HomePage = () => {
   const authContext = useContext(AuthContext);
-  //const [category, setCategory] = useState('');
+  const [category, setCategory] = useState("new");
+
+  if (!authContext) {
+    // Si el contexto de autenticación no está disponible, AuthProvider no está envolviendo a MyComponent en el árbol de componentes
+    alert("Error: AuthProvider no está envolviendo a MyComponent");
+  }else{
+    console.log(authContext.user);
+  }
 
   const [images, setImages] = useState(null);
   const [displayedImages, setDisplayedImages] = useState(12);
 
   const [searchQuery, setSearchQuery] = useState(""); // New state for search query
-  /* const handleCategoryChange = (newCategory) => {
-    setCategory(newCategory);
-    alert("Categoría cambiada");
-  } */
+  
+
   const getImages = async () => {
     try {
       const response = await fetch(
-        `${API_URL}/v1/image?search=${searchQuery}`,
+        `${API_URL}/v1/image?search=${searchQuery}&selectedCategory=${category}`,
         {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
           },
-          /* body: JSON.stringify({
-          category: category,
-        }), */
         }
       );
-
       const data = await response.json();
-      setImages(data.data.reverse());
+
+      let sortedImages = category === "top" ? data.data.sort((a, b) => b.likes - a.likes) : data.data.reverse();
+
+      setImages(sortedImages);
+      
     } catch (err) {
       alert(err);
       /*} finally {
@@ -56,7 +61,11 @@ const HomePage = () => {
 
   useEffect(() => {
     getImages();
-  }, [searchQuery]); // Trigger API request whenever search query changes
+  }, [searchQuery, category]); // Trigger API request whenever search query changes
+
+  const handleCategoryChange = (newCategory) => {
+    setCategory(newCategory);
+  }
 
   const showMoreImages = () => {
     setDisplayedImages((prevDisplayedImages) => prevDisplayedImages + 12);
@@ -99,34 +108,39 @@ const HomePage = () => {
       {/* Buttons section */}
       <div className="flex justify-center space-x-4">
         <button
-          /* onClick={() => handleCategoryChange('new')} */ className="bg-gradient-to-r from-neon-pink to-neon-blue text-dark-blue font-semibold py-2 px-4 rounded-full mb-4  hover:bg-neon-blue"
+          onClick={() => handleCategoryChange('new')} className="bg-gradient-to-r from-neon-pink to-neon-blue text-dark-blue font-semibold py-2 px-4 rounded-full mb-4  hover:bg-neon-blue"
         >
           New Images
         </button>
         <button
-          /* onClick={() => handleCategoryChange('top')} */ className="bg-medium-grey text-light-grey px-5 py-2 rounded-full mb-4 md:mr-8 hover:bg-neon-blue hover:text-dark-blue"
+          onClick={() => handleCategoryChange('top')} className="bg-medium-grey text-light-grey px-5 py-2 rounded-full mb-4 md:mr-8 hover:bg-neon-blue hover:text-dark-blue"
         >
           Most Popular
         </button>
         <button
-          /* onClick={() => handleCategoryChange('new')} */ className="bg-medium-grey text-light-grey px-5 py-2 rounded-full mb-4 md:mr-8 hover:bg-neon-blue hover:text-dark-blue"
+          onClick={() => handleCategoryChange('people')} className="bg-medium-grey text-light-grey px-5 py-2 rounded-full mb-4 md:mr-8 hover:bg-neon-blue hover:text-dark-blue"
         >
           People
         </button>
         <button
-          /* onClick={() => handleCategoryChange('new')} */ className="bg-medium-grey text-light-grey px-5 py-2 rounded-full mb-4 md:mr-8 hover:bg-neon-blue hover:text-dark-blue"
+          onClick={() => handleCategoryChange('animals')} className="bg-medium-grey text-light-grey px-5 py-2 rounded-full mb-4 md:mr-8 hover:bg-neon-blue hover:text-dark-blue"
         >
           Animals
         </button>
         <button
-          /* onClick={() => handleCategoryChange('new')} */ className="bg-medium-grey text-light-grey px-5 py-2 rounded-full mb-4 md:mr-8 hover:bg-neon-blue hover:text-dark-blue"
+          onClick={() => handleCategoryChange('landscape')} className="bg-medium-grey text-light-grey px-5 py-2 rounded-full mb-4 md:mr-8 hover:bg-neon-blue hover:text-dark-blue"
         >
           Landscape
         </button>
         <button
-          /* onClick={() => handleCategoryChange('new')} */ className="bg-medium-grey text-light-grey px-5 py-2 rounded-full mb-4 md:mr-8 hover:bg-neon-blue hover:text-dark-blue"
+          onClick={() => handleCategoryChange('abstract')} className="bg-medium-grey text-light-grey px-5 py-2 rounded-full mb-4 md:mr-8 hover:bg-neon-blue hover:text-dark-blue"
         >
           Abstract
+        </button>
+        <button
+          onClick={() => handleCategoryChange('others')} className="bg-medium-grey text-light-grey px-5 py-2 rounded-full mb-4 md:mr-8 hover:bg-neon-blue hover:text-dark-blue"
+        >
+          Others
         </button>
       </div>
       {/* Gallery section */}
