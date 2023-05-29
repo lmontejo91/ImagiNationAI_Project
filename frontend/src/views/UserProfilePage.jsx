@@ -26,7 +26,6 @@ const UserProfilePage = () => {
   const [byUserId, setByUserId] = useState(true);
 
   const getImages = async () => {
-    console.log(`${API_URL}/v1/image/${authContext.user._id}/${byUserId}`);
     try {
       const response = await fetch(`${API_URL}/v1/image/user/${authContext.user._id}/${byUserId}`,
         {
@@ -47,21 +46,17 @@ const UserProfilePage = () => {
 
   useEffect(() => {
     getImages();
-  }, []);
+  }, [byUserId]);
 
   const showMoreImages = () => {
     setDisplayedImages((prevDisplayedImages) => prevDisplayedImages + 12);
   };
 
-  const displayedImagesData = images?.slice(0, displayedImages);
+  const handleContentOnButtonsClick = (isByUserId) => {
+    setByUserId(isByUserId);
+  };
 
-  /* if (!authContext) {
-    // Si el contexto de autenticación no está disponible, AuthProvider no está envolviendo a MyComponent en el árbol de componentes
-    alert("Error: AuthProvider no está envolviendo a MyComponent");
-  }else{
-    console.log(authContext.user);
-    console.log(authContext.user._id);
-  } */
+  const displayedImagesData = images?.slice(0, displayedImages);
 
   return (
     <div className="flex flex-col items-center bg-dark-blue px-5 py-8">
@@ -85,11 +80,15 @@ const UserProfilePage = () => {
           <HiUserCircle className="h-5 w-5 mr-1 text-light-grey inline-flex" />{" "}
           My Account
         </button>
-        <button className="bg-white font-semibold text-dark-blue py-2 px-4 rounded-full">
+        <button 
+          onClick = {() => handleContentOnButtonsClick(true)}
+          className="bg-white font-semibold text-dark-blue py-2 px-4 rounded-full">
           <HiOutlinePhotograph className="h-5 w-5 mr-1 text-dark-blue inline-flex" />{" "}
           My Images
         </button>
-        <button className="bg-medium-grey hover:bg-neon-pink  text-light-grey  py-2 px-4 rounded-full">
+        <button 
+          onClick = {() => handleContentOnButtonsClick(false)}
+          className="bg-medium-grey hover:bg-neon-pink  text-light-grey  py-2 px-4 rounded-full">
           <HiOutlineHeart className="h-5 w-5 mr-1 text-light-grey inline-flex" />{" "}
           My Likes
         </button>

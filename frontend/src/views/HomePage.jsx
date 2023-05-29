@@ -21,12 +21,12 @@ const HomePage = () => {
   const authContext = useContext(AuthContext);
   const [category, setCategory] = useState("new");
 
-  if (!authContext) {
+  /* if (!authContext) {
     // Si el contexto de autenticación no está disponible, AuthProvider no está envolviendo a MyComponent en el árbol de componentes
     alert("Error: AuthProvider no está envolviendo a MyComponent");
   }else{
     console.log(authContext.user);
-  }
+  } */
 
   const [images, setImages] = useState(null);
   const [displayedImages, setDisplayedImages] = useState(12);

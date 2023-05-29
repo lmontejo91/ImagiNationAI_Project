@@ -23,7 +23,11 @@ const imageSchema = new mongoose.Schema(
         },
       },
     ],
-    categories: [{ name: { type: String } }], //, required: true
+    categories: {
+      type: [String],
+      enum: ["new", "top", "people", "animals", "landscape", "abstract", "others"],
+      default: ["new", "top"],
+    },
   },
   { timestamps: true }
 );
