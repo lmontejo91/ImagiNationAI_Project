@@ -15,8 +15,12 @@ router.route('/register')
 router.route('/logout')
     .post(userController.logoutUser);
 
-//LOGOUT route
+//GET USER BY TOKEN route
 router.route('/getUserFromToken')
     .post(userController.getUserFromToken);
+
+router.route('/:userId')
+    .put(userController.updateUserData)
+    .delete(userController.deleteUserAccount);
 
 export default router;
