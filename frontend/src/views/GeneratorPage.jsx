@@ -111,7 +111,7 @@ const GeneratorPage = () => {
         }else{
           alert("Error al guardar la imagen");
         }
-        //navigate("/");
+        navigate("/");
       } catch (err) {
         alert(err);
       } finally {

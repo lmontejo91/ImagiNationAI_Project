@@ -3,12 +3,24 @@ import bcrypt from "bcryptjs";
 import validator from "validator";
 
 const userSchema = new mongoose.Schema({
-    name:{
+    firstname:{
+      type: String, 
+      required: [true, "El campo 'nombre' es obligatorio."],  
+      minlength:[3, "El nombre debe tener al menos {MINLENGTH} caracteres."], 
+      maxlength: [30, "El nombre no puede tener más de {MAXLENGTH} caracteres."]
+    },
+    lastname:{
+      type: String, 
+      required: [true, "El campo 'apellido' es obligatorio."],  
+      minlength:[3, "El apellido debe tener al menos {MINLENGTH} caracteres."], 
+      maxlength: [30, "El apellido no puede tener más de {MAXLENGTH} caracteres."]
+    },
+    username:{
       type: String, 
       required: [true, "El campo 'nombre de usuario' es obligatorio."], 
       unique: true, 
-      minlength:[3, "El nombre debe tener al menos {MINLENGTH} caracteres."], 
-      maxlength: [30, "El nombre no puede tener más de {MAXLENGTH} caracteres."]
+      minlength:[3, "El nombre de usuario debe tener al menos {MINLENGTH} caracteres."], 
+      maxlength: [30, "El nombre de usuario no puede tener más de {MAXLENGTH} caracteres."]
     },
     email:{
       type: String, 

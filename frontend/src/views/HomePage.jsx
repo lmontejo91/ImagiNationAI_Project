@@ -50,7 +50,7 @@ const HomePage = () => {
       let sortedImages = category === "top" ? data.data.sort((a, b) => b.likes - a.likes) : data.data.reverse();
 
       setImages(sortedImages);
-      
+      //console.log(images);
     } catch (err) {
       alert(err);
       /*} finally {

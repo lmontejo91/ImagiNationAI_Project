@@ -10,8 +10,12 @@ export default {
       "light-pink": "#f7b9ff",
       "medium-grey": "#3D4154",
       "light-grey": "#D9D9D9",
+      "dark-orange": "#9A3412",
+      "medium-orange": "#F97316",
+      "light-orange": "#FFEDD5",
       "red": "#FF0000",
       white: "#ffffff",
+      muted: "#A0AEC0",
     },
     extend: {
       screens: {

@@ -2,6 +2,8 @@ import React from "react";
 import image4 from "../assets/image4.png";
 import { ArrowDownTrayIcon } from "@heroicons/react/24/solid";
 
+
+
 const ImagePage = () => {
   return (
     <div className="flex items-center justify-center h-screen bg-dark-blue">

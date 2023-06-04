@@ -26,7 +26,7 @@ const getImages = async (req, res) => {
       query.categories = { $in: [selectedCategory] };
     }
 
-    const images = await Image.find(query).populate("user_id", "name");
+    const images = await Image.find(query).populate("user", "username");
 
     res.status(200).json({ success: true, data: images });
 
@@ -52,7 +52,7 @@ const createNewPost = async (req, res) => {
     const newImage = await Image.create({
       prompt,
       url: photoUrl.secure_url,
-      user_id,
+      user: user_id,
       categories: categories,
     });
     console.log("LLEGA a crear nueva imagen");
@@ -87,10 +87,10 @@ const getImagesBy = async (req, res) => {
     let images = [];
     
     if(byUserIdBool){
-      images = await Image.find({ user_id: id_user }).populate("user_id", "name").exec();
+      images = await Image.find({ user: id_user }).populate("user", "username").exec();
     }else{
       images = await Image.find({ "likedBy": { "$in": [id_user] } })
-                                .populate("user_id", "name")
+                                .populate("user", "username")
                                 .exec();
     }
     
@@ -129,20 +129,30 @@ const likeImage = async (req, res) => {
     // Check if the user has already liked the image
     const hasLiked = image.likedBy.includes(userId);
     if (hasLiked) {
-      return res
-        .status(400)
-        .json({ error: "User has already liked this image" });
+      // Update the image document with the deleted like
+      image.likes -= 1;
+      image.likedBy.pop(userId);
+      await image.save();
+
+      return res.json({
+        message: "Image unliked successfully",
+        likesCount: image.likes,
+        likedBy: image.likedBy,
+      });
+
+    }else{
+      // Update the image document with the new like
+      image.likes += 1;
+      image.likedBy.push(userId);
+      await image.save();
+
+      return res.json({
+        message: "Image liked successfully",
+        likesCount: image.likes,
+        likedBy: image.likedBy,
+      });
     }
-
-    // Update the image document with the new like
-    image.likes += 1;
-    image.likedBy.push(userId);
-    await image.save();
-
-    return res.json({
-      message: "Image liked successfully",
-      likesCount: image.likes,
-    });
+   
   } catch (err) {
     console.error(err);
     return res.status(500).json({ error: "Server error" });

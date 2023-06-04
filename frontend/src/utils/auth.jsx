@@ -58,14 +58,14 @@ const AuthProvider = ({ children }) => {
   };
 
   // Función para realizar la solicitud de registro al servidor
-  const register = async (name, email, password) => {
+  const register = async (firstname, lastname, username, email, password) => {
     try {
       const response = await fetch(`${API_URL}/v1/user/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ name, email, password }),
+        body: JSON.stringify({ firstname, lastname, username, email, password }),
       });
 
       const data = await response.json();
