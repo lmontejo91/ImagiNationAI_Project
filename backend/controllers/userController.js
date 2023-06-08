@@ -52,11 +52,13 @@ const loginUser = async (req, res) => {
 const registerUser = async (req, res) => {
 
     try {
-      const { name, email, password } = req.body;
+      const { firstname, lastname, username, email, password } = req.body;
 
       // Creamos una nueva instancia del modelo User con los datos del usuario
       const newUser = new User({
-        name,
+        firstname,
+        lastname,
+        username,
         email,
         password
       });
@@ -125,4 +127,64 @@ const getUserFromToken = async (token) => {
   }
 };
 
-export {loginUser, registerUser, logoutUser, getUserFromToken};
+const updateUserData = async (req, res) => {
+  const { userId } = req.params;
+  const { firstname, lastname, username, email, password } = req.body;
+  const updateFields = {};
+  console.log(req.body);
+  console.log("User Id: "+userId);
+  if (firstname)
+    updateFields.firstname = firstname;
+
+  if (lastname)
+    updateFields.lastname = lastname;
+  
+  if (username)
+    updateFields.username = username;
+
+  if (email)
+    updateFields.email = email;
+
+  /* if (password)
+    updateFields.password = await bcrypt.hash(password, 10); */
+  console.log(updateFields);
+
+  try {
+    const updatedUser = await User.findByIdAndUpdate(userId, updateFields, { new: true });
+    console.log(updatedUser);
+    const user = await User.findById(userId);
+    console.log(user);
+    if (!updatedUser) {
+      return res.status(404).json({ success: false, message: 'Usuario no encontrado' });
+    }
+
+    const userWithoutPsswd = updatedUser.toObject();
+    delete userWithoutPsswd.password;
+
+    res.status(200).json({ success: true, user: userWithoutPsswd });
+  } catch (err) {
+    res.status(500).json({ success: false, message: 'Error al actualizar los datos del usuario' });
+  }
+};
+
+const deleteUserAccount = async (req, res) => {
+  const { userId } = req.params;
+
+  try {
+    // Eliminar las imágenes asociadas al usuario
+    await Image.deleteMany({ user: userId });
+
+    // Eliminar al usuario
+    const deletedUser = await User.findByIdAndDelete(userId);
+
+    if (!deletedUser) {
+      return res.status(404).json({ success: false, message: 'User not found' });
+    }
+
+    res.status(200).json({ success: true, message: 'User account deleted successfully' });
+  } catch (err) {
+    res.status(500).json({ success: false, message: 'Error deleting user account' });
+  }
+};
+
+export { loginUser, registerUser, logoutUser, getUserFromToken, updateUserData, deleteUserAccount };

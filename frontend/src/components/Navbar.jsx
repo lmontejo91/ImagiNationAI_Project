@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import Modal from "react-modal";
 import FormLogin from "./FormLogin";
 import { AuthContext } from "../utils";
@@ -8,6 +8,7 @@ const Navbar = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalContent, setModalContent] = useState(null);
   const authContext = useContext(AuthContext);
+  const location = useLocation();
 
   const openModal = (content) => {
     setModalContent(content);
@@ -54,12 +55,14 @@ const Navbar = () => {
         ) : (
           /******  Navbar PARA USUARIO PÚBLICO ********/
           <>
+          <Link to="/login" state={{ background: location }}>
           <button
             onClick={() => openModal(<FormLogin onSuccess={handleSuccess}/>)}
             className="bg-gradient-to-br from-light-pink to-neon-pink hover:bg-gradient-to-bl text-dark-blue text-sm px-4 py-2 font-semibold rounded-md mr-4"
           >
             Get Started
           </button>
+          </Link>
           </>
         )}
       </div>

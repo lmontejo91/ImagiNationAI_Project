@@ -7,7 +7,7 @@ const imageSchema = new mongoose.Schema(
     url: { type: String, required: true },
     //numero de likes que tiene la imagen
     likes: { type: Number, default: 0 },
-    user_id: {
+    user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       required: true,
@@ -19,7 +19,7 @@ const imageSchema = new mongoose.Schema(
       {
         text: { type: String, required: true },
         date: { type: Date, default: Date.now },
-        user_id: {
+        user: {
           type: mongoose.Schema.Types.ObjectId,
           ref: "User",
           required: true,

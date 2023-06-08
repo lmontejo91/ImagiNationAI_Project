@@ -26,9 +26,11 @@ const getImages = async (req, res) => {
       query.categories = { $in: [selectedCategory] };
     }
 
-    const images = await Image.find(query).populate("user_id");
+    const images = await Image.find(query).populate("user", "username");
+
     res.status(200).json({ success: true, data: images });
   } catch (err) {
+    console.error(err);
     res.status(500).json({ success: false, message: "Failed to load images." });
   }
 };
@@ -36,24 +38,26 @@ const getImages = async (req, res) => {
 // Function to POST a new image/post
 const createNewPost = async (req, res) => {
   try {
-    const { prompt, photo, user_id } = req.body;
+    const { prompt, photo, user_id, category } = req.body;
+    console.log(req.body);
     const photoUrl = await cloudinary.uploader.upload(photo, {
       folder: "ImagiNationAI",
     });
     //const photoUrl = (await cloudinary.uploader.upload("../../frontend/src/assets/image1.png")).secure_url;
 
     // Combinar categorías seleccionadas con "new" y "top"
-    //const categories = ["new", "top", ...category];
-
+    const categories = ["new", "top", ...category];
+    console.log(categories);
     const newImage = await Image.create({
       prompt,
       url: photoUrl.secure_url,
-      user_id,
-      //categories: categories,
+      user: user_id,
+      categories: categories,
     });
-
+    console.log("LLEGA a crear nueva imagen");
     res.status(200).json({ success: true, data: newImage });
   } catch (err) {
+    console.error(err);
     res.status(500).json({
       success: false,
       message: "Failed to create a new post. Please try again.",
@@ -77,19 +81,17 @@ const getImage = async (req, res) => {
 // Function to GET all images/post from a specific user or from his likes
 const getImagesBy = async (req, res) => {
   try {
-    /* const { id_user } = req.params;
-
-    const images = await Image.find({ user_id: id_user }).populate("user_id", "name").exec(); */
     const { id_user, byUserId } = req.params;
+    const byUserIdBool = byUserId === "true";
     let images = [];
 
-    if (byUserId) {
-      images = await Image.find({ user_id: id_user })
-        .populate("user_id")
+    if (byUserIdBool) {
+      images = await Image.find({ user: id_user })
+        .populate("user", "username")
         .exec();
     } else {
-      images = await Image.find({ "likes.user_id": id_user })
-        .populate("likes.user_id", "name") // Carga los datos del usuario en los likes
+      images = await Image.find({ likedBy: { $in: [id_user] } })
+        .populate("user", "username")
         .exec();
     }
 
@@ -100,21 +102,6 @@ const getImagesBy = async (req, res) => {
       .json({ success: false, message: "Failed to retrieve the images." });
   }
 };
-
-/* // Function to GET images/post which the user liked
-const getMyLikedImages = async (req, res) => {
-  try {
-    const { id_user } = req.params;
-    const images = await Image.find({ "likes.user_id": id_user })
-                              .populate("likes.user_id", "name") // Carga los datos del usuario en los likes
-                              .exec();
-    res.status(200).json({ success: true, data: images });
-  } catch (err) {
-    res
-      .status(500)
-      .json({ success: false, message: "Failed to retrieve the images." });
-  }
-}; */
 
 // Function to DELETE a specific image/post
 const deletePost = async (req, res) => {
@@ -142,20 +129,28 @@ const likeImage = async (req, res) => {
     // Check if the user has already liked the image
     const hasLiked = image.likedBy.includes(userId);
     if (hasLiked) {
-      return res
-        .status(400)
-        .json({ error: "User has already liked this image" });
+      // Update the image document with the deleted like
+      image.likes -= 1;
+      image.likedBy.pop(userId);
+      await image.save();
+
+      return res.json({
+        message: "Image unliked successfully",
+        likesCount: image.likes,
+        likedBy: image.likedBy,
+      });
+    } else {
+      // Update the image document with the new like
+      image.likes += 1;
+      image.likedBy.push(userId);
+      await image.save();
+
+      return res.json({
+        message: "Image liked successfully",
+        likesCount: image.likes,
+        likedBy: image.likedBy,
+      });
     }
-
-    // Update the image document with the new like
-    image.likes += 1;
-    image.likedBy.push(userId);
-    await image.save();
-
-    return res.json({
-      message: "Image liked successfully",
-      likesCount: image.likes,
-    });
   } catch (err) {
     console.error(err);
     return res.status(500).json({ error: "Server error" });

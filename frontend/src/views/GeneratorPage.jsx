@@ -106,7 +106,11 @@ const GeneratorPage = () => {
         });
 
         await response.json();
-        alert("Success");
+        if(response.ok){
+
+        }else{
+          alert("Error al guardar la imagen");
+        }
         navigate("/");
       } catch (err) {
         alert(err);

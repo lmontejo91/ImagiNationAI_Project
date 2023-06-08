@@ -3,7 +3,7 @@ import { HiOutlinePhotograph, HiOutlineHeart, HiPlusCircle, HiUserCircle } from 
 import { AuthContext } from "../utils/auth";
 import { useNavigate } from "react-router-dom";
 import { API_URL } from "../../config";
-import { Card } from "../components";
+import { Card, UserProfileForm } from "../components";
 import user from "../assets/user.png";
 
 const RenderCards = ({ data, message }) => {
@@ -24,9 +24,9 @@ const UserProfilePage = () => {
   const [images, setImages] = useState(null);
   const [displayedImages, setDisplayedImages] = useState(12);
   const [byUserId, setByUserId] = useState(true);
+  const [showMyAccount, setShowMyAccount] = useState(false);
 
   const getImages = async () => {
-    console.log(`${API_URL}/v1/image/${authContext.user._id}/${byUserId}`);
     try {
       const response = await fetch(`${API_URL}/v1/image/user/${authContext.user._id}/${byUserId}`,
         {
@@ -47,21 +47,23 @@ const UserProfilePage = () => {
 
   useEffect(() => {
     getImages();
-  }, []);
+  }, [byUserId]);
 
   const showMoreImages = () => {
     setDisplayedImages((prevDisplayedImages) => prevDisplayedImages + 12);
   };
 
-  const displayedImagesData = images?.slice(0, displayedImages);
+  const handleContentOnButtonsClick = (isByUserId) => {
+    setByUserId(isByUserId);
+    setShowMyAccount(false);
+  };
 
-  /* if (!authContext) {
-    // Si el contexto de autenticación no está disponible, AuthProvider no está envolviendo a MyComponent en el árbol de componentes
-    alert("Error: AuthProvider no está envolviendo a MyComponent");
-  }else{
-    console.log(authContext.user);
-    console.log(authContext.user._id);
-  } */
+  const handleShowMyAccount = () => {
+    setShowMyAccount(true);
+    console.log(showMyAccount);
+  };
+
+  const displayedImagesData = images?.slice(0, displayedImages);
 
   return (
     <div className="flex flex-col items-center bg-dark-blue px-5 py-8">
@@ -74,22 +76,42 @@ const UserProfilePage = () => {
       </div>
       <div className="mt-4 text-center">
         <h1 className="text-3xl text-white font-semibold">
-          {authContext?.user?.name || "User Name"}
+          {authContext?.user?.firstname+" "+authContext?.user?.lastname || "Full Name"}
         </h1>
         <p className="text-lg text-white">
           {authContext?.user?.email || "email@example.com"}
         </p>
       </div>
+      <div className="flex justify-center text-light-grey mt-5 mb-5">
+        <div className="mr-6 text-center">
+          <p className="font-bold text-lg">22</p>
+          <p className="text-sm">Posts</p>
+        </div>
+        <div className="mr-6 text-center">
+          <p className="font-bold text-lg">10</p>
+          <p className="text-sm">Likes</p>
+        </div>
+        <div className="text-center">
+          <p className="font-bold text-lg">89</p>
+          <p className="text-sm">Comments</p>
+        </div>
+      </div>
       <div className="mt-8 flex justify-center space-x-4">
-      <button className="bg-medium-grey hover:bg-neon-pink  text-light-grey  py-2 px-4 rounded-full">
+      <button 
+          onClick = {handleShowMyAccount}
+          className="bg-medium-grey hover:bg-neon-pink text-light-grey py-2 px-4 rounded-full">
           <HiUserCircle className="h-5 w-5 mr-1 text-light-grey inline-flex" />{" "}
           My Account
         </button>
-        <button className="bg-white font-semibold text-dark-blue py-2 px-4 rounded-full">
+        <button 
+          onClick = {() => handleContentOnButtonsClick(true)}
+          className="bg-white font-semibold text-dark-blue py-2 px-4 rounded-full">
           <HiOutlinePhotograph className="h-5 w-5 mr-1 text-dark-blue inline-flex" />{" "}
           My Images
         </button>
-        <button className="bg-medium-grey hover:bg-neon-pink  text-light-grey  py-2 px-4 rounded-full">
+        <button 
+          onClick = {() => handleContentOnButtonsClick(false)}
+          className="bg-medium-grey hover:bg-neon-pink  text-light-grey  py-2 px-4 rounded-full">
           <HiOutlineHeart className="h-5 w-5 mr-1 text-light-grey inline-flex" />{" "}
           My Likes
         </button>
@@ -100,25 +122,35 @@ const UserProfilePage = () => {
             Create New Image
         </button>
       </div>
-
-      {/* Gallery section */}
-      <div className="grid grid-cols-2 xs:grid-cols-1 md:grid-cols-4 gap-4 my-10 mx-10 md:mx-12">
-        <RenderCards
-          data={displayedImagesData}
-          message="No existen imágenes. Sé el primero!"
-        />
-      </div>
-
-      {displayedImages < images?.length && (
-        <div className="flex justify-center">
-          <button
-            className="bg-medium-grey text-light-grey px-5 py-2 rounded-full mt-8 md:mr-8 hover:bg-neon-blue hover:text-dark-blue"
-            onClick={showMoreImages}
-          >
-            Show more images
-          </button>
+      
+      {!showMyAccount ? (
+        <>
+        {/* Gallery section */}
+        <div className="grid grid-cols-2 xs:grid-cols-1 md:grid-cols-4 gap-4 my-10 mx-10 md:mx-12">
+          <RenderCards
+            data={displayedImagesData}
+            message="No existen imágenes. Sé el primero!"
+          />
         </div>
-      )}
+
+        {displayedImages < images?.length && (
+          <div className="flex justify-center">
+            <button
+              className="bg-medium-grey text-light-grey px-5 py-2 rounded-full mt-8 md:mr-8 hover:bg-neon-blue hover:text-dark-blue"
+              onClick={showMoreImages}
+            >
+              Show more images
+            </button>
+          </div>
+        )}
+        </>
+      ) : (
+        <>
+        <div className="flex justify-center">
+          <UserProfileForm/>
+        </div>
+        </>
+      )}    
     </div>
   );
 };

@@ -4,7 +4,7 @@ import { AuthContext } from "../utils";
 const FormLogin = (props) => {
   const { onSuccess } = props;
   const [formLogin, setFormLogin] = useState({ email: "", password: "" });
-  const [formRegister, setFormRegister] = useState({ name: "", email: "", password: "" });
+  const [formRegister, setFormRegister] = useState({ firstname: "", lastname: "", username: "", email: "", password: "" });
   const [showForm, setShowForm] = useState(false);
   const [validationErrors, setValidationErrors] = useState({});
   const authContext = useContext(AuthContext);
@@ -21,8 +21,8 @@ const FormLogin = (props) => {
   const handleSubmitRegister = async (e) => {
     e.preventDefault();
     
-    const { name, email, password } = formRegister;
-    const { success, errorsValidation } = await authContext.register(name, email, password);
+    const { firstname, lastname, username, email, password } = formRegister;
+    const { success, errorsValidation } = await authContext.register(firstname, lastname, username, email, password);
 
     success ? onSuccess() : setValidationErrors(errorsValidation);
   };
@@ -34,6 +34,7 @@ const FormLogin = (props) => {
   return (
     <div>
     {!showForm ? (
+      /* FORM LOGIN */
       <form
       className="bg-dark-blue rounded px-8 pt-6 pb-8 mb-4"
       onSubmit={handleSubmitLogin}
@@ -105,10 +106,61 @@ const FormLogin = (props) => {
       </div>
     </form>
     ): (
+      /* FORM REGISTER */
       <form
-        className="bg-dark-blue rounded px-8 pt-6 pb-8 mb-4"
+        className="bg-dark-blue rounded px-6 pt-6 pb-8 mb-4"
         onSubmit={handleSubmitRegister}
         >
+        <div className="grid gap-3 grid-cols-1 md:grid-cols-6 mb-4">
+          <div className="md:col-span-3">
+            <label
+              className="block text-white font-semibold mb-2"
+              htmlFor="firstname"
+            >
+              First name
+            </label>
+            <input
+              className="shadow appearance-none rounded w-full py-2 px-3 leading-tight focus:shadow-outline"
+              id="firstname"
+              name="firstname"
+              required
+              type="text"
+              placeholder="First name"
+              value={formRegister.firstname}
+              onChange={(e) => {
+                setFormRegister({ ...formRegister, firstname: e.target.value });
+                setValidationErrors({ ...validationErrors, firstname: "" }); // Limpiamos el error al cambiar el valor del campo
+              }}
+            />
+            {validationErrors.username && (
+              <p className="text-red text-xs italic mt-2">{validationErrors.firstname}</p>
+            )}
+          </div>
+          <div className="md:col-span-3">
+            <label
+              className="block text-white font-semibold mb-2"
+              htmlFor="lastname"
+            >
+              Last name
+            </label>
+            <input
+              className="shadow appearance-none rounded w-full py-2 px-3 leading-tight focus:shadow-outline"
+              id="lastname"
+              name="lastname"
+              required
+              type="text"
+              placeholder="Last name"
+              value={formRegister.lastname}
+              onChange={(e) => {
+                setFormRegister({ ...formRegister, lastname: e.target.value });
+                setValidationErrors({ ...validationErrors, lastname: "" }); // Limpiamos el error al cambiar el valor del campo
+              }}
+            />
+            {validationErrors.username && (
+              <p className="text-red text-xs italic mt-2">{validationErrors.lastname}</p>
+            )}
+          </div>
+        </div>
         <div className="mb-4">
           <label
             className="block text-white font-semibold mb-2"
@@ -119,18 +171,18 @@ const FormLogin = (props) => {
           <input
             className="shadow appearance-none rounded w-full py-2 px-3 leading-tight focus:shadow-outline"
             id="username"
-            name="name"
+            name="username"
             required
             type="text"
             placeholder="Username"
-            value={formRegister.name}
+            value={formRegister.username}
             onChange={(e) => {
-              setFormRegister({ ...formRegister, name: e.target.value });
-              setValidationErrors({ ...validationErrors, name: "" }); // Limpiamos el error al cambiar el valor del campo
+              setFormRegister({ ...formRegister, username: e.target.value });
+              setValidationErrors({ ...validationErrors, username: "" }); // Limpiamos el error al cambiar el valor del campo
             }}
           />
-          {validationErrors.name && (
-            <p className="text-red text-xs italic mt-2">{validationErrors.name}</p>
+          {validationErrors.username && (
+            <p className="text-red text-xs italic mt-2">{validationErrors.username}</p>
           )}
         </div>
         <div className="mb-4">
