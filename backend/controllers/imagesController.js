@@ -28,7 +28,6 @@ const getImages = async (req, res) => {
 
     const images = await Image.find(query).populate("user_id");
     res.status(200).json({ success: true, data: images });
-
   } catch (err) {
     res.status(500).json({ success: false, message: "Failed to load images." });
   }
@@ -42,7 +41,7 @@ const createNewPost = async (req, res) => {
       folder: "ImagiNationAI",
     });
     //const photoUrl = (await cloudinary.uploader.upload("../../frontend/src/assets/image1.png")).secure_url;
-    
+
     // Combinar categorías seleccionadas con "new" y "top"
     //const categories = ["new", "top", ...category];
 
@@ -84,14 +83,16 @@ const getImagesBy = async (req, res) => {
     const { id_user, byUserId } = req.params;
     let images = [];
 
-    if(byUserId){
-      images = await Image.find({ user_id: id_user }).populate("user_id").exec();
-    }else{
+    if (byUserId) {
+      images = await Image.find({ user_id: id_user })
+        .populate("user_id")
+        .exec();
+    } else {
       images = await Image.find({ "likes.user_id": id_user })
-                                .populate("likes.user_id", "name") // Carga los datos del usuario en los likes
-                                .exec();
+        .populate("likes.user_id", "name") // Carga los datos del usuario en los likes
+        .exec();
     }
-    
+
     res.status(200).json({ success: true, data: images });
   } catch (err) {
     res
@@ -114,7 +115,6 @@ const getMyLikedImages = async (req, res) => {
       .json({ success: false, message: "Failed to retrieve the images." });
   }
 }; */
-
 
 // Function to DELETE a specific image/post
 const deletePost = async (req, res) => {
@@ -162,4 +162,11 @@ const likeImage = async (req, res) => {
   }
 };
 
-export { getImages, getImage, getImagesBy, createNewPost, deletePost, likeImage };
+export {
+  getImages,
+  getImage,
+  getImagesBy,
+  createNewPost,
+  deletePost,
+  likeImage,
+};

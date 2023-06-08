@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { API_URL } from "../../config";
 
@@ -47,10 +47,9 @@ const AuthProvider = ({ children }) => {
         saveToken(data.token);
         setUser(data.user);
         return data;
-      }else{
+      } else {
         return data;
-      } 
-      
+      }
     } catch (error) {
       console.error(error);
       return false;
@@ -74,12 +73,11 @@ const AuthProvider = ({ children }) => {
         saveToken(data.token);
         setUser(data.user);
         return data;
-      }else{
+      } else {
         return data;
-      }      
-
+      }
     } catch (err) {
-      alert("Registration failed. Server connection error: "+err);
+      alert("Registration failed. Server connection error: " + err);
       return false;
     }
   };

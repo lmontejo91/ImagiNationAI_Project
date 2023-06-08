@@ -30,7 +30,7 @@ const Card = ({ _id, user_id, prompt, url, likes }) => {
       }
     } catch (error) {
       console.error(error.message);
-      // Handle error state or display an error message to the user
+      window.alert(error.message); // Show the error message in a window alert
     } finally {
       setIsLoading(false);
     }
