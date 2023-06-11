@@ -20,6 +20,7 @@ const RenderCards = ({ data, message }) => {
 const HomePage = () => {
   const authContext = useContext(AuthContext);
   const [category, setCategory] = useState("new");
+  const [activeCategory, setActiveCategory] = useState("new");
 
   const [images, setImages] = useState(null);
   const [displayedImages, setDisplayedImages] = useState(12);
@@ -56,6 +57,7 @@ const HomePage = () => {
 
   const handleCategoryChange = (newCategory) => {
     setCategory(newCategory);
+    setActiveCategory(newCategory);
   };
 
   const showMoreImages = () => {
@@ -97,43 +99,57 @@ const HomePage = () => {
       <div className="flex flex-wrap justify-center space-x-4">
         <button
           onClick={() => handleCategoryChange("new")}
-          className="bg-gradient-to-r from-neon-pink to-neon-blue text-dark-blue font-semibold py-2 px-4 rounded-full mb-4  hover:bg-neon-blue"
+          className={`${
+            activeCategory === "new" ? "active-button" : "inactive-button"
+          }`}
         >
           New Images
         </button>
         <button
           onClick={() => handleCategoryChange("top")}
-          className="bg-medium-grey text-light-grey px-5 py-2 rounded-full mb-4 md:mr-8 hover:bg-neon-blue hover:text-dark-blue"
+          className={`${
+            activeCategory === "top" ? "active-button" : "inactive-button"
+          }`}
         >
           Most Popular
         </button>
         <button
           onClick={() => handleCategoryChange("people")}
-          className="bg-medium-grey text-light-grey px-5 py-2 rounded-full mb-4 md:mr-8 hover:bg-neon-blue hover:text-dark-blue"
+          className={`${
+            activeCategory === "people" ? "active-button" : "inactive-button"
+          }`}
         >
           People
         </button>
         <button
           onClick={() => handleCategoryChange("animals")}
-          className="bg-medium-grey text-light-grey px-5 py-2 rounded-full mb-4 md:mr-8 hover:bg-neon-blue hover:text-dark-blue"
+          className={`${
+            activeCategory === "animals" ? "active-button" : "inactive-button"
+          }`}
         >
           Animals
         </button>
         <button
           onClick={() => handleCategoryChange("landscape")}
-          className="bg-medium-grey text-light-grey px-5 py-2 rounded-full mb-4 md:mr-8 hover:bg-neon-blue hover:text-dark-blue"
+          className={`${
+            activeCategory === "landscape" ? "active-button" : "inactive-button"
+          }`}
         >
           Landscape
         </button>
         <button
           onClick={() => handleCategoryChange("abstract")}
-          className="bg-medium-grey text-light-grey px-5 py-2 rounded-full mb-4 md:mr-8 hover:bg-neon-blue hover:text-dark-blue"
+          className={`${
+            activeCategory === "abstract" ? "active-button" : "inactive-button"
+          }`}
         >
           Abstract
         </button>
         <button
           onClick={() => handleCategoryChange("others")}
-          className="bg-medium-grey text-light-grey px-5 py-2 rounded-full mb-4 md:mr-8 hover:bg-neon-blue hover:text-dark-blue"
+          className={`${
+            activeCategory === "others" ? "active-button" : "inactive-button"
+          }`}
         >
           Others
         </button>

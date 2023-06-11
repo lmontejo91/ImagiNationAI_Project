@@ -40,3 +40,28 @@
   outline: none;
   padding: 40px;
 }
+
+.active-button {
+  background: linear-gradient(to right, #ff6ad5, #39b3f6);
+  color: #051c33;
+  font-weight: 600;
+  padding: 0.75rem 1.25rem;
+  border-radius: 9999px;
+  margin-bottom: 1rem;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.inactive-button {
+  background-color: #374151;
+  color: #d1d5db;
+  padding: 0.75rem 1.25rem;
+  border-radius: 9999px;
+  margin-bottom: 1rem;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.active-button:hover,
+.inactive-button:hover {
+  background-color: #39b3f6;
+  color: #051c33;
+}
