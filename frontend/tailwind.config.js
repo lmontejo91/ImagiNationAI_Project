@@ -13,7 +13,7 @@ export default {
       "dark-orange": "#9A3412",
       "medium-orange": "#F97316",
       "light-orange": "#FFEDD5",
-      "red": "#FF0000",
+      red: "#FF0000",
       white: "#ffffff",
       muted: "#A0AEC0",
     },
@@ -26,7 +26,11 @@ export default {
       },
       boxShadow: {
         card: "0 0 1px 0 rgba(189,192,207,0.06),0 10px 16px -1px rgba(189,192,207,0.2)",
-        cardhover: "0 0 1px 0 rgba(189,192,207,0.06),0 10px 16px -1px rgba(189,192,207,0.4)",
+        cardhover:
+          "0 0 1px 0 rgba(189,192,207,0.06),0 10px 16px -1px rgba(189,192,207,0.4)",
+      },
+      height: {
+        128: "32rem",
       },
     },
   },

@@ -15,8 +15,7 @@ const Card = ({ _id, user, prompt, url, likes, likedBy }) => {
   const [isModalAlertOpen, setIsModalAlertOpen] = useState(false);
 
   const handleLike = async () => {
-
-    if(!authContext.isAuthenticated()){
+    if (!authContext.isAuthenticated()) {
       openModalAlert();
       return; //Si el usuario no está logeado no se puede dar like y no se hace la petición al back.
     }
@@ -48,32 +47,33 @@ const Card = ({ _id, user, prompt, url, likes, likedBy }) => {
     } finally {
       setIsLoading(false);
     }
-
   };
 
   useEffect(() => {
     handleIconLike();
   }, [isLikedBy]); // Trigger API request whenever isLikedBy changes
 
-  const handleIconLike = () =>{
+  const handleIconLike = () => {
     /* console.log("METHOD LikedBy: "+likedBy);
     console.log(likedBy.includes(authContext?.user?._id)); */
-    return authContext.isAuthenticated() && likedBy.includes(authContext?.user?._id);
-  }
+    return (
+      authContext.isAuthenticated() && likedBy.includes(authContext?.user?._id)
+    );
+  };
 
   /* Modal Alert */
   const openModalAlert = () => {
     setIsModalAlertOpen(true);
   };
-  
+
   const closeModalAlert = () => {
     setIsModalAlertOpen(false);
   };
-        
+
   return (
     <div className="rounded-xl group relative hover:shadow-cardhover card">
       <img
-        className="w-full h-full object-cover rounded-xl"
+        className="w-full h-128 object-cover rounded-xl"
         src={url}
         alt={prompt}
       />
@@ -99,20 +99,26 @@ const Card = ({ _id, user, prompt, url, likes, likedBy }) => {
           </button> */}
           {handleIconLike() ? (
             <>
-            <p className="text-white font-semibold mr-4">
-              <FcLike onClick={handleLike} className="h-5 w-5 text-white inline-flex" />{" "}
-              {localLikes}{" "}
-            </p>
+              <p className="text-white font-semibold mr-4">
+                <FcLike
+                  onClick={handleLike}
+                  className="h-5 w-5 text-white inline-flex"
+                />{" "}
+                {localLikes}{" "}
+              </p>
             </>
           ) : (
             <>
-            <p className="text-white font-semibold mr-4">
-              <HeartIcon onClick={handleLike} className="h-5 w-5 text-white inline-flex" />{" "}
-              {localLikes}{" "}
-            </p>
+              <p className="text-white font-semibold mr-4">
+                <HeartIcon
+                  onClick={handleLike}
+                  className="h-5 w-5 text-white inline-flex"
+                />{" "}
+                {localLikes}{" "}
+              </p>
             </>
           )}
-          
+
           <button
             type="button"
             onClick={() => downloadImage(_id, url)}
