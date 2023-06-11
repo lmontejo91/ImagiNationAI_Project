@@ -106,9 +106,8 @@ const GeneratorPage = () => {
         });
 
         await response.json();
-        if(response.ok){
-
-        }else{
+        if (response.ok) {
+        } else {
           alert("Error al guardar la imagen");
         }
         navigate("/");
@@ -131,9 +130,9 @@ const GeneratorPage = () => {
   };
 
   return (
-    <div className="flex">
+    <div className="flex flex-col md:flex-row">
       {/* Side Menu */}
-      <div className="h-screen w-1/4 bg-dark-blue px-8 pt-10">
+      <div className="h-screen md:w-1/4 bg-dark-blue px-8 pt-10">
         <h2 className="text-2xl text-white font-bold mb-4">
           What do you want to create today?
         </h2>
@@ -284,7 +283,7 @@ const GeneratorPage = () => {
       </div>
 
       {/* Image Display */}
-      <div className="bg-medium-grey flex h-screen w-3/4 p-4 text-center flex-col justify-center">
+      <div className="bg-medium-grey flex flex-col justify-center md:h-screen md:w-3/4 p-4 text-center">
         {/* Show the generated image here */}
         {form.photo ? (
           <img

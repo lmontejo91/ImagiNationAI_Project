@@ -29,7 +29,6 @@ const getImages = async (req, res) => {
     const images = await Image.find(query).populate("user", "username");
 
     res.status(200).json({ success: true, data: images });
-
   } catch (err) {
     console.error(err);
     res.status(500).json({ success: false, message: "Failed to load images." });
@@ -45,7 +44,7 @@ const createNewPost = async (req, res) => {
       folder: "ImagiNationAI",
     });
     //const photoUrl = (await cloudinary.uploader.upload("../../frontend/src/assets/image1.png")).secure_url;
-    
+
     // Combinar categorías seleccionadas con "new" y "top"
     const categories = ["new", "top", ...category];
     console.log(categories);
@@ -83,17 +82,19 @@ const getImage = async (req, res) => {
 const getImagesBy = async (req, res) => {
   try {
     const { id_user, byUserId } = req.params;
-    const byUserIdBool = (byUserId === "true");
+    const byUserIdBool = byUserId === "true";
     let images = [];
-    
-    if(byUserIdBool){
-      images = await Image.find({ user: id_user }).populate("user", "username").exec();
-    }else{
-      images = await Image.find({ "likedBy": { "$in": [id_user] } })
-                                .populate("user", "username")
-                                .exec();
+
+    if (byUserIdBool) {
+      images = await Image.find({ user: id_user })
+        .populate("user", "username")
+        .exec();
+    } else {
+      images = await Image.find({ likedBy: { $in: [id_user] } })
+        .populate("user", "username")
+        .exec();
     }
-    
+
     res.status(200).json({ success: true, data: images });
   } catch (err) {
     res
@@ -101,7 +102,6 @@ const getImagesBy = async (req, res) => {
       .json({ success: false, message: "Failed to retrieve the images." });
   }
 };
-
 
 // Function to DELETE a specific image/post
 const deletePost = async (req, res) => {
@@ -139,8 +139,7 @@ const likeImage = async (req, res) => {
         likesCount: image.likes,
         likedBy: image.likedBy,
       });
-
-    }else{
+    } else {
       // Update the image document with the new like
       image.likes += 1;
       image.likedBy.push(userId);
@@ -152,11 +151,17 @@ const likeImage = async (req, res) => {
         likedBy: image.likedBy,
       });
     }
-   
   } catch (err) {
     console.error(err);
     return res.status(500).json({ error: "Server error" });
   }
 };
 
-export { getImages, getImage, getImagesBy, createNewPost, deletePost, likeImage };
+export {
+  getImages,
+  getImage,
+  getImagesBy,
+  createNewPost,
+  deletePost,
+  likeImage,
+};
