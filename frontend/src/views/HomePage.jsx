@@ -90,7 +90,7 @@ const HomePage = () => {
               placeholder="Search images..."
               value={searchQuery}
               onChange={handleSearchInputChange}
-              className="px-4 py-2 rounded-full w-96 border-none focus:outline-none focus:ring-neon-blue"
+              className="px-4 py-2 rounded-full w-128 border-none focus:outline-none focus:ring-neon-blue"
             />
           </form>
         </div>
