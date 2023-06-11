@@ -1,4 +1,61 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
+import Modal from "react-modal";
+import { FiAlertCircle } from "react-icons/fi";
+import { HiOutlineExclamation, HiOutlineCheckCircle, HiOutlineInformationCircle } from "react-icons/hi";
+
+const ModalAlert = ({ isOpen, onClose, title, message, type, redirect = false }) => {
+
+  const [bgColor, setBgColor] = useState("bg-light-pink");
+  const [borderColor, setBorderColor] = useState("border-neon-pink");
+
+  useEffect(() => {
+    if (type === 'success') {
+      setBgColor("bg-light-green");
+      setBorderColor("border-medium-green");
+    } else if (type === 'error') {
+      setBgColor("bg-light-red");
+      setBorderColor("border-medium-red");
+    }
+  }, [type]);
+
+
+  return (
+    <Modal
+      isOpen={isOpen}
+      onRequestClose={onClose}
+      className="modal"
+      overlayClassName="modal-overlay"
+    >
+        <button className="text-medium-grey font-bold absolute top-2 right-3" onClick={() => onClose(redirect)}>
+            X
+        </button>
+        <div className={`${bgColor} border-t-4 ${borderColor} rounded-b text-dark-blue px-4 py-3 shadow-md`} role="alert">
+            <div className="flex">
+                <div className="py-1">
+                    {type === 'error' ? (
+                        <HiOutlineExclamation className="h-7 w-7 text-dark-blue font-bold mr-4" />
+                    ) : type === 'success' ? (
+                        <HiOutlineCheckCircle className="h-7 w-7 text-dark-blue font-bold mr-4" />
+                    ) : (
+                        <HiOutlineInformationCircle className="h-7 w-7 text-dark-blue font-bold mr-4" />
+                    )}
+                </div>
+                <div>
+                    <p className="font-bold">{title}</p>
+                    {message && 
+                        <p className="text-sm">{message}</p>
+                    }
+                </div>
+            </div>
+        </div>
+    </Modal>
+  );
+};
+
+export default ModalAlert;
+
+
+/* import React from "react";
 import Modal from "react-modal";
 import { FiAlertCircle } from "react-icons/fi";
 
@@ -17,13 +74,12 @@ const ModalAlert = ({ isOpen, onClose, title, message }) => {
             <div className="flex">
                 <div className="py-1">
                     <FiAlertCircle className="h-7 w-7 text-dark-blue font-bold mr-4" />
-                    {/* <svg className="fill-current h-6 w-6 text-dark-orange mr-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                        <path d="M2.93 17.07A10 10 0 1 1 17.07 2.93 10 10 0 0 1 2.93 17.07zm12.73-1.41A8 8 0 1 0 4.34 4.34a8 8 0 0 0 11.32 11.32zM9 11V9h2v6H9v-4zm0-6h2v2H9V5z"/>
-                    </svg> */}
                 </div>
                 <div>
                     <p className="font-bold">{title}</p>
-                    <p className="text-sm">{message}</p>
+                    {message && 
+                        <p className="text-sm">{message}</p>
+                    }
                 </div>
             </div>
         </div>
@@ -31,4 +87,4 @@ const ModalAlert = ({ isOpen, onClose, title, message }) => {
   );
 };
 
-export default ModalAlert;
+export default ModalAlert; */

@@ -1,4 +1,5 @@
 import User from '../mongodb/models/user.js';
+import Image from '../mongodb/models/image.js';
 import JWT from 'jsonwebtoken';
 import bcrypt from "bcryptjs";
 import * as dotenv from 'dotenv';
@@ -131,6 +132,7 @@ const updateUserData = async (req, res) => {
   const { userId } = req.params;
   const { firstname, lastname, username, email, password } = req.body;
   const updateFields = {};
+  console.log("LLEGA:");
   console.log(req.body);
   console.log("User Id: "+userId);
   if (firstname)
@@ -147,13 +149,12 @@ const updateUserData = async (req, res) => {
 
   /* if (password)
     updateFields.password = await bcrypt.hash(password, 10); */
-  console.log(updateFields);
 
   try {
     const updatedUser = await User.findByIdAndUpdate(userId, updateFields, { new: true });
+    console.log("UPDATED:");
     console.log(updatedUser);
     const user = await User.findById(userId);
-    console.log(user);
     if (!updatedUser) {
       return res.status(404).json({ success: false, message: 'Usuario no encontrado' });
     }
@@ -169,20 +170,22 @@ const updateUserData = async (req, res) => {
 
 const deleteUserAccount = async (req, res) => {
   const { userId } = req.params;
-
+  console.log("LLEGA");
+  console.log(userId);
   try {
     // Eliminar las imágenes asociadas al usuario
     await Image.deleteMany({ user: userId });
-
+    console.log("BORRA IMÁGENES");
     // Eliminar al usuario
     const deletedUser = await User.findByIdAndDelete(userId);
-
+    console.log("BORRA USER");
     if (!deletedUser) {
       return res.status(404).json({ success: false, message: 'User not found' });
     }
 
     res.status(200).json({ success: true, message: 'User account deleted successfully' });
   } catch (err) {
+    console.log(err);
     res.status(500).json({ success: false, message: 'Error deleting user account' });
   }
 };
