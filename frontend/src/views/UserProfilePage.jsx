@@ -25,6 +25,24 @@ const UserProfilePage = () => {
   const [displayedImages, setDisplayedImages] = useState(12);
   const [byUserId, setByUserId] = useState(true);
   const [showMyAccount, setShowMyAccount] = useState(false);
+  const [likeCount, setLikeCount] = useState(0);
+  const [imageCount, setImageCount] = useState(0);
+  
+  const getUserStats = async () => {
+    try {
+      const response = await fetch(`${API_URL}/v1/user/user-stats/${authContext.user._id}`);
+      const data = await response.json();
+      setLikeCount(data.likeCount);
+      setImageCount(data.imageCount);
+    } catch (error) {
+      console.error("Error retrieving user stats:", error);
+      // Manejo del error
+    }
+  };
+
+  useEffect(() => {
+    getUserStats();
+  }, []);
 
   const getImages = async () => {
     try {
@@ -84,11 +102,11 @@ const UserProfilePage = () => {
       </div>
       <div className="flex justify-center text-light-grey mt-5 mb-5">
         <div className="mr-6 text-center">
-          <p className="font-bold text-lg">22</p>
+          <p className="font-bold text-lg">{imageCount}</p>
           <p className="text-sm">Posts</p>
         </div>
         <div className="mr-6 text-center">
-          <p className="font-bold text-lg">10</p>
+          <p className="font-bold text-lg">{likeCount}</p>
           <p className="text-sm">Likes</p>
         </div>
         <div className="text-center">
