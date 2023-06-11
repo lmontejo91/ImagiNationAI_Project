@@ -41,6 +41,11 @@
   padding: 40px;
 }
 
+.modal-image{
+  width: 65%;
+  max-width: 70%;
+}
+
 .active-button {
   background: linear-gradient(to right, #ff6ad5, #39b3f6);
   color: #051c33;

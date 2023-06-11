@@ -1,10 +1,9 @@
 import React, { useState, useContext, useEffect } from "react";
 import { HeartIcon } from "@heroicons/react/24/outline";
 import { FcLike } from "react-icons/fc";
-import { HandThumbUpIcon } from "@heroicons/react/24/outline";
 import { downloadIcon } from "../assets";
 import { AuthContext, downloadImage } from "../utils";
-import { ModalAlert } from "./modals";
+import { ModalAlert, ModalImageDetail } from "./modals";
 import { API_URL } from "../../config";
 
 const Card = ({ _id, user, prompt, url, likes, likedBy }) => {
@@ -13,6 +12,14 @@ const Card = ({ _id, user, prompt, url, likes, likedBy }) => {
   const [isLoading, setIsLoading] = useState(false);
   const authContext = useContext(AuthContext);
   const [isModalAlertOpen, setIsModalAlertOpen] = useState(false);
+  const [isModalImageOpen, setIsModalImageOpen] = useState(false);
+  const [imageToOpen, setImageToOpen] = useState({
+    _id: _id,
+    user: user,
+    prompt: prompt,
+    url: url, 
+    likes: likes,
+  });  
 
   const handleLike = async () => {
     if (!authContext.isAuthenticated()) {
@@ -70,9 +77,19 @@ const Card = ({ _id, user, prompt, url, likes, likedBy }) => {
     setIsModalAlertOpen(false);
   };
 
+  /* Modal Image Detail */
+  const openModalImage = () => {
+    setIsModalImageOpen(true);
+  };
+
+  const closeModalImage = () => {
+    setIsModalImageOpen(false);
+  };
+
   return (
     <div className="rounded-xl group relative hover:shadow-cardhover card">
       <img
+        onClick={openModalImage}
         className="w-full h-128 object-cover rounded-xl"
         src={url}
         alt={prompt}
@@ -132,12 +149,19 @@ const Card = ({ _id, user, prompt, url, likes, likedBy }) => {
           </button>
         </div>
       </div>
+
       <ModalAlert
         isOpen={isModalAlertOpen}
         onClose={closeModalAlert}
         title="Action denied!"
         message="You need to be logged in to like a post."
         type="info"
+      />
+
+      <ModalImageDetail
+        isOpen={isModalImageOpen}
+        onClose={closeModalImage}
+        image={imageToOpen}
       />
     </div>
   );

@@ -2,15 +2,13 @@ import React, { useState, useContext, useEffect } from "react";
 import { HiPencil, HiThumbUp } from "react-icons/hi";
 import { HiPencilSquare } from "react-icons/hi2";
 import { AuthContext } from "../utils/auth";
-import { ModalAlert, ModalConfirmation, ModalSuccess } from "./modals";
+import { ModalAlert, ModalConfirmation } from "./modals";
 import { API_URL } from "../../config";
-import { redirect } from "react-router-dom";
 
 const UserProfileForm = () => {
   const authContext = useContext(AuthContext);
   const user = authContext.user;
   const [isModalAlertOpen, setIsModalAlertOpen] = useState(false);
-  //const [isModalSuccessOpen, setIsModalSuccessOpen] = useState(false);
   const [isModalConfirmationOpen, setIsModalConfirmationOpen] = useState(false);
   const [confirmed, setConfirmed] = useState(false);
   const [titleModal, setTitleModal] = useState("");

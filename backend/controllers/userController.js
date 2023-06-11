@@ -190,4 +190,23 @@ const deleteUserAccount = async (req, res) => {
   }
 };
 
-export { loginUser, registerUser, logoutUser, getUserFromToken, updateUserData, deleteUserAccount };
+const getUserStats = async (req, res) => {
+  try {
+    const userId = req.params.userId; // Obtener el ID del usuario de los parámetros de la solicitud
+    let likeCount = 0;
+
+    const imageCount = await Image.countDocuments({ user: userId }); // Contar las imágenes asociadas al usuario
+
+    if (imageCount !== 0) {
+      const userImages = await Image.find({ user: userId }); // Obtener las imágenes asociadas al usuario
+      likeCount = userImages.reduce((totalLikes, image) => totalLikes + image.likes, 0); // Calcular el total de likes de las imágenes
+    }
+    
+    res.status(200).json({ success: true, imageCount, likeCount });
+  } catch (error) {
+    console.error("Error retrieving user image stats:", error);
+    res.status(500).json({ error: "An error occurred" });
+  }
+};
+
+export { loginUser, registerUser, logoutUser, getUserFromToken, updateUserData, deleteUserAccount, getUserStats };

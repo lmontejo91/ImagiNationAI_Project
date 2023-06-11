@@ -1,5 +1,5 @@
 import ModalAlert from "./ModalAlert";
 import ModalConfirmation from "./ModalConfirmation";
-import ModalSuccess from "./ModalSuccess";
+import ModalImageDetail from "./ModalImageDetail";
 
-export { ModalAlert, ModalConfirmation, ModalSuccess };
+export { ModalAlert, ModalConfirmation, ModalImageDetail };
