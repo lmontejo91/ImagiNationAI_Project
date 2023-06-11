@@ -137,6 +137,7 @@ const Card = ({ _id, user, prompt, url, likes, likedBy }) => {
         onClose={closeModalAlert}
         title="Action denied!"
         message="You need to be logged in to like a post."
+        type="info"
       />
     </div>
   );
