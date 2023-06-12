@@ -19,8 +19,13 @@ router.route('/logout')
 router.route('/getUserFromToken')
     .post(userController.getUserFromToken);
 
+//UPDATE & DELETE ACCOUNT
 router.route('/:userId')
     .put(userController.updateUserData)
     .delete(userController.deleteUserAccount);
+
+//GET USER STATS
+router.route('/user-stats/:userId')
+    .get(userController.getUserStats);
 
 export default router;
