@@ -155,6 +155,7 @@ const HomePage = () => {
         </button>
       </div>
 
+      {/* Gallery section */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mx-4 my-4 md:mx-12">
         <RenderCards
           data={displayedImagesData}

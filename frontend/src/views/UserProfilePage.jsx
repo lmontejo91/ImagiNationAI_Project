@@ -103,7 +103,7 @@ const UserProfilePage = () => {
       </div>
 
       {/* Buttons section */}
-      <div className="mt-8 flex justify-center space-x-4">
+      <div className="mt-8 flex flex-wrap justify-center space-x-4">
         <button
           onClick={handleShowMyAccount}
           className={`${showMyAccount ? "active-button" : "inactive-button"}`}
@@ -144,7 +144,7 @@ const UserProfilePage = () => {
       {!showMyAccount ? (
         <>
           {/* Gallery section */}
-          <div className="grid grid-cols-2 xs:grid-cols-1 md:grid-cols-4 gap-4 my-10 mx-10 md:mx-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mx-4 my-4 md:mx-12">
             <RenderCards
               data={displayedImagesData}
               message="No existen imágenes. Sé el primero!"
