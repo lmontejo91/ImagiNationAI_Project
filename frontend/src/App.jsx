@@ -3,7 +3,7 @@ import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import Modal from "react-modal";
 import { AuthContext, AuthProvider } from "./utils";
 import { Navbar, Footer } from "./components";
-import { HomePage, ImagePage, GeneratorPage, UserProfilePage } from "./views";
+import { HomePage, ImagePage, GeneratorPage, UserProfilePage, PageUnathorized } from "./views";
 
 Modal.setAppElement("#root"); //Esto le dice a React Modal cuál es el elemento raíz de tu aplicación para asegurarse de que los lectores de pantalla ignoren el contenido principal de la aplicación cuando el modal esté abierto.
 
@@ -18,6 +18,7 @@ const App = () => {
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/image-page" element={<ImagePage />} />
+            <Route path="/access-restringed" element={<PageUnathorized />} />
             {authContext.isAuthenticated() ? (
               <>
                 <Route path="/generator-page/:user_id" element={<GeneratorPage />} />
@@ -27,6 +28,7 @@ const App = () => {
               <Route
                 path="/*"
                 element={<Navigate to="/" replace />}
+                //element={<Navigate to="/access-restringed" replace />}
               />
             )}
           </Routes>

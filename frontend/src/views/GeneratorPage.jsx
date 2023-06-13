@@ -289,11 +289,11 @@ const GeneratorPage = () => {
           <img
             src={form.photo}
             alt={form.prompt}
-            className="w-full h-auto object-contain"
+            className="lg:h-[32rem] object-contain mb-6"
           />
         ) : (
           <div className="mb-4 mx-auto">
-            <img src={preview} alt="Preview Image" className="w-full" />
+            <img src={preview} alt="Preview Image" className="lg:h-[32rem] object-contain" />
           </div>
         )}
 
