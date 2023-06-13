@@ -131,9 +131,9 @@ const GeneratorPage = () => {
   };
 
   return (
-    <div className="flex flex-col md:flex-row">
+    <div className="flex flex-col lg:flex-row">
       {/* Side Menu */}
-      <div className="h-screen md:w-1/4 bg-dark-blue px-8 pt-10">
+      <div className="h-screen lg:w-1/4 bg-dark-blue px-8 pt-10">
         <h2 className="text-2xl text-white font-bold mb-4">
           What do you want to create today?
         </h2>
@@ -284,7 +284,7 @@ const GeneratorPage = () => {
       </div>
 
       {/* Image Display */}
-      <div className="bg-medium-grey flex flex-col justify-center md:h-screen md:w-3/4 p-4 text-center">
+      <div className="bg-medium-grey flex flex-col justify-center md:h-screen lg:w-3/4 p-4 text-center">
         {/* Show the generated image here */}
         {form.photo ? (
           <img src={form.photo} alt={form.prompt} className="h-[32rem]" />
