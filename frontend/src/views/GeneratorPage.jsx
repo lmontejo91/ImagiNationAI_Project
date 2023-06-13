@@ -287,10 +287,14 @@ const GeneratorPage = () => {
       <div className="bg-medium-grey flex flex-col justify-center md:h-screen lg:w-3/4 p-4 text-center">
         {/* Show the generated image here */}
         {form.photo ? (
-          <img src={form.photo} alt={form.prompt} className="lg:h-[32rem]" />
+          <img
+            src={form.photo}
+            alt={form.prompt}
+            className="lg:h-[32rem] object-contain mb-6"
+          />
         ) : (
           <div className="mb-4 mx-auto">
-            <img src={preview} alt="Preview Image" className="lg:h-[38rem]" />
+            <img src={preview} alt="Preview Image" className="lg:h-[32rem] object-contain" />
           </div>
         )}
 
