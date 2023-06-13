@@ -40,10 +40,10 @@ const Card = ({ _id, user, prompt, url, likes, likedBy }) => {
 
       if (response.ok) {
         const { likesCount, likedBy } = await response.json();
-        setLocalLikes(likesCount);
-        //console.log(likedBy);
         setIsLikedBy(likedBy);
-        handleIconLike();
+        setLocalLikes(likesCount);
+        //console.log(likedBy);  
+        //handleIconLike();
       } else {
         const errorData = await response.json();
         throw new Error(errorData.error); // Throw a specific error message received from the backend
@@ -56,17 +56,15 @@ const Card = ({ _id, user, prompt, url, likes, likedBy }) => {
     }
   };
 
-  useEffect(() => {
+ /*  useEffect(() => {
     handleIconLike();
   }, [isLikedBy]); // Trigger API request whenever isLikedBy changes
 
   const handleIconLike = () => {
-    /* console.log("METHOD LikedBy: "+likedBy);
-    console.log(likedBy.includes(authContext?.user?._id)); */
     return (
       authContext.isAuthenticated() && likedBy.includes(authContext?.user?._id)
     );
-  };
+  }; */
 
   /* Modal Alert */
   const openModalAlert = () => {
@@ -105,16 +103,7 @@ const Card = ({ _id, user, prompt, url, likes, likedBy }) => {
             <p className="text-white text-sm">{user.username}</p>
           </div>
 
-          {/* Like button */}
-          {/* <button
-            className="bg-light-grey font-semibold hover:bg-neon-pink py-2 px-4 rounded-full mx-2"
-            onClick={handleLike}
-            disabled={isLoading}
-          >
-            {isLoading ? "Liking..." : "Like"}
-            <HandThumbUpIcon className="h-5 w-5 text-dark-blue inline-flex" />
-          </button> */}
-          {handleIconLike() ? (
+          {isLikedBy.includes(authContext?.user?._id)  ? (
             <>
               <p className="text-white font-semibold mr-4">
                 <FcLike
