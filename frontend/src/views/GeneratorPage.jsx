@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { ArrowDownTrayIcon } from "@heroicons/react/24/solid";
 import { ShareIcon } from "@heroicons/react/24/solid";
 import preview from "../assets/preview.png";
+import placeholder from "../assets/image7.jpg";
 import { AuthContext, getRandomPrompt } from "../utils";
 import { API_URL } from "../../config";
 import { Loader } from "../components";
@@ -130,9 +131,9 @@ const GeneratorPage = () => {
   };
 
   return (
-    <div className="flex flex-col md:flex-row">
+    <div className="flex flex-col lg:flex-row">
       {/* Side Menu */}
-      <div className="h-screen md:w-1/4 bg-dark-blue px-8 pt-10">
+      <div className="h-screen lg:w-1/4 bg-dark-blue px-8 pt-10">
         <h2 className="text-2xl text-white font-bold mb-4">
           What do you want to create today?
         </h2>
@@ -283,7 +284,7 @@ const GeneratorPage = () => {
       </div>
 
       {/* Image Display */}
-      <div className="bg-medium-grey flex flex-col justify-center md:h-screen md:w-3/4 p-4 text-center">
+      <div className="bg-medium-grey flex flex-col justify-center md:h-screen lg:w-3/4 p-4 text-center">
         {/* Show the generated image here */}
         {form.photo ? (
           <img
@@ -305,7 +306,11 @@ const GeneratorPage = () => {
 
         {/* Download and Share buttons */}
         <div className="mt-2 flex justify-center space-x-4">
-          <button className="bg-light-grey font-semibold hover:bg-neon-pink py-2 px-4 rounded-full mr-4">
+          <button
+            type="button"
+            onClick={() => downloadImage(_id, url)}
+            className="bg-light-grey font-semibold hover:bg-neon-pink py-2 px-4 rounded-full mr-4"
+          >
             <ArrowDownTrayIcon className="h-5 w-5 text-dark-blue inline-flex" />{" "}
             Download
           </button>

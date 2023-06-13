@@ -41,9 +41,27 @@
   padding: 40px;
 }
 
-.modal-image{
+@media only screen and (max-width: 640px) {
+  /* Adjustments for mobile devices */
+  .ReactModal__Content {
+    width: 90%;
+    max-width: none;
+    padding: 20px;
+  }
+}
+
+.modal-image {
   width: 65%;
   max-width: 70%;
+}
+
+@media only screen and (max-width: 640px) {
+  /* Adjustments for mobile devices */
+  .modal-image {
+    width: 90%;
+    max-width: none;
+    padding: 20px;
+  }
 }
 
 .active-button {

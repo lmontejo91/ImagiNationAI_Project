@@ -1,5 +1,10 @@
 import React, { useContext, useState, useEffect } from "react";
-import { HiOutlinePhotograph, HiOutlineHeart, HiPlusCircle, HiUserCircle } from "react-icons/hi";
+import {
+  HiOutlinePhotograph,
+  HiOutlineHeart,
+  HiPlusCircle,
+  HiUserCircle,
+} from "react-icons/hi";
 import { AuthContext } from "../utils/auth";
 import { useNavigate } from "react-router-dom";
 import { API_URL } from "../../config";
@@ -17,7 +22,6 @@ const RenderCards = ({ data, message }) => {
 };
 
 const UserProfilePage = () => {
-
   const authContext = useContext(AuthContext);
   const navigate = useNavigate();
 
@@ -46,7 +50,8 @@ const UserProfilePage = () => {
 
   const getImages = async () => {
     try {
-      const response = await fetch(`${API_URL}/v1/image/user/${authContext.user._id}/${byUserId}`,
+      const response = await fetch(
+        `${API_URL}/v1/image/user/${authContext.user._id}/${byUserId}`,
         {
           method: "GET",
           headers: {
@@ -57,7 +62,6 @@ const UserProfilePage = () => {
       const data = await response.json();
       console.log(data);
       setImages(data.data.reverse());
-
     } catch (err) {
       alert(err);
     }
@@ -78,23 +82,24 @@ const UserProfilePage = () => {
 
   const handleShowMyAccount = () => {
     setShowMyAccount(true);
-    console.log(showMyAccount);
   };
 
   const displayedImagesData = images?.slice(0, displayedImages);
 
   return (
     <div className="flex flex-col items-center bg-dark-blue px-5 py-8">
+      {/* Profile section */}
       <div className="mt-8">
         <img
-          className="rounded-full w-32 h-32 object-cover "
+          className="rounded-full w-32 h-32 object-cover"
           src={user}
           alt="Profile"
         />
       </div>
       <div className="mt-4 text-center">
         <h1 className="text-3xl text-white font-semibold">
-          {authContext?.user?.firstname+" "+authContext?.user?.lastname || "Full Name"}
+          {authContext?.user?.firstname + " " + authContext?.user?.lastname ||
+            "Full Name"}
         </h1>
         <p className="text-lg text-white">
           {authContext?.user?.email || "email@example.com"}
@@ -114,33 +119,46 @@ const UserProfilePage = () => {
           <p className="text-sm">Comments</p>
         </div>
       </div>
-      <div className="mt-8 flex justify-center space-x-4">
-      <button 
-          onClick = {handleShowMyAccount}
-          className="bg-medium-grey hover:bg-neon-pink text-light-grey py-2 px-4 rounded-full">
-          <HiUserCircle className="h-5 w-5 mr-1 text-light-grey inline-flex" />{" "}
+
+      {/* Buttons section */}
+      <div className="mt-8 flex flex-wrap justify-center space-x-4">
+        <button
+          onClick={handleShowMyAccount}
+          className={`${showMyAccount ? "active-button" : "inactive-button"}`}
+        >
+          <HiUserCircle className="h-5 w-5 mr-2 text-light-grey inline-flex" />{" "}
           My Account
         </button>
-        <button 
-          onClick = {() => handleContentOnButtonsClick(true)}
-          className="bg-white font-semibold text-dark-blue py-2 px-4 rounded-full">
-          <HiOutlinePhotograph className="h-5 w-5 mr-1 text-dark-blue inline-flex" />{" "}
+        <button
+          onClick={() => handleContentOnButtonsClick(true)}
+          className={`${
+            !showMyAccount && byUserId ? "active-button" : "inactive-button"
+          }`}
+        >
+          <HiOutlinePhotograph className="h-5 w-5 mr-2 text-dark-blue inline-flex" />{" "}
           My Images
         </button>
-        <button 
-          onClick = {() => handleContentOnButtonsClick(false)}
-          className="bg-medium-grey hover:bg-neon-pink  text-light-grey  py-2 px-4 rounded-full">
-          <HiOutlineHeart className="h-5 w-5 mr-1 text-light-grey inline-flex" />{" "}
+        <button
+          onClick={() => handleContentOnButtonsClick(false)}
+          className={`${
+            !showMyAccount && !byUserId ? "active-button" : "inactive-button"
+          }`}
+        >
+          <HiOutlineHeart className="h-5 w-5 mr-2 text-light-grey inline-flex" />{" "}
           My Likes
         </button>
         <button
-          onClick={() => navigate(`/generator-page/${authContext?.user?._id || ""}`)} 
-          className="bg-medium-grey hover:bg-neon-pink  text-light-grey py-2 px-4 rounded-full">
-            <HiPlusCircle className="h-5 w-5 mr-1 text-light-grey inline-flex" />{" "}
-            Create New Image
+          onClick={() =>
+            navigate(`/generator-page/${authContext?.user?._id || ""}`)
+          }
+          className="inactive-button"
+        >
+          <HiPlusCircle className="h-5 w-5 mr-2 text-light-grey inline-flex" />{" "}
+          Create New Image
         </button>
       </div>
-      
+
+      {/* Content section */}
       {!showMyAccount ? (
         <>
         {/* Gallery section */}
@@ -160,15 +178,25 @@ const UserProfilePage = () => {
               Show more images
             </button>
           </div>
-        )}
+
+          {displayedImages < images?.length && (
+            <div className="flex justify-center">
+              <button
+                className="bg-medium-grey text-light-grey px-5 py-2 rounded-full mt-8 md:mr-8 hover:bg-neon-blue hover:text-dark-blue"
+                onClick={showMoreImages}
+              >
+                Show more images
+              </button>
+            </div>
+          )}
         </>
       ) : (
         <>
-        <div className="flex justify-center">
-          <UserProfileForm/>
-        </div>
+          <div className="flex justify-center">
+            <UserProfileForm />
+          </div>
         </>
-      )}    
+      )}
     </div>
   );
 };
