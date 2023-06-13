@@ -25,11 +25,11 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="w-full flex flex-wrap sm:justify-between items-center bg-dark-blue sm:px-8 px-4 py-4">
+    <nav className="w-full flex flex-wrap justify-between items-center bg-dark-blue sm:px-8 px-4 py-4">
       <Link to="/" className="text-white font-semibold text-lg">
         ImagiNation AI
       </Link>
-      <div className="flex items-center mt-4 sm:mt-0">
+      <div className="flex items-center mt-0">
         {authContext.isAuthenticated() ? (
           /****** Navbar PARA USUARIO LOGGEADO ********/
           <>

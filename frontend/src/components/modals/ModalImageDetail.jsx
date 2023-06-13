@@ -1,6 +1,6 @@
 import React from "react";
 import Modal from "react-modal";
-import { downloadImage } from "../../utils";
+import { AuthContext, downloadImage } from "../../utils";
 import { ArrowDownTrayIcon } from "@heroicons/react/24/solid";
 import { HeartIcon } from "@heroicons/react/24/outline";
 
@@ -19,13 +19,13 @@ const ModalImageDetail = ({ isOpen, onClose, image }) => {
         X
       </button>
 
-      <div className="flex bg-dark-blue px-4 rounded-lg">
+      <div className="md:flex bg-dark-blue px-4 rounded-lg">
         {/* Left Side */}
-        <div className="lg:w-1/2 pr-6 flex items-center justify-center">
+        <div className=" lg:w-1/2 pr-6 flex items-center justify-center">
           <img
             src={image.url}
             alt="AI Generated Image"
-            className="rounded-md h-128"
+            className="rounded-md h-32 lg:h-128"
           />
         </div>
 

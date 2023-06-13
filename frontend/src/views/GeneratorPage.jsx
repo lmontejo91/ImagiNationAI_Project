@@ -302,7 +302,11 @@ const GeneratorPage = () => {
 
         {/* Download and Share buttons */}
         <div className="mt-2 flex justify-center space-x-4">
-          <button className="bg-light-grey font-semibold hover:bg-neon-pink py-2 px-4 rounded-full mr-4">
+          <button
+            type="button"
+            onClick={() => downloadImage(_id, url)}
+            className="bg-light-grey font-semibold hover:bg-neon-pink py-2 px-4 rounded-full mr-4"
+          >
             <ArrowDownTrayIcon className="h-5 w-5 text-dark-blue inline-flex" />{" "}
             Download
           </button>

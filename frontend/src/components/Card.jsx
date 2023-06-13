@@ -17,9 +17,9 @@ const Card = ({ _id, user, prompt, url, likes, likedBy }) => {
     _id: _id,
     user: user,
     prompt: prompt,
-    url: url, 
+    url: url,
     likes: likes,
-  });  
+  });
 
   const handleLike = async () => {
     if (!authContext.isAuthenticated()) {
@@ -42,7 +42,7 @@ const Card = ({ _id, user, prompt, url, likes, likedBy }) => {
         const { likesCount, likedBy } = await response.json();
         setIsLikedBy(likedBy);
         setLocalLikes(likesCount);
-        //console.log(likedBy);  
+        //console.log(likedBy);
         //handleIconLike();
       } else {
         const errorData = await response.json();
@@ -56,7 +56,7 @@ const Card = ({ _id, user, prompt, url, likes, likedBy }) => {
     }
   };
 
- /*  useEffect(() => {
+  /*  useEffect(() => {
     handleIconLike();
   }, [isLikedBy]); // Trigger API request whenever isLikedBy changes
 
@@ -88,7 +88,7 @@ const Card = ({ _id, user, prompt, url, likes, likedBy }) => {
     <div className="rounded-xl group relative hover:shadow-cardhover card">
       <img
         onClick={openModalImage}
-        className="w-full h-128 object-cover rounded-xl"
+        className="w-full md:h-128 object-cover rounded-xl"
         src={url}
         alt={prompt}
       />
@@ -103,7 +103,7 @@ const Card = ({ _id, user, prompt, url, likes, likedBy }) => {
             <p className="text-white text-sm">{user.username}</p>
           </div>
 
-          {isLikedBy.includes(authContext?.user?._id)  ? (
+          {isLikedBy.includes(authContext?.user?._id) ? (
             <>
               <p className="text-white font-semibold mr-4">
                 <FcLike
