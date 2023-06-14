@@ -17,7 +17,9 @@ const RenderCards = ({ data, message }) => {
   }
   console.log("Manda mensaje");
   return (
-    <h2 className="md:col-span-4 xs:col-span-1 mt-5 font-bold text-white text-lg uppercase">{message}</h2>
+    <h2 className="md:col-span-4 xs:col-span-1 mt-5 font-bold text-white text-lg uppercase">
+      {message}
+    </h2>
   );
 };
 
@@ -31,10 +33,12 @@ const UserProfilePage = () => {
   const [showMyAccount, setShowMyAccount] = useState(false);
   const [likeCount, setLikeCount] = useState(0);
   const [imageCount, setImageCount] = useState(0);
-  
+
   const getUserStats = async () => {
     try {
-      const response = await fetch(`${API_URL}/v1/user/user-stats/${authContext.user._id}`);
+      const response = await fetch(
+        `${API_URL}/v1/user/user-stats/${authContext.user._id}`
+      );
       const data = await response.json();
       setLikeCount(data.likeCount);
       setImageCount(data.imageCount);
@@ -161,22 +165,12 @@ const UserProfilePage = () => {
       {/* Content section */}
       {!showMyAccount ? (
         <>
-        {/* Gallery section */}
-        <div className="grid grid-cols-2 xs:grid-cols-1 md:grid-cols-4 gap-4 my-10 mx-10 md:mx-12">
-          <RenderCards
-            data={displayedImagesData}
-            message="There are not images yet. Be the first!"
-          />
-        </div>
-
-        {displayedImages < images?.length && (
-          <div className="flex justify-center">
-            <button
-              className="bg-medium-grey text-light-grey px-5 py-2 rounded-full mt-8 md:mr-8 hover:bg-neon-blue hover:text-dark-blue"
-              onClick={showMoreImages}
-            >
-              Show more images
-            </button>
+          {/* Gallery section */}
+          <div className="grid grid-cols-2 xs:grid-cols-1 md:grid-cols-4 gap-4 my-10 mx-10 md:mx-12">
+            <RenderCards
+              data={displayedImagesData}
+              message="There are not images yet. Be the first!"
+            />
           </div>
 
           {displayedImages < images?.length && (
